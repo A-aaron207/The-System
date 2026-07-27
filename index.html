@@ -1,15 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<!-- ── SECURITY ── -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self';">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+
+<!-- ── PWA ── -->
 <meta name="theme-color" content="#04060f">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="THE SYSTEM">
+
+<!-- ── APPLE PWA ── -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="THE SYSTEM">
-<title>THE SYSTEM</title>
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+
+<!-- ── SEO ── -->
+<title>THE SYSTEM — Solo Leveling Self-Improvement Tracker</title>
+<meta name="description" content="Level up your real life. THE SYSTEM is a Solo Leveling inspired PWA for tracking quests, habits, stats, and achievements. Install and start your journey.">
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="self improvement, solo leveling, habit tracker, quest tracker, PWA, gamified productivity">
+<link rel="canonical" href="https://a-aaron207.github.io/The-System/">
+
+<!-- ── OPEN GRAPH ── -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="THE SYSTEM — Solo Leveling Self-Improvement Tracker">
+<meta property="og:description" content="Level up your real life. Track quests, stats, streaks, and achievements. Install as a PWA.">
+<meta property="og:url" content="https://a-aaron207.github.io/The-System/">
+<meta property="og:image" content="icons/icon-512.png">
+<meta property="og:site_name" content="THE SYSTEM">
+
+<!-- ── TWITTER CARD ── -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="THE SYSTEM — Solo Leveling Self-Improvement Tracker">
+<meta name="twitter:description" content="Level up your real life. Track quests, stats, streaks, and achievements.">
+<meta name="twitter:image" content="icons/icon-512.png">
+
+<!-- ── MANIFEST & FONTS ── -->
 <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -31,6 +68,53 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 /* THEME UNLOCKS */
 body.theme-elite{--bg:#0a0010;--bg2:#100018;--panel:#150020;--border:#3a1a6e;--glow:#8a2aff;--accent:#9b4fff;--accent2:#c44fff}
 body.theme-hard{--bg:#0f0000;--bg2:#180000;--panel:#1a0005;--border:#5e1a1a;--glow:#ff2a2a;--accent:#ff4444;--accent2:#ff6666}
+
+/* EXTRA THEMES */
+body.theme-amoled{--bg:#000000;--bg2:#050505;--panel:#0a0a0a;--border:#1a1a2e;--glow:#4d6fff;--accent:#4d6fff;--accent2:#7b4fff}
+body.theme-cyberpunk{--bg:#0d0017;--bg2:#110020;--panel:#160028;--border:#4d00ff;--glow:#ff00ff;--accent:#ff00ff;--accent2:#00ffff}
+body.theme-blue{--bg:#000d1a;--bg2:#001528;--panel:#001f3d;--border:#0066cc;--glow:#00aaff;--accent:#00aaff;--accent2:#0066ff}
+body.theme-purple{--bg:#0a0010;--bg2:#100018;--panel:#150020;--border:#5500aa;--glow:#aa00ff;--accent:#aa00ff;--accent2:#cc44ff}
+body.theme-green{--bg:#000d0a;--bg2:#001510;--panel:#001f18;--border:#006633;--glow:#00ff88;--accent:#00cc66;--accent2:#00ff88}
+
+/* SPLASH SCREEN */
+#splash{position:fixed;inset:0;background:#04060f;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .6s ease}
+#splash.fade-out{opacity:0;pointer-events:none}
+.sp-logo{font-family:'Orbitron',monospace;font-size:32px;font-weight:900;letter-spacing:8px;color:#e8f0ff;text-shadow:0 0 40px rgba(77,111,255,1);animation:splashPulse .8s ease-in-out infinite alternate}
+.sp-sub{font-family:'Share Tech Mono',monospace;font-size:11px;color:#4a5a88;letter-spacing:4px;margin-top:12px}
+.sp-bar-wrap{width:200px;height:2px;background:rgba(255,255,255,.05);border:1px solid rgba(77,111,255,.2);margin-top:32px;overflow:hidden}
+.sp-bar{height:100%;background:linear-gradient(90deg,#4d6fff,#7b4fff);animation:splashLoad 1.2s ease-out forwards}
+@keyframes splashPulse{from{text-shadow:0 0 20px rgba(77,111,255,.5)}to{text-shadow:0 0 60px rgba(77,111,255,1)}}
+@keyframes splashLoad{from{width:0%}to{width:100%}}
+
+/* UPDATE BANNER */
+#updateBanner{display:none;position:fixed;top:0;left:0;right:0;z-index:600;background:linear-gradient(135deg,rgba(77,111,255,.95),rgba(123,79,255,.95));padding:10px 16px;display:none;align-items:center;justify-content:space-between;gap:10px;backdrop-filter:blur(8px);animation:tin .3s ease}
+#updateBanner.show{display:flex}
+.upd-txt{font-family:'Share Tech Mono',monospace;font-size:11px;color:#fff;letter-spacing:1px}
+.upd-btn{font-family:'Orbitron',monospace;font-size:9px;font-weight:700;letter-spacing:1px;padding:5px 12px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;transition:all .2s;white-space:nowrap}
+.upd-btn:hover{background:rgba(255,255,255,.3)}
+.upd-close{font-size:16px;color:rgba(255,255,255,.6);cursor:pointer;flex-shrink:0;padding:0 4px}
+
+/* INSTALL PROMPT */
+#installBanner{display:none;position:fixed;bottom:calc(76px + var(--safe-bot) + 8px);left:12px;right:12px;z-index:200;background:linear-gradient(135deg,rgba(10,17,40,.97),rgba(13,21,48,.97));border:1px solid var(--glow);padding:12px 14px;display:none;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 0 20px rgba(77,111,255,.25);animation:tin .3s ease}
+#installBanner.show{display:flex}
+.ins-txt{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);letter-spacing:1px;line-height:1.6;flex:1}
+.ins-txt strong{color:var(--accent);font-family:'Orbitron',monospace;font-size:10px}
+.ins-actions{display:flex;gap:6px;flex-shrink:0}
+.ins-btn{font-family:'Orbitron',monospace;font-size:9px;font-weight:700;letter-spacing:1px;padding:6px 12px;border:1px solid var(--accent);background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;cursor:pointer;white-space:nowrap}
+.ins-later{font-family:'Share Tech Mono',monospace;font-size:9px;padding:6px 10px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;white-space:nowrap}
+
+/* SPRING ANIMATION */
+@keyframes springIn{0%{transform:scale(0.85) translateY(8px);opacity:0}60%{transform:scale(1.04) translateY(-2px);opacity:1}100%{transform:scale(1) translateY(0);opacity:1}}
+.spring{animation:springIn .4s cubic-bezier(.34,1.56,.64,1) both}
+
+/* BUTTON RIPPLE */
+.btn{position:relative;overflow:hidden}
+.btn .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:rippleAnim .5s linear;pointer-events:none}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+/* CARD HOVER */
+.card{transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:rgba(77,111,255,.4);box-shadow:0 0 12px rgba(77,111,255,.1)}
 
 .app{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding-top:var(--safe-top);padding-bottom:var(--safe-bot)}
 
@@ -318,9 +402,331 @@ select.qin option{background:var(--bg2)}
 
 .empty{text-align:center;padding:40px 20px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:2px;line-height:2}
 #importFile{display:none}
+
+/* ══ V6 COMPONENTS ══════════════════════════════════════ */
+
+/* CONFETTI */
+#confettiCanvas{position:fixed;inset:0;z-index:9998;pointer-events:none;display:none}
+
+/* XP FLOAT */
+#xpFloatLayer{position:fixed;inset:0;pointer-events:none;z-index:901}
+.xp-float{position:absolute;font-family:'Orbitron',monospace;font-size:17px;font-weight:900;color:var(--gold);text-shadow:0 0 14px rgba(255,215,0,.9);animation:xpFloat 1.5s ease-out forwards;pointer-events:none;white-space:nowrap;transform:translateX(-50%)}
+@keyframes xpFloat{0%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}100%{opacity:0;transform:translateX(-50%) translateY(-90px) scale(1.5)}}
+
+/* ACHIEVEMENT CELEBRATION */
+#achCelebration{display:none;position:fixed;inset:0;z-index:991;background:rgba(4,6,15,.95);align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px}
+#achCelebration.show{display:flex;animation:celIn .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes celIn{from{transform:scale(.75);opacity:0}to{transform:scale(1);opacity:1}}
+.ach-cel-type{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:5px;margin-bottom:18px}
+.ach-cel-icon{font-size:76px;margin-bottom:14px;animation:achIconBounce .6s ease-in-out infinite alternate}
+@keyframes achIconBounce{from{transform:scale(1)}to{transform:scale(1.14)}}
+.ach-cel-name{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--white);letter-spacing:4px;text-shadow:0 0 30px var(--gold);margin-bottom:8px}
+.ach-cel-desc{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);letter-spacing:2px;margin-bottom:30px;line-height:1.8}
+.ach-cel-btn{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:2px;border:1px solid var(--border);padding:11px 26px;background:transparent;cursor:pointer;transition:all .2s}
+.ach-cel-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ONBOARDING */
+#onboardingOverlay{display:none;position:fixed;inset:0;z-index:9992;background:#04060f;align-items:center;justify-content:center;padding:24px;overflow-y:auto}
+#onboardingOverlay.show{display:flex;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.ob-container{width:100%;max-width:420px}
+.ob-header{text-align:center;margin-bottom:22px}
+.ob-logo{font-family:'Orbitron',monospace;font-size:19px;font-weight:900;color:var(--white);letter-spacing:4px;margin-bottom:5px}
+.ob-tagline{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:2px}
+.ob-prog-wrap{height:2px;background:rgba(255,255,255,.06);margin:16px 0 6px;overflow:hidden}
+.ob-prog{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
+.ob-step-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px;margin-bottom:16px;text-align:right}
+.ob-dots{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
+.ob-dot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:all .3s}
+.ob-dot.active{background:var(--accent);width:20px;border-radius:3px}
+.ob-step{display:none}
+.ob-step.active{display:block;animation:obSlide .3s ease}
+@keyframes obSlide{from{transform:translateX(16px);opacity:0}to{transform:translateX(0);opacity:1}}
+.ob-title{font-family:'Orbitron',monospace;font-size:17px;font-weight:700;color:var(--white);letter-spacing:2px;margin-bottom:6px}
+.ob-sub{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);margin-bottom:18px;line-height:1.9}
+.ob-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--white);font-family:'Rajdhani',sans-serif;font-size:15px;padding:12px 14px;outline:none;margin-bottom:10px;transition:border-color .2s;-webkit-appearance:none}
+.ob-input:focus{border-color:var(--accent)}
+.ob-input::placeholder{color:var(--dim)}
+.ob-row{display:flex;gap:8px}
+.ob-actions{display:flex;gap:8px;margin-top:16px}
+.ob-btn{flex:1;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:2px;padding:13px;cursor:pointer;transition:opacity .2s}
+.ob-btn:active{opacity:.85}
+.ob-btn-back{background:transparent;border:1px solid var(--border);color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:11px;padding:13px 16px;cursor:pointer}
+.ob-skip{text-align:center;margin-top:14px}
+.ob-skip-btn{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);background:none;border:none;cursor:pointer;letter-spacing:1px;text-decoration:underline}
+.ob-welcome{text-align:center;padding:8px 0 4px}
+.ob-welcome-icon{font-size:58px;margin-bottom:14px}
+.ob-welcome-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white);letter-spacing:3px;margin-bottom:10px}
+.ob-welcome-msg{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);line-height:2;margin-bottom:8px}
+.ob-theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.ob-theme-btn{padding:12px 8px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--dim);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;transition:all .2s}
+.ob-theme-btn:hover,.ob-theme-btn.sel{border-color:var(--accent);color:var(--accent);background:rgba(77,111,255,.1)}
+
+/* COMMAND PALETTE */
+#cmdPaletteOverlay{display:none;position:fixed;inset:0;z-index:981;background:rgba(4,6,15,.82);align-items:flex-start;justify-content:center;padding:72px 16px 16px;backdrop-filter:blur(6px)}
+#cmdPaletteOverlay.show{display:flex;animation:fadeIn .15s ease}
+.cmd-palette{width:100%;max-width:540px;background:var(--panel2);border:1px solid var(--glow);box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 0 1px rgba(77,111,255,.08);overflow:hidden}
+.cmd-search-row{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border)}
+.cmd-search-ic{font-size:15px;color:var(--dim)}
+#cmdInput{flex:1;background:transparent;border:none;color:var(--white);font-family:'Rajdhani',sans-serif;font-size:15px;outline:none}
+#cmdInput::placeholder{color:var(--dim)}
+.cmd-esc{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);border:1px solid var(--border);padding:2px 7px}
+#cmdList{max-height:340px;overflow-y:auto;padding:6px}
+#cmdList::-webkit-scrollbar{width:3px}
+#cmdList::-webkit-scrollbar-thumb{background:var(--border)}
+.cmd-item{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;transition:background .1s}
+.cmd-item:hover,.cmd-item.selected{background:rgba(77,111,255,.15)}
+.cmd-ic{font-size:15px;width:22px;text-align:center;flex-shrink:0}
+.cmd-info{flex:1;display:flex;flex-direction:column;gap:1px;min-width:0}
+.cmd-lbl{font-family:'Rajdhani',sans-serif;font-size:14px;color:var(--white);font-weight:500}
+.cmd-hint{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px}
+.cmd-enter{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);border:1px solid var(--accent);padding:1px 5px;flex-shrink:0}
+.cmd-empty{padding:24px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim)}
+.cmd-foot{padding:8px 16px;border-top:1px solid var(--border);display:flex;gap:14px}
+.cmd-foot-item{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim)}
+
+/* FAB */
+#fab{position:fixed;bottom:calc(86px + var(--safe-bot));right:16px;z-index:301;display:flex;flex-direction:column;align-items:flex-end}
+.fab-main{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 22px rgba(77,111,255,.55);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;display:flex;align-items:center;justify-content:center}
+.fab-main:active{transform:scale(.9)}
+#fab.expanded .fab-main{transform:rotate(45deg);background:linear-gradient(135deg,#ff3a5c,#cc0033);box-shadow:0 4px 22px rgba(255,58,92,.5)}
+#fabMenu{display:flex;flex-direction:column;gap:8px;align-items:flex-end;margin-bottom:10px;opacity:0;pointer-events:none;transform:translateY(12px) scale(.95);transition:all .25s cubic-bezier(.34,1.56,.64,1);transform-origin:bottom right}
+#fabMenu.show{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
+.fab-row{display:flex;align-items:center;gap:8px}
+.fab-lbl{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--white);background:rgba(7,12,26,.96);border:1px solid var(--border);padding:5px 10px;white-space:nowrap}
+.fab-ic-btn{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 12px rgba(0,0,0,.4);transition:transform .18s}
+.fab-ic-btn:active{transform:scale(.85)}
+
+/* FOCUS MODE */
+#focusModeOverlay{display:none;position:fixed;inset:0;z-index:971;background:rgba(4,6,15,.97);align-items:center;justify-content:center;flex-direction:column;padding:24px;text-align:center}
+#focusModeOverlay.show{display:flex;animation:fadeIn .2s ease}
+.focus-hdr{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--dim);margin-bottom:28px}
+.focus-ring-wrap{position:relative;width:224px;height:224px;margin:0 auto 24px}
+.focus-ring-wrap svg{transform:rotate(-90deg)}
+.focus-ring-bg{stroke:rgba(255,255,255,.05);stroke-width:8;fill:none}
+#focusRing{stroke:#4d6fff;stroke-width:8;fill:none;stroke-linecap:round;transition:stroke-dashoffset .9s ease,stroke .5s ease;stroke-dasharray:565;stroke-dashoffset:0}
+#focusTimer{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Orbitron',monospace;font-size:46px;font-weight:900;color:var(--cyan);letter-spacing:2px;text-shadow:0 0 22px rgba(0,212,255,.6);transition:color .5s}
+.focus-subj-wrap{margin-bottom:16px}
+#focusSubject{background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--white);font-family:'Rajdhani',sans-serif;font-size:16px;padding:6px 0;text-align:center;outline:none;width:260px;transition:border-color .2s}
+#focusSubject:focus{border-color:var(--accent)}
+#focusSubject::placeholder{color:var(--dim)}
+.focus-dur-row{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:8px}
+.focus-dur-row select{background:var(--bg2);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;padding:4px 8px}
+.focus-btns{display:flex;gap:10px;justify-content:center;margin-bottom:14px}
+#focusStartBtn{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:2px;padding:12px 28px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;cursor:pointer;transition:opacity .2s}
+#focusStartBtn:active{opacity:.85}
+.focus-rst{font-family:'Share Tech Mono',monospace;font-size:11px;padding:12px 16px;background:transparent;border:1px solid var(--border);color:var(--dim);cursor:pointer}
+.focus-exit{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);background:none;border:none;cursor:pointer;letter-spacing:2px;margin-top:6px}
+
+/* MISSION CONTROL */
+#missionControlOverlay{display:none;position:fixed;inset:0;z-index:961;background:rgba(4,6,15,.96);align-items:center;justify-content:center;flex-direction:column;padding:24px;backdrop-filter:blur(10px)}
+#missionControlOverlay.show{display:flex;animation:fadeIn .2s ease}
+.mc-wrap{width:100%;max-width:400px}
+.mc-hdr{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:5px;color:var(--dim);text-align:center;margin-bottom:6px}
+.mc-level{font-family:'Orbitron',monospace;font-size:24px;font-weight:900;color:var(--white);letter-spacing:4px;text-align:center;text-shadow:0 0 20px rgba(77,111,255,.5);margin-bottom:20px}
+.mc-mission-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:3px;margin-bottom:6px}
+.mc-mission-name{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;color:var(--white);margin-bottom:14px;min-height:22px;line-height:1.4}
+.mc-bar-bg{height:6px;background:rgba(255,255,255,.05);margin-bottom:5px}
+#mcBar{height:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .8s ease;width:0%}
+.mc-prog{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:20px;letter-spacing:1px}
+.mc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.mc-card{border:1px solid var(--border);padding:13px;text-align:center;background:rgba(255,255,255,.02)}
+.mc-val{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--accent)}
+.mc-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);margin-top:3px;letter-spacing:1px}
+.mc-score-card{border:1px solid var(--border);padding:13px;text-align:center;background:rgba(255,255,255,.02);margin-bottom:14px}
+.mc-btns{display:flex;gap:8px;margin-bottom:10px}
+.mc-action-btn{flex:1;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;padding:11px;background:rgba(77,111,255,.08);border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all .2s}
+.mc-action-btn:hover{border-color:var(--accent);color:var(--accent)}
+.mc-dismiss{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-align:center;cursor:pointer;background:none;border:none;letter-spacing:2px;display:block;margin:0 auto}
+
+/* UNDO BAR */
+#undoBar{position:fixed;bottom:calc(82px + var(--safe-bot));left:12px;right:12px;z-index:402;background:var(--panel2);border:1px solid var(--border);padding:12px 16px;display:none;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:tin .3s ease}
+#undoBar.show{display:flex}
+#undoLabel{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px}
+.undo-btn{font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:1px;padding:6px 14px;background:transparent;border:1px solid var(--accent);color:var(--accent);cursor:pointer;transition:all .2s;white-space:nowrap}
+.undo-btn:hover{background:var(--accent);color:var(--bg)}
+
+/* SKELETON */
+.skel-wrap{padding:4px 0}
+.skel-card{border:1px solid var(--border);padding:14px;margin-bottom:10px;background:rgba(255,255,255,.01)}
+.skel-line{height:10px;background:linear-gradient(90deg,var(--border) 25%,rgba(255,255,255,.07) 50%,var(--border) 75%);background-size:200% 100%;animation:skelShimmer 1.4s infinite;margin-bottom:8px}
+.skel-line.w80{width:80%}.skel-line.w60{width:60%}.skel-line.w40{width:40%}
+@keyframes skelShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ENHANCED CARDS */
+.card{transition:border-color .25s,box-shadow .25s;border-radius:2px}
+.card:hover{border-color:rgba(77,111,255,.4);box-shadow:0 0 14px rgba(77,111,255,.1)}
+.qi{border-radius:2px;transition:background .15s,transform .15s}
+.qi:active{transform:scale(.99)}
+.streak-card{transition:transform .2s,border-color .2s;border-radius:2px}
+.streak-card:hover{transform:scale(1.04);border-color:rgba(77,111,255,.3)}
+.nb{transition:color .2s;border-radius:0}
+
 </style>
 </head>
 <body>
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <div class="sp-logo">THE <span style="color:#7b4fff">SYSTEM</span></div>
+  <div class="sp-sub">INITIALIZING PROTOCOL</div>
+  <div class="sp-bar-wrap"><div class="sp-bar"></div></div>
+</div>
+
+<!-- UPDATE BANNER -->
+<div id="updateBanner">
+  <span class="upd-txt">⚡ New version available</span>
+  <button class="upd-btn" id="updateBtn" onclick="applyUpdate()">UPDATE NOW</button>
+  <span class="upd-close" onclick="document.getElementById('updateBanner').classList.remove('show')">✕</span>
+</div>
+
+<!-- INSTALL PROMPT -->
+<div id="installBanner">
+  <div class="ins-txt"><strong>INSTALL THE SYSTEM</strong><br>Add to home screen for the full experience</div>
+  <div class="ins-actions">
+    <button class="ins-later" onclick="dismissInstall()">LATER</button>
+    <button class="ins-btn" onclick="doInstall()">INSTALL</button>
+  </div>
+</div>
+
+<!-- CONFETTI CANVAS -->
+<canvas id="confettiCanvas"></canvas>
+
+<!-- XP FLOAT LAYER -->
+<div id="xpFloatLayer"></div>
+
+<!-- ACHIEVEMENT CELEBRATION -->
+<div id="achCelebration">
+  <div class="ach-cel-type" id="achCelType">ACHIEVEMENT</div>
+  <div class="ach-cel-icon" id="achCelIcon">🏆</div>
+  <div class="ach-cel-name" id="achCelName">ACHIEVEMENT UNLOCKED</div>
+  <div class="ach-cel-desc" id="achCelDesc"></div>
+  <button class="ach-cel-btn" onclick="document.getElementById('achCelebration').classList.remove('show')">[ CONTINUE ]</button>
+</div>
+
+<!-- ONBOARDING WIZARD -->
+<div id="onboardingOverlay">
+  <div class="ob-container">
+    <div class="ob-header">
+      <div class="ob-logo">THE <span style="color:var(--accent2)">SYSTEM</span></div>
+      <div class="ob-tagline">YOUR PERSONAL OPERATING SYSTEM</div>
+    </div>
+    <div class="ob-prog-wrap"><div class="ob-prog" id="obProgressBar" style="width:0%"></div></div>
+    <div class="ob-step-lbl" id="obStepLabel">Step 1 of 5</div>
+    <div class="ob-dots">
+      <div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot"></div>
+    </div>
+    <div class="ob-step active" id="ob-step-1">
+      <div class="ob-welcome">
+        <div class="ob-welcome-icon">⚡</div>
+        <div class="ob-welcome-title">WELCOME, HUNTER</div>
+        <div class="ob-welcome-msg">You have been chosen by the System.<br>Let us build your profile.</div>
+      </div>
+      <input class="ob-input" id="ob-name" placeholder="Enter your name..." maxlength="20" onkeydown="if(event.key==='Enter')V6.onboarding.next()">
+      <div class="ob-actions"><button class="ob-btn" onclick="V6.onboarding.next()">NEXT →</button></div>
+    </div>
+    <div class="ob-step" id="ob-step-2">
+      <div class="ob-title">YOUR SCHEDULE</div>
+      <div class="ob-sub">Set your daily rhythm. The System will adapt to your life.</div>
+      <div class="ob-row">
+        <input class="ob-input" id="ob-wake" type="time" placeholder="Wake time">
+        <input class="ob-input" id="ob-sleep" type="time" placeholder="Sleep time">
+      </div>
+      <input class="ob-input" id="ob-goal" type="number" placeholder="Daily quest goal (e.g. 5)" min="1" max="20">
+      <div class="ob-actions"><button class="ob-btn-back" onclick="V6.onboarding.back()">←</button><button class="ob-btn" onclick="V6.onboarding.next()">NEXT →</button></div>
+    </div>
+    <div class="ob-step" id="ob-step-3">
+      <div class="ob-title">FOCUS TARGETS</div>
+      <div class="ob-sub">How many hours will you dedicate to deep work?</div>
+      <input class="ob-input" id="ob-study" type="number" placeholder="Daily study hours (e.g. 4)" min="0" max="24">
+      <div class="ob-actions"><button class="ob-btn-back" onclick="V6.onboarding.back()">←</button><button class="ob-btn" onclick="V6.onboarding.next()">NEXT →</button></div>
+    </div>
+    <div class="ob-step" id="ob-step-4">
+      <div class="ob-title">CHOOSE YOUR THEME</div>
+      <div class="ob-sub">Pick your visual style. Change it anytime in Settings.</div>
+      <div class="ob-theme-grid">
+        <button class="ob-theme-btn" onclick="applyTheme('');this.closest('.ob-theme-grid').querySelectorAll('.ob-theme-btn').forEach(b=>b.classList.remove('sel'));this.classList.add('sel')">🌙 DEFAULT</button>
+        <button class="ob-theme-btn" onclick="applyTheme('theme-amoled');this.closest('.ob-theme-grid').querySelectorAll('.ob-theme-btn').forEach(b=>b.classList.remove('sel'));this.classList.add('sel')">⬛ AMOLED</button>
+        <button class="ob-theme-btn" onclick="applyTheme('theme-cyberpunk');this.closest('.ob-theme-grid').querySelectorAll('.ob-theme-btn').forEach(b=>b.classList.remove('sel'));this.classList.add('sel')">🔴 CYBERPUNK</button>
+        <button class="ob-theme-btn" onclick="applyTheme('theme-green');this.closest('.ob-theme-grid').querySelectorAll('.ob-theme-btn').forEach(b=>b.classList.remove('sel'));this.classList.add('sel')">🟢 MATRIX</button>
+      </div>
+      <div class="ob-actions"><button class="ob-btn-back" onclick="V6.onboarding.back()">←</button><button class="ob-btn" onclick="V6.onboarding.next()">NEXT →</button></div>
+    </div>
+    <div class="ob-step" id="ob-step-5">
+      <div class="ob-welcome">
+        <div class="ob-welcome-icon">🚀</div>
+        <div class="ob-welcome-title">SYSTEM ONLINE</div>
+        <div class="ob-welcome-msg">The journey of a thousand miles begins<br>with a single quest.<br>Your future self is watching.</div>
+      </div>
+      <div class="ob-actions"><button class="ob-btn-back" onclick="V6.onboarding.back()">←</button><button class="ob-btn" style="background:linear-gradient(135deg,#00cc66,#4d6fff)" onclick="V6.onboarding.complete()">🚀 LAUNCH SYSTEM</button></div>
+    </div>
+    <div class="ob-skip"><button class="ob-skip-btn" onclick="V6.onboarding.skip()">Skip setup</button></div>
+  </div>
+</div>
+
+<!-- COMMAND PALETTE -->
+<div id="cmdPaletteOverlay">
+  <div class="cmd-palette">
+    <div class="cmd-search-row">
+      <span class="cmd-search-ic">🔍</span>
+      <input id="cmdInput" type="text" placeholder="Search commands, quests, themes..." autocomplete="off" oninput="V6.palette.filter(this.value)">
+      <span class="cmd-esc">ESC</span>
+    </div>
+    <div id="cmdList"></div>
+    <div class="cmd-foot">
+      <span class="cmd-foot-item">↑↓ Navigate</span>
+      <span class="cmd-foot-item">↵ Select</span>
+      <span class="cmd-foot-item">Ctrl+K Close</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOCUS MODE -->
+<div id="focusModeOverlay">
+  <div class="focus-hdr">◈ FOCUS MODE — DEEP WORK</div>
+  <div class="focus-ring-wrap">
+    <svg width="224" height="224" viewBox="0 0 224 224">
+      <circle class="focus-ring-bg" cx="112" cy="112" r="90"/>
+      <circle id="focusRing" cx="112" cy="112" r="90"/>
+    </svg>
+    <div id="focusTimer">25:00</div>
+  </div>
+  <div class="focus-subj-wrap"><input id="focusSubject" type="text" placeholder="What are you working on?"></div>
+  <div class="focus-dur-row">Duration: <select id="focusDuration" onchange="V6.focusMode.reset()"><option value="15">15 min</option><option value="25" selected>25 min</option><option value="45">45 min</option><option value="60">60 min</option><option value="90">90 min</option></select></div>
+  <div class="focus-btns">
+    <button id="focusStartBtn" onclick="V6.focusMode.start()">▶ START</button>
+    <button class="focus-rst" onclick="V6.focusMode.reset()">RESET</button>
+  </div>
+  <button class="focus-exit" onclick="V6.focusMode.close()">[ EXIT FOCUS MODE ]</button>
+</div>
+
+<!-- MISSION CONTROL -->
+<div id="missionControlOverlay">
+  <div class="mc-wrap">
+    <div class="mc-hdr">◈ MISSION CONTROL ◈</div>
+    <div class="mc-level" id="mcLevel">LVL 1</div>
+    <div class="mc-mission-lbl">CURRENT MISSION</div>
+    <div class="mc-mission-name" id="mcMission">Loading...</div>
+    <div class="mc-bar-bg"><div id="mcBar"></div></div>
+    <div class="mc-prog" id="mcProgress">0 / 0 QUESTS</div>
+    <div class="mc-grid">
+      <div class="mc-card"><div class="mc-val" id="mcXp">0</div><div class="mc-lbl">XP TODAY</div></div>
+      <div class="mc-card"><div class="mc-val" id="mcStreak">0</div><div class="mc-lbl">STREAK</div></div>
+    </div>
+    <div class="mc-score-card"><div class="mc-val" id="mcScore" style="font-size:30px">—</div><div class="mc-lbl">TODAY'S SCORE</div></div>
+    <div class="mc-btns">
+      <button class="mc-action-btn" onclick="V6.missionControl.close();V6.focusMode.open()">🎯 FOCUS</button>
+      <button class="mc-action-btn" onclick="V6.missionControl.close();goPage('quests',document.getElementById('nb-quests'))">⚔ QUESTS</button>
+    </div>
+    <button class="mc-dismiss" onclick="V6.missionControl.close()">[ CLOSE · SPACE ]</button>
+  </div>
+</div>
+
+<!-- UNDO BAR -->
+<div id="undoBar">
+  <span id="undoLabel">Action</span>
+  <button class="undo-btn" onclick="V6.undo.pop()">UNDO</button>
+</div>
 
 <div class="toast" id="toast"></div>
 <div class="psych-overlay" id="psychOverlay"><div class="psych-msg" id="psychMsg"></div></div>
@@ -549,7 +955,24 @@ select.qin option{background:var(--bg2)}
       <div class="stitle" style="margin-top:14px">◈ NOTIFICATIONS</div>
       <div class="set-row"><div><div class="set-lbl">🔔 PERMISSION</div><div class="set-sub" id="notifStatus">CHECKING...</div></div><button class="btn btn-sm" id="notifBtn" onclick="reqNotifPerm()">ENABLE</button></div>
       <div class="stitle" style="margin-top:14px">◈ INFO</div>
-      <div class="set-row"><div><div class="set-lbl">VERSION</div></div><div style="font-family:'Orbitron',monospace;font-size:12px;color:var(--accent)">v4.0</div></div>
+      <div class="stitle" style="margin-top:14px">◈ THEMES</div>
+      <div class="set-row">
+        <div><div class="set-lbl">🎨 VISUAL THEME</div><div class="set-sub">CHANGE COLOR SCHEME</div></div>
+        <select id="themeSelect" onchange="applyTheme(this.value)" style="font-family:'Share Tech Mono',monospace;font-size:10px;padding:5px 8px;background:var(--bg2);border:1px solid var(--border);color:var(--text);cursor:pointer">
+          <option value="">DEFAULT BLUE</option>
+          <option value="theme-amoled">AMOLED BLACK</option>
+          <option value="theme-cyberpunk">CYBERPUNK</option>
+          <option value="theme-blue">ICE BLUE</option>
+          <option value="theme-purple">DEEP PURPLE</option>
+          <option value="theme-green">MATRIX GREEN</option>
+          <option value="theme-hard">HUNTER RED</option>
+          <option value="theme-elite">ELITE VIOLET</option>
+        </select>
+      </div>
+      <div class="stitle" style="margin-top:14px">◈ KEYBOARD SHORTCUTS</div>
+      <div class="set-row"><div><div class="set-lbl">Ctrl+1 → STATUS</div><div class="set-sub">Ctrl+2 → QUESTS | Ctrl+3 → TITLES | Ctrl+4 → STATS | Ctrl+5 → SETUP | Ctrl+B → BACKUP | Esc → CLOSE MODALS</div></div></div>
+      <div class="stitle" style="margin-top:14px">◈ INFO</div>
+      <div class="set-row"><div><div class="set-lbl">VERSION</div></div><div style="font-family:'Orbitron',monospace;font-size:12px;color:var(--accent)">v5.0.0</div></div>
     </div>
 
     <!-- LOG PAGE -->
@@ -566,6 +989,18 @@ select.qin option{background:var(--bg2)}
     <button class="nb" onclick="goPage('achieve',this)" id="nb-achieve"><span class="nb-ic">🏆</span>TITLES</button>
     <button class="nb" onclick="goPage('analytics',this)" id="nb-analytics"><span class="nb-ic">📊</span>STATS</button>
     <button class="nb" onclick="goPage('settings',this)" id="nb-settings"><span class="nb-ic">⚙️</span>SETUP</button>
+    <button class="nb" onclick="goPage('log',this)" id="nb-log"><span class="nb-ic">📋</span>LOG</button>
+  </div>
+
+  <!-- FLOATING ACTION BUTTON -->
+  <div id="fab">
+    <div id="fabMenu">
+      <div class="fab-row"><span class="fab-lbl">Mission Control</span><button class="fab-ic-btn" style="background:linear-gradient(135deg,#4d6fff,#7b4fff)" onclick="V6.fab.action('mission')">🚀</button></div>
+      <div class="fab-row"><span class="fab-lbl">Focus Session</span><button class="fab-ic-btn" style="background:linear-gradient(135deg,#00cc66,#4d6fff)" onclick="V6.fab.action('focus')">🎯</button></div>
+      <div class="fab-row"><span class="fab-lbl">New Quest</span><button class="fab-ic-btn" style="background:linear-gradient(135deg,#ff7b00,#ff3a5c)" onclick="V6.fab.action('quest')">⚔️</button></div>
+      <div class="fab-row"><span class="fab-lbl">Command Search</span><button class="fab-ic-btn" style="background:linear-gradient(135deg,#00d4ff,#4d6fff)" onclick="V6.fab.action('search')">🔍</button></div>
+    </div>
+    <button class="fab-main" onclick="V6.fab.toggle()">+</button>
   </div>
 </div>
 
@@ -1569,11 +2004,131 @@ if(!S.log.length) addLog('System v4 online. The System now controls you.');
 else addLog('System v4 loaded. Migration complete.');
 render();
 
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+// ── SERVICE WORKER REGISTRATION & UPDATE DETECTION ──
+let _swReg = null;
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').then(reg => {
+    _swReg = reg;
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
+      if(newWorker){
+        newWorker.addEventListener('statechange', () => {
+          if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
+            // New version available — show update banner
+            document.getElementById('updateBanner').classList.add('show');
+          }
+        });
+      }
+    });
+  }).catch(()=>{});
+  // Listen for SW messages
+  navigator.serviceWorker.addEventListener('message', e => {
+    if(e.data && e.data.type === 'SW_UPDATED'){
+      document.getElementById('updateBanner').classList.add('show');
+    }
+  });
+}
+
+function applyUpdate(){
+  if(_swReg && _swReg.waiting){
+    _swReg.waiting.postMessage({type:'SKIP_WAITING'});
+  }
+  document.getElementById('updateBanner').classList.remove('show');
+  setTimeout(()=>window.location.reload(),300);
+}
+
+// ── INSTALL PROMPT ──
+let _deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _deferredPrompt = e;
+  // Show custom install banner after 3 seconds if not already installed
+  setTimeout(() => {
+    if(_deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches){
+      document.getElementById('installBanner').classList.add('show');
+    }
+  }, 3000);
+});
+
+function doInstall(){
+  document.getElementById('installBanner').classList.remove('show');
+  if(_deferredPrompt){
+    _deferredPrompt.prompt();
+    _deferredPrompt.userChoice.then(r => {
+      if(r.outcome==='accepted') showToast('SYSTEM INSTALLED','green');
+      _deferredPrompt = null;
+    });
+  }
+}
+function dismissInstall(){
+  document.getElementById('installBanner').classList.remove('show');
+  _deferredPrompt = null;
+}
+
+// ── SPLASH SCREEN FADE ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const splash = document.getElementById('splash');
+    if(splash){
+      splash.classList.add('fade-out');
+      setTimeout(() => { splash.style.display='none'; }, 700);
+    }
+  }, 1400);
+});
+
+// ── KEYBOARD SHORTCUTS ──
+document.addEventListener('keydown', e => {
+  if(e.ctrlKey || e.metaKey){
+    switch(e.key){
+      case '1': e.preventDefault(); goPage('status',  document.getElementById('nb-status'));  break;
+      case '2': e.preventDefault(); goPage('quests',  document.getElementById('nb-quests'));  break;
+      case '3': e.preventDefault(); goPage('achieve', document.getElementById('nb-achieve')); break;
+      case '4': e.preventDefault(); goPage('analytics',document.getElementById('nb-analytics'));break;
+      case '5': e.preventDefault(); goPage('settings',document.getElementById('nb-settings')); break;
+      case 'b': e.preventDefault(); exportBackup(); break;
+    }
+  }
+  if(e.key === 'Escape'){
+    document.querySelectorAll('.modal-bg.show').forEach(m=>m.classList.remove('show'));
+    document.getElementById('lvlup').classList.remove('show');
+    document.getElementById('punishOverlay').classList.remove('show');
+  }
+});
+
+// ── BUTTON RIPPLE EFFECT ──
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.btn');
+  if(!btn) return;
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
+  btn.appendChild(ripple);
+  ripple.addEventListener('animationend', () => ripple.remove());
+});
+
+// ── THEME ENGINE ──
+function applyTheme(themeClass){
+  // Remove all theme classes
+  document.body.classList.remove('theme-amoled','theme-cyberpunk','theme-blue','theme-purple','theme-green','theme-hard','theme-elite');
+  if(themeClass) document.body.classList.add(themeClass);
+  S.customTheme = themeClass;
+  save(S);
+  showToast('THEME APPLIED','green');
+}
+
+// Restore custom theme on load (after other theme logic)
+if(S.customTheme !== undefined){
+  applyTheme(S.customTheme);
+  const ts = document.getElementById('themeSelect');
+  if(ts) ts.value = S.customTheme || '';
+}
 </script>
 
 <!-- SYSTEM v5 EXECUTION ENGINE -->
 <script src="system-v5.js"></script>
+<script src="system-v6.js"></script>
 
 </body>
 </html>
