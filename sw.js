@@ -1,9 +1,9 @@
 // ═══════════════════════════════════════════════════
-// THE SYSTEM — Service Worker v5.0.0
+// THE SYSTEM — Service Worker v9.1.0
 // GitHub Pages compatible, smart caching strategies
 // ═══════════════════════════════════════════════════
 
-const CACHE_VERSION = 'system-v5.0.0';
+const CACHE_VERSION = 'system-v9.1.0';
 const STATIC_CACHE  = `${CACHE_VERSION}-static`;
 const IMAGE_CACHE   = `${CACHE_VERSION}-images`;
 const FONT_CACHE    = `${CACHE_VERSION}-fonts`;
@@ -19,6 +19,14 @@ const STATIC_ASSETS = [
   BASE + 'offline.html',
   BASE + 'manifest.json',
   BASE + 'system-v5.js',
+  BASE + 'system-v6.js',
+  BASE + 'system-v7.js',
+  BASE + 'system-v8.js',
+  BASE + 'system-ai-model.js',
+  BASE + 'system-v9.js',
+  BASE + 'system-native-notifications.js',
+  BASE + 'firebase-config.js',
+  BASE + 'system-cloud.js',
 ];
 
 const IMAGE_ASSETS = [

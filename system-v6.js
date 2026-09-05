@@ -265,15 +265,140 @@ const V6 = {
   },
 
   // ─────────────────────────────────────────────────────────────────
+  // ADAPTIVE SYSTEM — performance analysis and mission generation
+  // ─────────────────────────────────────────────────────────────────
+  adaptive: {
+    categories: ['STRENGTH','INTELLIGENCE','DISCIPLINE','FOCUS','CREATIVITY','SOCIAL'],
+
+    analyze() {
+      if (typeof S === 'undefined') return null;
+      const now = Date.now();
+      const quests = (S.quests || []).filter(q => !q.isPenaltyQuest);
+      const rows = this.categories.map(category => {
+        const items = quests.filter(q => q.cat === category);
+        const completed = items.filter(q => q.done).length;
+        const overdue = items.filter(q => !q.done && q.deadline && q.deadline < now).length;
+        const completion = items.length ? completed / items.length : 0.5;
+        const pressure = items.length ? overdue / items.length : 0;
+        const score = Math.max(0, Math.min(100, Math.round(completion * 100 - pressure * 25)));
+        return { category, total: items.length, completed, overdue, score };
+      });
+      const weakest = [...rows].sort((a, b) => a.score - b.score || a.completed - b.completed)[0];
+      const recent = Object.values(S.weekStats || {}).slice(-7);
+      const recentScores = recent.filter(d => d && d.total > 0).map(d => Math.round((d.done / d.total) * 100));
+      const recentAverage = recentScores.length ? Math.round(recentScores.reduce((a, b) => a + b, 0) / recentScores.length) : null;
+      return { rows, weakest, recentAverage };
+    },
+
+    recommendation() {
+      const analysis = this.analyze();
+      if (!analysis) return null;
+      const weak = analysis.weakest;
+      const label = weak.category.charAt(0) + weak.category.slice(1).toLowerCase();
+      const reason = weak.total === 0
+        ? `${label} has no recent missions.`
+        : `${label} has the lowest execution score at ${weak.score}%.`;
+      return {
+        ...analysis,
+        title: `Reinforce ${label}`,
+        mission: this.missionFor(weak.category),
+        reason,
+        priority: weak.score < 50 ? 'HIGH' : weak.score < 75 ? 'MEDIUM' : 'LOW',
+      };
+    },
+
+    missionFor(category) {
+      const pool = {
+        STRENGTH: ['Complete a short strength circuit', 'Walk or train for 20 minutes'],
+        INTELLIGENCE: ['Solve 5 focused problems', 'Study one difficult concept for 25 minutes'],
+        DISCIPLINE: ['Clear your highest-priority task', 'Reset your workspace and execute one task'],
+        FOCUS: ['Complete a distraction-free focus session', 'Work on one task for 25 minutes'],
+        CREATIVITY: ['Generate 10 solutions to one problem', 'Create something small without editing'],
+        SOCIAL: ['Have one meaningful conversation', 'Help someone with a concrete task'],
+      };
+      const options = pool[category] || pool.FOCUS;
+      return options[new Date().getDate() % options.length];
+    },
+
+    generateMission() {
+      const rec = this.recommendation();
+      if (!rec || typeof S === 'undefined') return;
+      const exists = S.quests.some(q => q.isAdaptive && !q.done && q.cat === rec.weakest.category);
+      if (exists) {
+        showToast('ADAPTIVE MISSION ALREADY ACTIVE', 'orange');
+        return;
+      }
+      S.quests.unshift({
+        id: `adaptive_${Date.now()}`,
+        name: rec.mission,
+        diff: rec.priority === 'HIGH' ? 'B' : 'C',
+        cat: rec.weakest.category,
+        deadline: null,
+        done: false,
+        penalized: false,
+        repeat: false,
+        isPenaltyQuest: false,
+        isAdaptive: true,
+        createdAt: Date.now(),
+      });
+      S.todayTotal = (S.todayTotal || 0) + 1;
+      S.adaptiveGenerated = (S.adaptiveGenerated || 0) + 1;
+      addLog(`Adaptive mission generated: "${rec.mission}" [${rec.weakest.category}]`);
+      save(S);
+      render();
+      this.render();
+      showToast('ADAPTIVE MISSION DEPLOYED', 'green');
+      V6.haptic.success();
+    },
+
+    render() {
+      const rec = this.recommendation();
+      if (!rec) return;
+      _set('adaptiveWeakness', rec.weakest.category);
+      _set('adaptiveMission', rec.mission);
+      _set('adaptiveReason', rec.reason);
+      _set('adaptivePriority', `PRIORITY ${rec.priority}`);
+      const score = document.getElementById('adaptiveWeakScore');
+      if (score) score.textContent = `${rec.weakest.score}%`;
+      const bar = document.getElementById('adaptiveWeakBar');
+      if (bar) bar.style.width = `${rec.weakest.score}%`;
+      const trend = document.getElementById('adaptiveTrend');
+      if (trend) trend.textContent = rec.recentAverage === null ? 'BUILDING BASELINE' : `7-DAY EXECUTION ${rec.recentAverage}%`;
+      const mc = document.getElementById('mcRecommendation');
+      if (mc) mc.textContent = `${rec.weakest.category} · ${rec.mission}`;
+    },
+  },
+
+  // ─────────────────────────────────────────────────────────────────
+  // DAILY PROTOCOL — current operating phase
+  // ─────────────────────────────────────────────────────────────────
+  protocol: {
+    current() {
+      const hour = new Date().getHours();
+      if (hour >= 5 && hour < 11) return { label: 'SYSTEM BOOT', step: 'Review yesterday and set priority.' };
+      if (hour >= 11 && hour < 18) return { label: 'EXECUTION WINDOW', step: 'Focus, recall, record.' };
+      if (hour >= 18 && hour < 22) return { label: 'SYSTEM EVALUATION', step: 'Measure today and prepare tomorrow.' };
+      return { label: 'RECOVERY WINDOW', step: 'Protect sleep and reset capacity.' };
+    },
+
+    render() {
+      const phase = this.current();
+      _set('protocolPhase', phase.label);
+      _set('protocolStep', phase.step);
+    },
+  },
+
+  // ─────────────────────────────────────────────────────────────────
   // FOCUS MODE — Distraction-free Pomodoro
   // ─────────────────────────────────────────────────────────────────
   focusMode: {
-    secs: 0, running: false, _iv: null, _total: 0,
+    secs: 0, running: false, _iv: null, _total: 0, _lastTick: null, _storageKey: 'sys_v6_focus',
 
     open(subject = '', mins = 25) {
       this.secs  = mins * 60;
       this._total = mins * 60;
       this.running = false;
+      this._lastTick = null;
       clearInterval(this._iv);
       const ov = document.getElementById('focusModeOverlay');
       if (!ov) return;
@@ -293,10 +418,15 @@ const V6 = {
     start() {
       if (this.running) return;
       this.running = true;
-      const durEl = document.getElementById('focusDuration');
-      if (durEl && !this.running) { this.secs = parseInt(durEl.value||25)*60; this._total = this.secs; }
+      this._lastTick = Date.now();
+      this._persist();
       this._iv = setInterval(() => {
-        this.secs--;
+        const now = Date.now();
+        const elapsed = Math.max(0, Math.floor((now - this._lastTick) / 1000));
+        if (!elapsed) return;
+        this.secs = Math.max(0, this.secs - elapsed);
+        this._lastTick = now;
+        this._persist();
         this._updateDisplay();
         if (this.secs <= 0) this.complete();
       }, 1000);
@@ -304,8 +434,16 @@ const V6 = {
     },
 
     pause() {
+      if (this.running) {
+        const now = Date.now();
+        this.secs = Math.max(0, this.secs - Math.floor((now - this._lastTick) / 1000));
+      }
       this.running = false;
       clearInterval(this._iv);
+      this._iv = null;
+      this._lastTick = null;
+      if (this.running || localStorage.getItem(this._storageKey)) this._persist();
+      this._updateDisplay();
       this._setBtn('▶ RESUME', () => this.start());
     },
 
@@ -313,18 +451,24 @@ const V6 = {
       this.pause();
       const dur = parseInt(document.getElementById('focusDuration')?.value||25);
       this.secs = dur * 60; this._total = this.secs;
+      localStorage.removeItem(this._storageKey);
       this._updateDisplay();
       this._setBtn('▶ START', () => this.start());
     },
 
     complete() {
       clearInterval(this._iv); this.running = false;
+      this._iv = null;
+      localStorage.removeItem(this._storageKey);
       V6.haptic.success(); V6.confetti.launch(100);
       showToast('🎯 FOCUS SESSION COMPLETE — +50 XP','green');
-      this.close();
+      document.getElementById('focusModeOverlay')?.classList.remove('show');
       if (typeof S !== 'undefined') {
         S.xp = (S.xp||0) + 50; S.todayXp = (S.todayXp||0) + 50;
         S.lifetimeXp = (S.lifetimeXp||0) + 50;
+        S.focusSessions = S.focusSessions || [];
+        S.focusSessions.push({ title: document.getElementById('focusSubject')?.value?.trim() || 'Focus session', focusedSeconds: this._total, completedAt: Date.now() });
+        S.focusSessions = S.focusSessions.slice(-100);
         addLog('<span class="lgrn">Focus session complete — +50 XP</span>');
         save(S); render(); V6.floatXP(50);
       }
@@ -333,6 +477,33 @@ const V6 = {
     _setBtn(label, fn) {
       const btn = document.getElementById('focusStartBtn');
       if (btn) { btn.textContent = label; btn.onclick = fn; }
+    },
+
+    _persist() {
+      localStorage.setItem(this._storageKey, JSON.stringify({
+        secs: this.secs,
+        total: this._total,
+        running: this.running,
+        subject: document.getElementById('focusSubject')?.value || '',
+        savedAt: Date.now(),
+      }));
+    },
+
+    restore() {
+      try {
+        const state = JSON.parse(localStorage.getItem(this._storageKey) || 'null');
+        if (!state || !state.secs || Date.now() - state.savedAt > 24 * 60 * 60 * 1000) {
+          localStorage.removeItem(this._storageKey);
+          return;
+        }
+        this.secs = state.secs;
+        this._total = state.total || state.secs;
+        const subject = document.getElementById('focusSubject');
+        if (subject) subject.value = state.subject || '';
+        this._updateDisplay();
+        this._setBtn('▶ RESUME', () => this.start());
+        showToast('FOCUS SESSION RECOVERED', 'cyan');
+      } catch {}
     },
 
     _updateDisplay() {
@@ -384,6 +555,8 @@ const V6 = {
       const bar = document.getElementById('mcBar');
       if (bar) bar.style.width = pct+'%';
       _set('mcProgress', `${done} / ${total} QUESTS · ${pct}%`);
+      V6.adaptive.render();
+      V6.protocol.render();
     },
   },
 
@@ -632,6 +805,9 @@ const V6 = {
     this.gestures.init();
     this._setupKeyboard();
     this._setupMicrointeractions();
+    this.adaptive.render();
+    this.protocol.render();
+    this.focusMode.restore();
 
     // Restore adaptive theme
     if (localStorage.getItem('sys_adaptive_theme')==='1') {

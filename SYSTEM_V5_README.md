@@ -228,6 +228,30 @@ All styles follow existing v4 design (futuristic neon theme).
 **Q: Recall box not appearing?**
 - A: Verify timer completes naturally (not manually stopped), check console for JS errors
 
+## SYSTEM v6 - Adaptive Execution Layer
+
+SYSTEM v6 adds the decision layer above the quest tracker while preserving the existing v4/v5 data model.
+
+### Adaptive analysis
+
+The home dashboard now analyzes each quest category using completion rate and overdue pressure, identifies the weakest category, and recommends a concrete mission. Use **GENERATE** to create one adaptive quest. Duplicate active adaptive missions are ignored.
+
+```javascript
+V6.adaptive.analyze()
+V6.adaptive.recommendation()
+V6.adaptive.generateMission()
+```
+
+The same recommendation appears in Mission Control. Recent seven-day completion data is used when available to show an execution baseline.
+
+### Focus sessions
+
+The v6 focus mode now uses elapsed timestamps instead of assuming one tick equals one second. Sessions persist under `localStorage['sys_v6_focus']`, recover after a reload, expire after 24 hours, and write completed sessions to `S.focusSessions`.
+
+### Recovery and PWA updates
+
+Interrupted sessions are restored as resumable sessions rather than discarded. The service worker uses a versioned v6 cache and explicitly pre-caches both `system-v5.js` and `system-v6.js`.
+
 ## Next Steps
 
 1. **Test in browser**: Open index.html and verify v5 loads (check console)

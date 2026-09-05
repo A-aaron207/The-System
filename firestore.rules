@@ -1,0 +1,27 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /players/{userId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.uid == userId
+        && request.resource.data.systemIndex is number
+        && request.resource.data.level is number
+        && request.resource.data.lifetimeXp is number
+        && request.resource.data.streak is number;
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /backups/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create, update: if request.auth != null && request.auth.uid == userId
+        && request.resource.data.uid == userId
+        && request.resource.data.payload is string
+        && request.resource.data.payload.size() < 900000;
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

@@ -25,6 +25,7 @@ const SYSTEM_V5 = {
       createdAt: Date.now(),
       startedAt: null,
       completedAt: null,
+      focusedSeconds: 0,
       recallScore: null, // 'good', 'partial', 'fail'
     };
     this.tasks.push(task);
@@ -41,10 +42,11 @@ const SYSTEM_V5 = {
     if (this.activeTaskId) {
       const prevTask = this.tasks.find(t => t.id === this.activeTaskId);
       if (prevTask) prevTask.status = 'pending';
+      this.stopTimer();
     }
     
     task.status = 'active';
-    task.startedAt = Date.now();
+    task.startedAt = task.startedAt || Date.now();
     this.activeTaskId = taskId;
     this.saveToStorage();
     this.startTimer(task.timeRequired);
@@ -59,8 +61,18 @@ const SYSTEM_V5 = {
     task.status = 'completed';
     task.completedAt = Date.now();
     if (task.id === this.activeTaskId) {
+      this.stopTimer();
       this.activeTaskId = null;
       this.timerRunning = false;
+      this.focusSessions.push({
+        taskId: task.id,
+        title: task.title,
+        subject: task.subject,
+        focusedSeconds: task.focusedSeconds || 0,
+        startedAt: task.startedAt,
+        completedAt: task.completedAt,
+      });
+      this.focusSessions = this.focusSessions.slice(-100);
     }
     this.saveToStorage();
     this.renderTaskList();
@@ -116,7 +128,7 @@ const SYSTEM_V5 = {
           </div>
           <div style="display:flex;gap:5px">
             ${task.status === 'pending' ? `<button onclick="SYSTEM_V5.startTask('${task.id}')" style="flex:1;padding:6px;background:var(--accent);color:white;border:none;font-family:'Rajdhani',sans-serif;cursor:pointer;font-size:10px">START</button>` : ''}
-            ${task.status === 'active' ? `<button onclick="SYSTEM_V5.completeTask('${task.id}')" style="flex:1;padding:6px;background:var(--green);color:white;border:none;font-family:'Rajdhani',sans-serif;cursor:pointer;font-size:10px">FINISH</button>` : ''}
+            ${task.status === 'active' ? `<button onclick="SYSTEM_V5.toggleTimer()" style="flex:1;padding:6px;background:var(--orange);color:white;border:none;font-family:'Rajdhani',sans-serif;cursor:pointer;font-size:10px">${this.timerRunning ? 'PAUSE' : 'RESUME'}</button><button onclick="SYSTEM_V5.completeTask('${task.id}')" style="flex:1;padding:6px;background:var(--green);color:white;border:none;font-family:'Rajdhani',sans-serif;cursor:pointer;font-size:10px">FINISH</button>` : ''}
             <button onclick="SYSTEM_V5.deleteTask('${task.id}')" style="padding:6px 10px;background:rgba(255,58,92,.1);color:var(--red);border:1px solid var(--red);font-family:'Rajdhani',sans-serif;cursor:pointer;font-size:10px">DELETE</button>
           </div>
         </div>
@@ -145,10 +157,18 @@ const SYSTEM_V5 = {
   timerRunning: false,
   timerValue: 0, // in seconds
   timerInterval: null,
+  timerStartedAt: null,
+  timerLastTickAt: null,
+  timerTaskId: null,
+  timerStorageKey: 'system_v5_timer',
 
   startTimer: function(minutes) {
     this.timerValue = minutes * 60;
     this.timerRunning = true;
+    this.timerStartedAt = Date.now();
+    this.timerLastTickAt = Date.now();
+    this.timerTaskId = this.activeTaskId;
+    this.persistTimerState();
     
     // Ensure timer display exists
     if (!document.getElementById('timer')) {
@@ -158,7 +178,13 @@ const SYSTEM_V5 = {
     if (this.timerInterval) clearInterval(this.timerInterval);
     
     this.timerInterval = setInterval(() => {
-      this.timerValue--;
+      const now = Date.now();
+      const elapsed = Math.max(0, Math.floor((now - this.timerLastTickAt) / 1000));
+      if (!elapsed) return;
+      this.recordFocusedTime(now);
+      this.timerValue = Math.max(0, this.timerValue - elapsed);
+      this.timerLastTickAt = now;
+      this.persistTimerState();
       this.updateTimerDisplay();
       
       if (this.timerValue <= 0) {
@@ -172,8 +198,121 @@ const SYSTEM_V5 = {
   },
 
   stopTimer: function() {
+    this.recordFocusedTime();
     this.timerRunning = false;
     if (this.timerInterval) clearInterval(this.timerInterval);
+    this.timerInterval = null;
+    this.clearTimerState();
+    this.timerTaskId = null;
+    this.saveToStorage();
+    this.updateStats();
+  },
+
+  pauseTimer: function() {
+    if (!this.timerRunning) return;
+    this.recordFocusedTime();
+    this.timerRunning = false;
+    if (this.timerInterval) clearInterval(this.timerInterval);
+    this.timerInterval = null;
+    this.persistTimerState();
+    this.updateTimerDisplay();
+  },
+
+  resumeTimer: function() {
+    if (this.timerRunning || this.timerValue <= 0 || !this.timerTaskId) return;
+    this.timerRunning = true;
+    this.timerLastTickAt = Date.now();
+    this.persistTimerState();
+    this.timerInterval = setInterval(() => {
+      const now = Date.now();
+      const elapsed = Math.max(0, Math.floor((now - this.timerLastTickAt) / 1000));
+      if (!elapsed) return;
+      this.recordFocusedTime(now);
+      this.timerValue = Math.max(0, this.timerValue - elapsed);
+      this.timerLastTickAt = now;
+      this.persistTimerState();
+      this.updateTimerDisplay();
+      if (this.timerValue <= 0) {
+        this.timerRunning = false;
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+        this.clearTimerState();
+        this.onTimerComplete();
+      }
+    }, 1000);
+  },
+
+  toggleTimer: function() {
+    if (this.timerRunning) this.pauseTimer();
+    else this.resumeTimer();
+    this.renderTaskList();
+  },
+
+  recordFocusedTime: function(now = Date.now()) {
+    if (!this.timerRunning || !this.timerLastTickAt || !this.timerTaskId) return;
+    const task = this.tasks.find(t => t.id === this.timerTaskId);
+    if (!task) return;
+    const elapsed = Math.max(0, Math.floor((now - this.timerLastTickAt) / 1000));
+    task.focusedSeconds = (task.focusedSeconds || 0) + elapsed;
+    this.timerLastTickAt = now;
+  },
+
+  persistTimerState: function() {
+    try {
+      localStorage.setItem(this.timerStorageKey, JSON.stringify({
+        timerRunning: this.timerRunning,
+        timerValue: this.timerValue,
+        timerStartedAt: this.timerStartedAt,
+        timerLastTickAt: this.timerLastTickAt,
+        timerTaskId: this.timerTaskId,
+        savedAt: Date.now(),
+      }));
+      this.saveToStorage();
+    } catch (e) { console.error('Failed to save timer state:', e); }
+  },
+
+  clearTimerState: function() {
+    try { localStorage.removeItem(this.timerStorageKey); } catch (e) {}
+  },
+
+  restoreTimerState: function() {
+    try {
+      const stored = localStorage.getItem(this.timerStorageKey);
+      if (!stored) {
+        const abandoned = this.tasks.find(t => t.id === this.activeTaskId && t.status === 'active');
+        if (abandoned) {
+          abandoned.status = 'pending';
+          abandoned.abandonedAt = Date.now();
+          this.activeTaskId = null;
+          this.saveToStorage();
+          this.showV5Toast('INTERRUPTED SESSION RETURNED TO PENDING', 'orange');
+        }
+        return;
+      }
+      const state = JSON.parse(stored);
+      const task = this.tasks.find(t => t.id === state.timerTaskId && t.status === 'active');
+      if (!task || !state.timerValue) {
+        this.clearTimerState();
+        return;
+      }
+      if (Date.now() - (state.savedAt || Date.now()) > 24 * 60 * 60 * 1000) {
+        task.status = 'pending';
+        task.abandonedAt = Date.now();
+        this.activeTaskId = null;
+        this.clearTimerState();
+        this.saveToStorage();
+        this.showV5Toast('ABANDONED SESSION RETURNED TO PENDING', 'orange');
+        return;
+      }
+      this.activeTaskId = task.id;
+      this.timerValue = state.timerValue;
+      this.timerStartedAt = state.timerStartedAt;
+      this.timerLastTickAt = state.timerLastTickAt || Date.now();
+      this.timerTaskId = state.timerTaskId;
+      this.timerRunning = false;
+      this.updateTimerDisplay();
+      this.showV5Toast('FOCUS SESSION RECOVERED — PRESS RESUME', 'cyan');
+    } catch (e) { this.clearTimerState(); }
   },
 
   updateTimerDisplay: function() {
@@ -351,8 +490,7 @@ const SYSTEM_V5 = {
   updateStats: function() {
     // Update deepWorkTime (sum of all completed task timeRequired)
     this.stats.deepWorkTime = this.tasks
-      .filter(t => t.status === 'completed')
-      .reduce((sum, t) => sum + (t.timeRequired * 60), 0);
+      .reduce((sum, t) => sum + (t.focusedSeconds || 0), 0);
     
     this.stats.tasksCompleted = this.tasks.filter(t => t.status === 'completed').length;
     
@@ -382,6 +520,7 @@ const SYSTEM_V5 = {
   // 7. DAILY LOG SYSTEM
   // ───────────────────────────────────────────────────
   dailyLogs: [],
+  focusSessions: [],
 
   endDayLog: function() {
     const summary = prompt('Enter your daily summary:', '');
@@ -420,6 +559,7 @@ const SYSTEM_V5 = {
         stats: this.stats,
         disciplineScore: this.disciplineScore,
         dailyLogs: this.dailyLogs,
+        focusSessions: this.focusSessions,
         timestamp: Date.now(),
       };
       localStorage.setItem(this.DB_KEY_V5, JSON.stringify(data));
@@ -436,9 +576,10 @@ const SYSTEM_V5 = {
         this.tasks = data.tasks || [];
         this.activeTaskId = data.activeTaskId || null;
         this.examMode = data.examMode || false;
-        this.stats = data.stats || this.stats;
+        this.stats = Object.assign({}, this.stats, data.stats || {});
         this.disciplineScore = data.disciplineScore || 100;
         this.dailyLogs = data.dailyLogs || [];
+        this.focusSessions = data.focusSessions || [];
       }
     } catch (e) {
       console.error('Failed to load SYSTEM_V5 data:', e);
@@ -470,6 +611,7 @@ const SYSTEM_V5 = {
   // ───────────────────────────────────────────────────
   init: function() {
     this.loadFromStorage();
+    this.restoreTimerState();
     this.initDisciplineTracking();
     
     // Apply exam mode class if active

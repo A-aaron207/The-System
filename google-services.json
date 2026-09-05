@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "96098297295",
+    "project_id": "the-system-c1b15",
+    "storage_bucket": "the-system-c1b15.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96098297295:android:57a0fa9c93a50c461fdeba",
+        "android_client_info": {
+          "package_name": "com.synapse.system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9vKY8pw8bnMASrN1R_50NTvs0fxrTE_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

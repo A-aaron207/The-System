@@ -13,6 +13,7 @@ This repository contains a single-page Progressive Web App (PWA) built with plai
 - Achievements (30+), streaks, analytics and a system log.
 - Notifications (browser Notification API) and PWA manifest for installability.
 - Export / import backup as JSON.
+- Optional Firebase account registry, cloud profile sync and global leaderboard.
 
 ## Files
 
@@ -41,6 +42,7 @@ This repository contains a single-page Progressive Web App (PWA) built with plai
 ## Notes & limitations
 
 - No backend — all data is local to the browser. There is no user authentication.
+- Cloud competition is optional and requires a Firebase Web App config plus Firestore rules; without it, the app remains fully functional in local mode.
 - The app is designed as a single-file app; editing functionality and extensions should be done by modifying `index.html`.
 - No license is included in this repository. If you want to reuse or distribute this project, add a LICENSE file (MIT or similar recommended).
 

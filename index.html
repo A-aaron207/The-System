@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- ── SECURITY ── -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://region1.google-analytics.com;">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
 
@@ -13,6 +13,8 @@
 <meta name="theme-color" content="#04060f">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="THE SYSTEM">
+<meta name="author" content="Aaron Saha Synapsedrive">
+<meta name="application-version" content="9.1.0">
 
 <!-- ── APPLE PWA ── -->
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,7 +26,7 @@
 
 <!-- ── SEO ── -->
 <title>THE SYSTEM — Solo Leveling Self-Improvement Tracker</title>
-<meta name="description" content="Level up your real life. THE SYSTEM is a Solo Leveling inspired PWA for tracking quests, habits, stats, and achievements. Install and start your journey.">
+<meta name="description" content="THE SYSTEM is a local-first adaptive productivity and learning PWA by Aaron Saha Synapsedrive.">
 <meta name="robots" content="index, follow">
 <meta name="keywords" content="self improvement, solo leveling, habit tracker, quest tracker, PWA, gamified productivity">
 <link rel="canonical" href="https://a-aaron207.github.io/The-System/">
@@ -194,7 +196,104 @@ body.theme-green{--bg:#000d0a;--bg2:#001510;--panel:#001f18;--border:#006633;--g
 .de-bar{height:100%;transition:width 1s ease,background .5s ease}
 .de-msg{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);line-height:1.6}
 .de-verdict{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:2px;margin-top:6px}
-
+.adaptive-panel{border:1px solid rgba(0,212,255,.35);padding:12px;margin-bottom:10px;background:linear-gradient(135deg,rgba(0,212,255,.06),rgba(77,111,255,.04));}
+.adaptive-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.adaptive-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;color:var(--cyan)}
+.adaptive-priority{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--orange);letter-spacing:1px}
+.adaptive-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.adaptive-category{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--white);min-width:112px}
+.adaptive-score{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--cyan);margin-left:auto}
+.adaptive-bar-wrap{height:5px;flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);overflow:hidden}
+#adaptiveWeakBar{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--orange),var(--green));transition:width .8s ease}
+.adaptive-reason{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);line-height:1.6;margin-bottom:8px}
+.adaptive-mission{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;color:var(--white);line-height:1.35;margin-bottom:4px}
+.adaptive-trend{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:1px}
+.adaptive-actions{display:flex;align-items:center;gap:8px;margin-top:10px}
+.adaptive-btn{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:1px;padding:8px 10px;background:var(--accent);border:none;color:#fff;cursor:pointer}
+.v7-panel{border:1px solid rgba(123,79,255,.45);padding:12px;margin-bottom:10px;background:linear-gradient(135deg,rgba(123,79,255,.08),rgba(0,212,255,.04))}
+.v7-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.v7-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;color:var(--accent2)}
+.v7-index{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--white)}
+.v7-bar{height:5px;background:rgba(255,255,255,.06);border:1px solid var(--border);margin-bottom:10px;overflow:hidden}
+#v7IndexBar{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--orange),var(--accent2),var(--green));transition:width .8s ease}
+.v7-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:10px}
+.v7-stat{border:1px solid var(--border);padding:7px 3px;text-align:center;background:rgba(255,255,255,.02)}
+.v7-stat-val{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--cyan)}
+.v7-stat-lbl{font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--dim);margin-top:3px;letter-spacing:.5px}
+.v7-rec{border-top:1px solid var(--border);padding-top:9px}
+.v7-rec-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
+.v7-rec-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;color:var(--white)}
+.v7-priority{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--orange);letter-spacing:1px}
+.v7-rec-reason{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.6;margin-bottom:7px}
+.v7-rec-mission{font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--cyan);line-height:1.4}
+.v7-difficulty{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);margin-top:4px}
+.v8-panel{border:1px solid rgba(0,255,136,.35);padding:12px;margin-bottom:10px;background:linear-gradient(135deg,rgba(0,255,136,.05),rgba(0,212,255,.04))}
+.v8-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.v8-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;color:var(--green)}
+.v8-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.v8-metric{border:1px solid var(--border);padding:7px 4px;text-align:center;background:rgba(255,255,255,.02)}
+.v8-metric-val{font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:var(--cyan)}
+.v8-metric-lbl{font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--dim);margin-top:3px;letter-spacing:.5px}
+.v8-review-list{display:flex;flex-direction:column;gap:5px}
+.v8-review-item{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:8px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--text);text-align:left;cursor:pointer}
+.v8-review-item strong{display:block;font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--white);font-weight:600}
+.v8-review-item small{display:block;font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);margin-top:2px}
+.v8-review-action{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--green);letter-spacing:1px;white-space:nowrap}
+.v8-empty{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.6}
+#v8RecallOverlay{display:none;position:fixed;inset:0;z-index:995;background:rgba(4,6,15,.96);align-items:center;justify-content:center;padding:24px}
+#v8RecallOverlay.show{display:flex;animation:fadeIn .2s ease}
+.v8-recall-box{width:100%;max-width:390px;border:1px solid var(--green);padding:18px;background:var(--panel2);box-shadow:0 0 30px rgba(0,255,136,.12)}
+.v8-recall-kicker{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--green);margin-bottom:8px}
+.v8-recall-topic{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--white);line-height:1.3;margin-bottom:4px}
+.v8-recall-subject{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;margin-bottom:18px}
+.v8-recall-prompt{font-family:'Rajdhani',sans-serif;font-size:15px;color:var(--text);line-height:1.5;margin-bottom:12px}
+.v8-confidence-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:10px}
+.v8-confidence{height:42px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:'Orbitron',monospace;font-size:14px;cursor:pointer}
+.v8-confidence:hover,.v8-confidence.selected{border-color:var(--green);color:var(--green);background:rgba(0,255,136,.1)}
+.v8-recall-due{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);margin-bottom:12px}
+.v8-recall-result{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--cyan);min-height:18px;line-height:1.5}
+.v9-panel{border:1px solid rgba(255,215,0,.35);padding:12px;margin-bottom:10px;background:linear-gradient(135deg,rgba(255,215,0,.05),rgba(123,79,255,.05))}
+.v9-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.v9-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;color:var(--gold)}
+.v9-status{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:.5px}
+.v9-input-row{display:flex;gap:6px;margin-bottom:9px}
+#v9QuickInput{flex:1;min-width:0;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--white);font-family:'Rajdhani',sans-serif;font-size:14px;padding:8px 10px;outline:none}
+#v9QuickInput:focus{border-color:var(--gold)}
+.v9-ask{font-family:'Orbitron',monospace;font-size:9px;background:var(--gold);border:none;color:#05060c;padding:8px 11px;cursor:pointer}
+.v9-history{display:flex;flex-direction:column;gap:6px}
+.v9-entry{border-top:1px solid var(--border);padding-top:6px}
+.v9-query{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:3px}
+.v9-response{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5}
+.v9-empty{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim)}
+.v9-hint{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:.7px;margin:-2px 0 9px}
+.v9-hint strong{color:var(--gold);font-weight:400}
+#v9Overlay{display:none;position:fixed;inset:0;z-index:994;background:rgba(4,6,15,.96);align-items:center;justify-content:center;padding:24px}
+#v9Overlay.show{display:flex;animation:fadeIn .2s ease}
+.v9-box{width:100%;max-width:460px;border:1px solid var(--gold);padding:16px;background:var(--panel2);box-shadow:0 0 30px rgba(255,215,0,.12)}
+.v9-box-hdr{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:3px;color:var(--gold);margin-bottom:4px}
+.v9-box-sub{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);margin-bottom:14px}
+.v9-box-input{display:flex;gap:6px;margin-bottom:12px}
+#v9Input{flex:1;min-width:0;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--white);font-family:'Rajdhani',sans-serif;font-size:15px;padding:10px;outline:none}
+.v9-close{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);background:none;border:1px solid var(--border);padding:9px 11px;cursor:pointer}
+.apk-alert{display:none;position:fixed;top:12px;left:12px;right:12px;z-index:850;background:var(--panel2);border:1px solid var(--orange);padding:11px 13px;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+.apk-alert.show{display:block;animation:tin .25s ease}
+.apk-alert-title{font-family:'Orbitron',monospace;font-size:10px;color:var(--orange);letter-spacing:1px;margin-bottom:4px}
+.apk-alert-msg{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text);line-height:1.5}
+.backup-textarea{width:100%;height:180px;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:9px;padding:8px;resize:none;word-break:break-all}
+.creator-credit{border:1px solid var(--border);padding:12px;margin-top:14px;text-align:center;background:rgba(255,255,255,.02)}
+.creator-name{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:1px;color:var(--gold)}
+.creator-sub{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);margin-top:5px}
+.github-link{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--cyan);letter-spacing:1px;text-decoration:none;display:inline-block;margin-top:8px;border-bottom:1px solid rgba(0,212,255,.45);padding-bottom:2px}
+.github-link:hover{color:var(--white);border-color:var(--white)}
+.cloud-panel{border:1px solid rgba(0,212,255,.35);padding:12px;margin-top:14px;background:rgba(0,212,255,.04)}
+.cloud-status{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--cyan);line-height:1.5;margin-bottom:10px}
+.cloud-field{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--white);font-family:'Share Tech Mono',monospace;font-size:10px;padding:8px;margin-bottom:6px;outline:none}
+.cloud-actions{display:flex;gap:6px}.cloud-actions .btn{flex:1}
+.cloud-panel .hidden{display:none}
+.leaderboard{margin-top:10px;border-top:1px solid var(--border);padding-top:8px}
+.leader-title{font-family:'Orbitron',monospace;font-size:9px;color:var(--gold);letter-spacing:2px;margin-bottom:6px}
+.leader-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);font-family:'Share Tech Mono',monospace;font-size:9px}
+.leader-rank{width:28px;color:var(--gold)}.leader-name{flex:1;color:var(--text)}.leader-score{color:var(--cyan);font-family:'Orbitron',monospace;font-size:10px}.cloud-empty{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);line-height:1.5}
 /* STREAK ENGINE */
 .streak-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
 .streak-card{border:1px solid var(--border);padding:10px 8px;text-align:center;background:rgba(255,255,255,.02)}
@@ -486,12 +585,13 @@ select.qin option{background:var(--bg2)}
 .cmd-foot-item{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim)}
 
 /* FAB */
-#fab{position:fixed;bottom:calc(86px + var(--safe-bot));right:16px;z-index:301;display:flex;flex-direction:column;align-items:flex-end}
+#fab{position:fixed;bottom:calc(86px + var(--safe-bot));right:16px;z-index:301;display:flex;flex-direction:column;align-items:flex-end;pointer-events:none}
 .fab-main{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 22px rgba(77,111,255,.55);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;display:flex;align-items:center;justify-content:center}
 .fab-main:active{transform:scale(.9)}
 #fab.expanded .fab-main{transform:rotate(45deg);background:linear-gradient(135deg,#ff3a5c,#cc0033);box-shadow:0 4px 22px rgba(255,58,92,.5)}
 #fabMenu{display:flex;flex-direction:column;gap:8px;align-items:flex-end;margin-bottom:10px;opacity:0;pointer-events:none;transform:translateY(12px) scale(.95);transition:all .25s cubic-bezier(.34,1.56,.64,1);transform-origin:bottom right}
 #fabMenu.show{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
+.fab-main,.fab-ic-btn{pointer-events:auto}
 .fab-row{display:flex;align-items:center;gap:8px}
 .fab-lbl{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--white);background:rgba(7,12,26,.96);border:1px solid var(--border);padding:5px 10px;white-space:nowrap}
 .fab-ic-btn{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 12px rgba(0,0,0,.4);transition:transform .18s}
@@ -534,6 +634,7 @@ select.qin option{background:var(--bg2)}
 .mc-val{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--accent)}
 .mc-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);margin-top:3px;letter-spacing:1px}
 .mc-score-card{border:1px solid var(--border);padding:13px;text-align:center;background:rgba(255,255,255,.02);margin-bottom:14px}
+.mc-recommendation{border:1px solid rgba(0,212,255,.3);padding:10px;margin-bottom:14px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--cyan);line-height:1.6}
 .mc-btns{display:flex;gap:8px;margin-bottom:10px}
 .mc-action-btn{flex:1;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;padding:11px;background:rgba(77,111,255,.08);border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all .2s}
 .mc-action-btn:hover{border-color:var(--accent);color:var(--accent)}
@@ -700,6 +801,39 @@ select.qin option{background:var(--bg2)}
   <button class="focus-exit" onclick="V6.focusMode.close()">[ EXIT FOCUS MODE ]</button>
 </div>
 
+<!-- V8 ACTIVE RECALL -->
+<div id="v8RecallOverlay">
+  <div class="v8-recall-box">
+    <div class="v8-recall-kicker">◈ ACTIVE RECALL · CONFIDENCE CHECK</div>
+    <div class="v8-recall-topic" id="v8RecallTopic">TOPIC</div>
+    <div class="v8-recall-subject" id="v8RecallSubject">GENERAL STUDY</div>
+    <div class="v8-recall-prompt">Explain the topic without notes. Then rate how confidently you could reproduce it in an exam.</div>
+    <div class="v8-confidence-grid">
+      <button class="v8-confidence" data-confidence="1" onclick="V8.submit(1)">1</button>
+      <button class="v8-confidence" data-confidence="2" onclick="V8.submit(2)">2</button>
+      <button class="v8-confidence" data-confidence="3" onclick="V8.submit(3)">3</button>
+      <button class="v8-confidence" data-confidence="4" onclick="V8.submit(4)">4</button>
+      <button class="v8-confidence" data-confidence="5" onclick="V8.submit(5)">5</button>
+    </div>
+    <div class="v8-recall-due" id="v8RecallDue">FIRST RECALL</div>
+    <div class="v8-recall-result" id="v8RecallResult">Recall the topic without notes, then rate your confidence.</div>
+  </div>
+</div>
+
+<!-- V9 SYSTEM AI -->
+<div id="v9Overlay">
+  <div class="v9-box">
+    <div class="v9-box-hdr">◈ SYSTEM AI</div>
+    <div class="v9-box-sub">LOCAL DECISION ENGINE · STRUCTURED DATA ONLY</div>
+    <div class="v9-box-input">
+      <input id="v9Input" placeholder="What should I do next?" onkeydown="if(event.key==='Enter')V9.submitFromInput()">
+      <button class="v9-ask" onclick="V9.submitFromInput()">ASK</button>
+    </div>
+    <div class="v9-history" id="v9OverlayHistory"></div>
+    <button class="v9-close" style="margin-top:12px" onclick="V9.close()">CLOSE</button>
+  </div>
+</div>
+
 <!-- MISSION CONTROL -->
 <div id="missionControlOverlay">
   <div class="mc-wrap">
@@ -714,6 +848,8 @@ select.qin option{background:var(--bg2)}
       <div class="mc-card"><div class="mc-val" id="mcStreak">0</div><div class="mc-lbl">STREAK</div></div>
     </div>
     <div class="mc-score-card"><div class="mc-val" id="mcScore" style="font-size:30px">—</div><div class="mc-lbl">TODAY'S SCORE</div></div>
+    <div class="mc-recommendation" id="mcRecommendation">SYSTEM ANALYSIS PENDING</div>
+    <div class="mc-recommendation" id="v7MissionText">V7 INTELLIGENCE PENDING</div>
     <div class="mc-btns">
       <button class="mc-action-btn" onclick="V6.missionControl.close();V6.focusMode.open()">🎯 FOCUS</button>
       <button class="mc-action-btn" onclick="V6.missionControl.close();goPage('quests',document.getElementById('nb-quests'))">⚔ QUESTS</button>
@@ -787,6 +923,22 @@ select.qin option{background:var(--bg2)}
 </div>
 <input type="file" id="importFile" accept=".json" onchange="importFromFile(event)">
 
+<!-- APK-SAFE BACKUP VIEW -->
+<div class="modal-bg" id="backupModal">
+  <div class="modal">
+    <div class="modal-title">◈ BACKUP DATA</div>
+    <div class="modal-msg">Use COPY or SHARE when the APK cannot download files directly.</div>
+    <textarea id="backupTA" class="backup-textarea" readonly></textarea>
+    <div class="modal-btns">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('backupModal').classList.remove('show')">CLOSE</button>
+      <button class="btn btn-sm" onclick="copyBackupText()">COPY</button>
+      <button class="btn btn-gold btn-sm" onclick="shareBackup()">SHARE</button>
+    </div>
+  </div>
+</div>
+
+<div class="apk-alert" id="apkAlert"><div class="apk-alert-title">◈ SYSTEM ALERT</div><div class="apk-alert-msg" id="apkAlertMsg"></div></div>
+
 <div class="app">
   <div class="topbar">
     <div class="tb-title">THE <span>SYSTEM</span></div>
@@ -815,6 +967,67 @@ select.qin option{background:var(--bg2)}
         <div class="de-bar-wrap"><div class="de-bar" id="deBar" style="width:0%"></div></div>
         <div class="de-msg" id="deMsg">Add quests to begin evaluation.</div>
         <div class="de-verdict" id="deVerdict"></div>
+      </div>
+
+      <div class="adaptive-panel" id="adaptivePanel">
+        <div class="adaptive-head">
+          <div class="adaptive-title">◈ SYSTEM ANALYSIS</div>
+          <div class="adaptive-priority" id="adaptivePriority">PRIORITY —</div>
+        </div>
+        <div class="adaptive-row">
+          <div class="adaptive-category" id="adaptiveWeakness">ANALYZING</div>
+          <div class="adaptive-bar-wrap"><div id="adaptiveWeakBar"></div></div>
+          <div class="adaptive-score" id="adaptiveWeakScore">—</div>
+        </div>
+        <div class="adaptive-reason" id="adaptiveReason">Complete missions to establish a performance baseline.</div>
+        <div class="adaptive-mission" id="adaptiveMission">Adaptive mission pending.</div>
+        <div class="adaptive-actions">
+          <div class="adaptive-trend"><span id="adaptiveTrend">BUILDING BASELINE</span><br><span id="protocolPhase">SYSTEM PROTOCOL</span></div>
+          <button class="adaptive-btn" onclick="V6.adaptive.generateMission()">GENERATE</button>
+        </div>
+        <div class="adaptive-reason" id="protocolStep">Set your first priority.</div>
+      </div>
+
+      <div class="v7-panel" id="v7Panel">
+        <div class="v7-head">
+          <div class="v7-title">◈ SYSTEM INDEX</div>
+          <div class="v7-index"><span id="v7Index">—</span><span style="font-size:9px;color:var(--dim);font-weight:400"> / 100</span></div>
+        </div>
+        <div class="v7-bar"><div id="v7IndexBar"></div></div>
+        <div class="v7-grid">
+          <div class="v7-stat"><div class="v7-stat-val" id="v7Execution">—</div><div class="v7-stat-lbl">EXECUTION</div></div>
+          <div class="v7-stat"><div class="v7-stat-val" id="v7Discipline">—</div><div class="v7-stat-lbl">DISCIPLINE</div></div>
+          <div class="v7-stat"><div class="v7-stat-val" id="v7Focus">—</div><div class="v7-stat-lbl">FOCUS</div></div>
+          <div class="v7-stat"><div class="v7-stat-val" id="v7Learning">—</div><div class="v7-stat-lbl">LEARNING</div></div>
+          <div class="v7-stat"><div class="v7-stat-val" id="v7Consistency">—</div><div class="v7-stat-lbl">CONSISTENCY</div></div>
+        </div>
+        <div class="v7-rec">
+          <div class="v7-rec-row"><div class="v7-rec-title" id="v7Weakness">ANALYZING</div><div class="v7-priority" id="v7Priority">PRIORITY —</div></div>
+          <div class="v7-rec-reason" id="v7Reason">Collecting behavior data.</div>
+          <div class="v7-rec-mission" id="v7Recommendation">Recommendation pending.</div>
+          <div class="v7-difficulty" id="v7Difficulty">DIFFICULTY —</div>
+        </div>
+        <button class="adaptive-btn" style="margin-top:10px" onclick="V7.generateMission()">DEPLOY V7 MISSION</button>
+      </div>
+
+      <div class="v8-panel" id="v8Panel">
+        <div class="v8-head"><div class="v8-title">◈ LEARNING ENGINE</div><div class="adaptive-priority">ACTIVE RECALL</div></div>
+        <div class="v8-metrics">
+          <div class="v8-metric"><div class="v8-metric-val" id="v8DueCount">0</div><div class="v8-metric-lbl">DUE NOW</div></div>
+          <div class="v8-metric"><div class="v8-metric-val" id="v8Retention">50%</div><div class="v8-metric-lbl">RETENTION</div></div>
+          <div class="v8-metric"><div class="v8-metric-val" id="v8NextReview">NONE</div><div class="v8-metric-lbl">NEXT REVIEW</div></div>
+        </div>
+        <div class="v8-review-list" id="v8ReviewList"><div class="v8-empty">NO REVIEWS DUE.</div></div>
+      </div>
+
+      <div class="v9-panel" id="v9Panel">
+        <div class="v9-head"><div class="v9-title">◈ SYSTEM AI</div><div class="v9-status" id="v9Status">LOCAL MODEL · INDEX —</div></div>
+        <div class="v9-input-row">
+          <input id="v9QuickInput" placeholder="Ask the System..." onkeydown="if(event.key==='Enter'){V9.ask(this.value);this.value=''}">
+          <button class="v9-ask" onclick="V9.ask(document.getElementById('v9QuickInput').value);document.getElementById('v9QuickInput').value=''">ASK</button>
+        </div>
+        <div class="v9-hint">TYPE <strong>COMMANDS</strong> TO LIST ALL USABLE COMMANDS.</div>
+        <div class="v9-history" id="v9History"><div class="v9-empty">NO SYSTEM QUERIES YET.</div></div>
       </div>
 
       <!-- UNLOCK BANNERS -->
@@ -954,6 +1167,7 @@ select.qin option{background:var(--bg2)}
       <div class="set-row" style="border-color:rgba(255,58,92,.3)"><div><div class="set-lbl" style="color:var(--red)">🗑 RESET ALL DATA</div><div class="set-sub">WIPE EVERYTHING. CANNOT BE UNDONE.</div></div><button class="btn btn-red btn-sm" onclick="confirmReset()">RESET</button></div>
       <div class="stitle" style="margin-top:14px">◈ NOTIFICATIONS</div>
       <div class="set-row"><div><div class="set-lbl">🔔 PERMISSION</div><div class="set-sub" id="notifStatus">CHECKING...</div></div><button class="btn btn-sm" id="notifBtn" onclick="reqNotifPerm()">ENABLE</button></div>
+      <div class="set-row"><div><div class="set-lbl">📱 NATIVE APK ALERTS</div><div class="set-sub" id="nativeNotifStatus">CHECKING BRIDGE...</div></div><button class="btn btn-sm" onclick="testNativeNotification()">TEST</button></div>
       <div class="stitle" style="margin-top:14px">◈ INFO</div>
       <div class="stitle" style="margin-top:14px">◈ THEMES</div>
       <div class="set-row">
@@ -972,7 +1186,26 @@ select.qin option{background:var(--bg2)}
       <div class="stitle" style="margin-top:14px">◈ KEYBOARD SHORTCUTS</div>
       <div class="set-row"><div><div class="set-lbl">Ctrl+1 → STATUS</div><div class="set-sub">Ctrl+2 → QUESTS | Ctrl+3 → TITLES | Ctrl+4 → STATS | Ctrl+5 → SETUP | Ctrl+B → BACKUP | Esc → CLOSE MODALS</div></div></div>
       <div class="stitle" style="margin-top:14px">◈ INFO</div>
-      <div class="set-row"><div><div class="set-lbl">VERSION</div></div><div style="font-family:'Orbitron',monospace;font-size:12px;color:var(--accent)">v5.0.0</div></div>
+      <div class="set-row"><div><div class="set-lbl">VERSION</div></div><div style="font-family:'Orbitron',monospace;font-size:12px;color:var(--accent)">v9.1.0</div></div>
+      <div class="creator-credit">
+        <div class="creator-name">MADE BY AARON SAHA SYNAPSEDRIVE</div>
+        <div class="creator-sub">THE SYSTEM · LOCAL-FIRST PRODUCTIVITY OS</div>
+        <a class="github-link" href="https://github.com/a-aaron207" target="_blank" rel="noopener noreferrer">VIEW DEVELOPER PROJECTS ON GITHUB ↗</a>
+      </div>
+      <div class="cloud-panel">
+        <div class="stitle" style="margin-top:0">◈ PLAYER REGISTRY</div>
+        <div class="cloud-status" id="cloudAccountStatus">LOCAL MODE · CLOUD REGISTRY NOT CONFIGURED</div>
+        <div class="cloud-status" id="cloudSyncStatus">FULL DATA: LOCAL DEVICE ONLY</div>
+        <div id="cloudAuthForm">
+          <input class="cloud-field" id="cloudName" placeholder="Display name">
+          <input class="cloud-field" id="cloudEmail" type="email" placeholder="Email">
+          <input class="cloud-field" id="cloudPassword" type="password" placeholder="Password · 6+ characters">
+          <div class="cloud-actions"><button class="btn btn-sm" onclick="cloudSignIn()">SIGN IN</button><button class="btn btn-gold btn-sm" id="cloudRegister" onclick="cloudRegister()">REGISTER</button></div>
+          <button class="btn btn-outline btn-sm" style="width:100%;margin-top:6px" onclick="cloudGoogleSignIn()">SIGN IN WITH GOOGLE</button>
+        </div>
+        <button class="btn btn-outline btn-sm hidden" id="cloudSignOut" onclick="SYSTEM_CLOUD.signOut()">SIGN OUT</button>
+        <div class="leaderboard"><div class="leader-title">◈ GLOBAL RANKING</div><div id="cloudLeaderboard"><div class="cloud-empty">CONNECT FIREBASE TO ENABLE COMPETITION.</div></div></div>
+      </div>
     </div>
 
     <!-- LOG PAGE -->
@@ -1352,7 +1585,11 @@ function toggleRepeat(){
 // NOTIFICATIONS
 // ═══════════════════════════════════════════════════
 function reqNotifPerm(){
-  if(!('Notification' in window)){ showToast('NOT SUPPORTED','red'); return; }
+  if(!('Notification' in window)){
+    S.notifGranted=true; save(S); updateNotifStatus();
+    showToast('IN-APP ALERTS ENABLED','green');
+    return;
+  }
   Notification.requestPermission().then(p=>{
     S.notifGranted=(p==='granted'); save(S);
     document.getElementById('permBanner').style.display='none';
@@ -1364,23 +1601,52 @@ function reqNotifPerm(){
 
 function updateNotifStatus(){
   const el=document.getElementById('notifStatus'), btn=document.getElementById('notifBtn');
-  if(!('Notification' in window)){ el.textContent='NOT SUPPORTED'; return; }
+  if(!('Notification' in window)){ el.textContent='IN-APP ALERTS (APK MODE)'; el.style.color='var(--orange)'; btn.textContent='ENABLED'; return; }
   const p=Notification.permission;
   if(p==='granted'){ el.textContent='✓ GRANTED'; el.style.color='var(--green)'; btn.textContent='TEST'; btn.onclick=()=>sendNotif('⚡ THE SYSTEM','Test. You are being watched.'); }
   else if(p==='denied'){ el.textContent='✗ DENIED — ENABLE IN BROWSER'; el.style.color='var(--red)'; btn.disabled=true; }
   else { el.textContent='NOT GRANTED'; btn.textContent='ENABLE'; btn.onclick=reqNotifPerm; }
 }
 
+function updateNativeNotifStatus(){
+  const el=document.getElementById('nativeNotifStatus');
+  if(!el) return;
+  if(typeof SYSTEM_NATIVE_NOTIFICATIONS==='undefined') { el.textContent='PLUGIN NOT LOADED'; return; }
+  el.textContent=SYSTEM_NATIVE_NOTIFICATIONS.isAvailable()?'ANDROID BRIDGE READY':'BRIDGE REQUIRED IN APK';
+  el.style.color=SYSTEM_NATIVE_NOTIFICATIONS.isAvailable()?'var(--green)':'var(--orange)';
+}
+
+function testNativeNotification(){
+  if(typeof SYSTEM_NATIVE_NOTIFICATIONS==='undefined'||!SYSTEM_NATIVE_NOTIFICATIONS.test()){
+    showToast('ADD THE NATIVE ANDROID BRIDGE TO THE APK','orange');
+    return;
+  }
+  showToast('NATIVE ALERT SCHEDULED FOR 5 SECONDS','green');
+}
+
 function sendNotif(title,body,urgent=false,tag='system'){
-  if(!('Notification' in window)||Notification.permission!=='granted') return;
+  if(!('Notification' in window)||Notification.permission!=='granted'){
+    if(S.notifGranted || !('Notification' in window)) showInAppAlert(title,body,urgent);
+    return;
+  }
   try{
     const n=new Notification(title,{body,icon:'icons/icon-192.png',badge:'icons/icon-192.png',vibrate:urgent?[200,100,200,100,400]:[100,50,100],requireInteraction:urgent,tag});
     n.onclick=()=>{window.focus();n.close()};
   }catch{}
 }
 
+function showInAppAlert(title,body,urgent=false){
+  const box=document.getElementById('apkAlert'), titleEl=box?.querySelector('.apk-alert-title'), msg=document.getElementById('apkAlertMsg');
+  if(!box||!msg) { showToast(`${title}: ${body}`,urgent?'red':'orange'); return; }
+  titleEl.textContent=`◈ ${title}`; msg.textContent=body; box.classList.add('show');
+  clearTimeout(box._t); box._t=setTimeout(()=>box.classList.remove('show'),urgent?12000:6000);
+  if(navigator.vibrate) try{ navigator.vibrate(urgent?[200,100,200]:[80]); }catch{}
+}
+
 if('Notification' in window && Notification.permission==='default') setTimeout(()=>{document.getElementById('permBanner').style.display='flex';},1500);
 else if('Notification' in window && Notification.permission==='granted') S.notifGranted=true;
+else if(!('Notification' in window)) setTimeout(()=>updateNotifStatus(),300);
+setTimeout(()=>updateNativeNotifStatus(),500);
 
 // ── Overdue checker loop ──
 let _upcomingNotified=new Set();
@@ -1810,6 +2076,7 @@ function addQuest(){
   document.getElementById('repeatRow').classList.remove('on');
   document.getElementById('repeatToggle').classList.remove('on');
   addLog(`Quest: "${name}" [${diff}] ${CAT_ICONS[cat]} ${cat}${deadline?' ⏰':''}`);
+  if(deadline && typeof SYSTEM_NATIVE_NOTIFICATIONS!=='undefined') SYSTEM_NATIVE_NOTIFICATIONS.schedule({id:`quest-${Date.now()}`,title:'THE SYSTEM · QUEST DUE',body:name,at:deadline});
   save(S); render();
 }
 
@@ -1920,17 +2187,44 @@ function checkAchieves(){
 // ── BACKUP / RESTORE ──
 function exportBackup(){
   const json=JSON.stringify(S,null,2);
+  const backupTA=document.getElementById('backupTA');
+  if(backupTA) backupTA.value=json;
+  if(navigator.share){
+    shareBackup(json);
+    return;
+  }
   const blob=new Blob([json],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url; a.download=`system-backup-${new Date().toISOString().split('T')[0]}.json`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-  showToast('BACKUP EXPORTED','green');
+  showToast('BACKUP EXPORTED — USE COPY IF FILE DID NOT SAVE','green');
+  if(backupTA) document.getElementById('backupModal').classList.add('show');
 }
 
 async function copyBackup(){
-  try{ await navigator.clipboard.writeText(JSON.stringify(S,null,2)); showToast('COPIED','green'); }
-  catch(e){ const ta=document.createElement('textarea'); ta.value=JSON.stringify(S,null,2); document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('COPIED','green'); }
+  const json=JSON.stringify(S,null,2);
+  try{ if(navigator.clipboard) await navigator.clipboard.writeText(json); else throw new Error('clipboard unavailable'); showToast('COPIED','green'); }
+  catch(e){
+    const ta=document.createElement('textarea'); ta.value=json; ta.setAttribute('readonly',''); document.body.appendChild(ta); ta.select();
+    const copied=document.execCommand('copy'); document.body.removeChild(ta);
+    if(copied) showToast('COPIED','green');
+    else { const backupTA=document.getElementById('backupTA'); if(backupTA) backupTA.value=json; document.getElementById('backupModal')?.classList.add('show'); showToast('SELECT THE BACKUP TEXT TO COPY','orange'); }
+  }
+}
+
+function copyBackupText(){
+  const ta=document.getElementById('backupTA'); if(!ta) return;
+  ta.focus(); ta.select();
+  try{ document.execCommand('copy'); showToast('BACKUP COPIED','green'); }
+  catch(e){ showToast('SELECT THE TEXT AND COPY IT','orange'); }
+}
+
+async function shareBackup(json=JSON.stringify(S,null,2)){
+  try{
+    if(navigator.share){ await navigator.share({title:'THE SYSTEM Backup',text:json}); showToast('BACKUP SHARED','green'); }
+    else { const ta=document.getElementById('backupTA'); if(ta) ta.value=json; document.getElementById('backupModal')?.classList.add('show'); }
+  }catch(e){ if(e.name!=='AbortError') showToast('SHARE UNAVAILABLE — USE COPY','orange'); }
 }
 
 function importFromFile(e){
@@ -2006,7 +2300,8 @@ render();
 
 // ── SERVICE WORKER REGISTRATION & UPDATE DETECTION ──
 let _swReg = null;
-if('serviceWorker' in navigator){
+const _isWebView = /; wv\)|WebView|Android.*Version\/.*Chrome\//i.test(navigator.userAgent) || location.protocol === 'file:';
+if('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')){
   navigator.serviceWorker.register('./sw.js').then(reg => {
     _swReg = reg;
     reg.addEventListener('updatefound', () => {
@@ -2020,7 +2315,7 @@ if('serviceWorker' in navigator){
         });
       }
     });
-  }).catch(()=>{});
+  }).catch(()=>{ showToast('OFFLINE CACHE UNAVAILABLE IN THIS APK','orange'); });
   // Listen for SW messages
   navigator.serviceWorker.addEventListener('message', e => {
     if(e.data && e.data.type === 'SW_UPDATED'){
@@ -2129,6 +2424,17 @@ if(S.customTheme !== undefined){
 <!-- SYSTEM v5 EXECUTION ENGINE -->
 <script src="system-v5.js"></script>
 <script src="system-v6.js"></script>
+<script src="system-v7.js"></script>
+<script src="system-v8.js"></script>
+<script src="system-ai-model.js"></script>
+<script src="system-v9.js"></script>
+<script src="system-native-notifications.js"></script>
+<script src="firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
+<script src="system-cloud.js"></script>
 
 </body>
 </html>
