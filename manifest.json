@@ -8,8 +8,8 @@
   "id": "./",
   "lang": "en",
   "dir": "ltr",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "https://a-aaron207.github.io/The-System/",
+  "scope": "https://a-aaron207.github.io/The-System/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "background_color": "#04060f",
@@ -27,21 +27,21 @@
       "name": "Dashboard",
       "short_name": "Status",
       "description": "View your player status and attributes",
-      "url": "./index.html#status",
+      "url": "https://a-aaron207.github.io/The-System/#status",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Quests",
       "short_name": "Quests",
       "description": "View and add quests",
-      "url": "./index.html#quests",
+      "url": "https://a-aaron207.github.io/The-System/#quests",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Statistics",
       "short_name": "Stats",
       "description": "View performance analytics",
-      "url": "./index.html#analytics",
+      "url": "https://a-aaron207.github.io/The-System/#analytics",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     }
   ],

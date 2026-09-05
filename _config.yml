@@ -1,0 +1,3 @@
+# Jekyll config — required so GitHub Pages serves the .well-known/ folder
+include:
+  - .well-known
