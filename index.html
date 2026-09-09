@@ -2,1298 +2,1578 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0a0a0f">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#04060f">
 <meta name="mobile-web-app-capable" content="yes">
-<title>2nd Term War Plan</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="THE SYSTEM">
+<title>THE SYSTEM</title>
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
+:root{
+  --bg:#04060f;--bg2:#070c1a;--panel:#0a1128;--panel2:#0d1530;
+  --border:#1a2a5e;--glow:#2a4aff;
+  --accent:#4d6fff;--accent2:#7b4fff;
+  --gold:#ffd700;--gold2:#ffaa00;
+  --text:#c8d8ff;--dim:#4a5a88;--white:#e8f0ff;
+  --red:#ff3a5c;--green:#00ff88;--cyan:#00d4ff;--orange:#ff7b00;
+  --safe-top:env(safe-area-inset-top);--safe-bot:env(safe-area-inset-bottom);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overscroll-behavior:none}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow:hidden;position:fixed;width:100%;height:100%}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(77,111,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(77,111,255,.025) 1px,transparent 1px);
+  background-size:28px 28px}
 
-  :root {
-    --bg: #0a0a0f;
-    --surface: #13131a;
-    --surface2: #1c1c28;
-    --border: #2a2a3a;
-    --accent: #7c6aff;
-    --accent2: #ff6a6a;
-    --gold: #ffc94a;
-    --green: #4aff9a;
-    --text: #e8e8f0;
-    --muted: #7a7a9a;
-    --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  }
+/* THEME UNLOCKS */
+body.theme-elite{--bg:#0a0010;--bg2:#100018;--panel:#150020;--border:#3a1a6e;--glow:#8a2aff;--accent:#9b4fff;--accent2:#c44fff}
+body.theme-hard{--bg:#0f0000;--bg2:#180000;--panel:#1a0005;--border:#5e1a1a;--glow:#ff2a2a;--accent:#ff4444;--accent2:#ff6666}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+.app{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding-top:var(--safe-top);padding-bottom:var(--safe-bot)}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font);
-    min-height: 100vh;
-    padding: 24px 16px 60px;
-  }
+/* TOP BAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(4,6,15,.97);flex-shrink:0;position:relative;z-index:20}
+.topbar::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);animation:glow 3s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.3}50%{opacity:1}}
+.tb-title{font-family:'Orbitron',monospace;font-size:14px;font-weight:900;letter-spacing:3px;color:var(--white);text-shadow:0 0 12px rgba(77,111,255,.8)}
+.tb-title span{color:var(--accent2)}
+.tb-right{display:flex;align-items:center;gap:6px}
+.tb-mode{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 8px;border:1px solid;cursor:pointer;transition:all .2s}
+.tb-mode.focus{color:#00d4ff;border-color:#00d4ff;background:rgba(0,212,255,.08)}
+.tb-mode.grind{color:#ff3a5c;border-color:#ff3a5c;background:rgba(255,58,92,.1);animation:grindPulse 2s ease-in-out infinite}
+@keyframes grindPulse{0%,100%{box-shadow:none}50%{box-shadow:0 0 8px rgba(255,58,92,.4)}}
+.tb-mode.recovery{color:#00ff88;border-color:#00ff88;background:rgba(0,255,136,.08)}
+.tb-mode.hardcore{color:#ff7b00;border-color:#ff7b00;background:rgba(255,123,0,.1);animation:grindPulse 1s ease-in-out infinite}
+.tb-mode.locked{color:#888;border-color:#888;background:rgba(100,100,100,.1);cursor:not-allowed}
+.tb-lv{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);border:1px solid var(--glow);padding:3px 9px;background:rgba(77,111,255,.08)}
 
-  .header {
-    text-align: center;
-    margin-bottom: 36px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--border);
-  }
+/* SCORE BADGE */
+.score-badge{font-family:'Share Tech Mono',monospace;font-size:10px;padding:3px 8px;border:1px solid;letter-spacing:1px}
+.score-S{color:var(--green);border-color:var(--green)}
+.score-A{color:var(--gold);border-color:var(--gold)}
+.score-B{color:var(--orange);border-color:var(--orange)}
+.score-F{color:var(--red);border-color:var(--red);animation:grindPulse 1s infinite}
 
-  .header .eyebrow {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-  }
+/* CONTENT */
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:12px;padding-bottom:76px}
+.content::-webkit-scrollbar{display:none}
 
-  .header h1 {
-    font-size: clamp(24px, 6vw, 42px);
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--text);
-  }
+/* BOTTOM NAV */
+.bnav{display:flex;border-top:1px solid var(--border);background:rgba(4,6,15,.98);flex-shrink:0;position:relative;z-index:20}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px;background:none;border:none;color:var(--dim);cursor:pointer;gap:2px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px;position:relative;transition:color .2s}
+.nb.active{color:var(--accent)}
+.nb.active::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));box-shadow:0 0 8px var(--accent)}
+.nb.locked-nav{color:#333;pointer-events:none}
+.nb-ic{font-size:17px}
 
-  .header h1 span {
-    color: var(--accent);
-  }
+/* PAGES */
+.page{display:none}.page.active{display:block}
 
-  .header .sub {
-    margin-top: 8px;
-    color: var(--muted);
-    font-size: 13px;
-  }
+/* SECTION TITLE */
+.stitle{font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:3px;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.stitle::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
 
-  .countdown {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent2);
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--mono);
-    font-size: 13px;
-  }
+/* CARD */
+.card{background:linear-gradient(135deg,rgba(10,17,40,.97),rgba(7,12,26,.97));border:1px solid var(--border);padding:14px;margin-bottom:10px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:linear-gradient(180deg,var(--accent),var(--accent2))}
 
-  .countdown .label { color: var(--muted); }
-  .countdown .val { color: var(--accent2); font-weight: 700; font-size: 16px; }
+/* PLAYER CARD */
+.player-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.lhex{position:relative;width:64px;height:64px;flex-shrink:0}
+.lhex svg{width:100%;height:100%;filter:drop-shadow(0 0 8px rgba(77,111,255,.7));animation:hpulse 3s ease-in-out infinite}
+@keyframes hpulse{0%,100%{filter:drop-shadow(0 0 6px rgba(77,111,255,.6))}50%{filter:drop-shadow(0 0 18px rgba(77,111,255,1))}}
+.lnum{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--white)}
+.pinfo{flex:1;min-width:0}
+.pname{font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:var(--white);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pname-in{font-family:'Orbitron',monospace;font-size:14px;font-weight:900;color:var(--white);background:transparent;border:none;border-bottom:1px solid var(--accent);outline:none;width:100%}
+.prank{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;margin-top:2px}
 
-  /* Subject readiness */
-  .section-title {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 2px;
-    margin-bottom: 12px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border);
-  }
+.xp-lbl{display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:4px}
+.xpbar-wrap{height:6px;background:rgba(255,255,255,.04);border:1px solid var(--border);overflow:hidden;margin-bottom:2px}
+.xpbar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .8s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px rgba(77,111,255,.6);position:relative}
+.xpbar-fill::after{content:'';position:absolute;top:0;right:0;width:20px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4));animation:shine 2s infinite}
+@keyframes shine{0%,100%{opacity:0}50%{opacity:1}}
 
-  .status-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 10px;
-    margin-bottom: 32px;
-  }
+/* DECISION ENGINE PANEL */
+.decision-panel{border:1px solid var(--border);padding:12px;margin-bottom:10px;position:relative;overflow:hidden}
+.decision-panel.score-good{border-color:rgba(0,255,136,.4);background:rgba(0,255,136,.04)}
+.decision-panel.score-warn{border-color:rgba(255,123,0,.4);background:rgba(255,123,0,.04)}
+.decision-panel.score-bad{border-color:rgba(255,58,92,.6);background:rgba(255,58,92,.06);animation:redPulse 2s ease-in-out infinite}
+@keyframes redPulse{0%,100%{border-color:rgba(255,58,92,.3)}50%{border-color:rgba(255,58,92,.9)}}
+.de-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.de-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px}
+.de-score{font-family:'Orbitron',monospace;font-size:28px;font-weight:900}
+.de-bar-wrap{height:8px;background:rgba(255,255,255,.05);border:1px solid var(--border);overflow:hidden;margin-bottom:6px}
+.de-bar{height:100%;transition:width 1s ease,background .5s ease}
+.de-msg{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);line-height:1.6}
+.de-verdict{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:2px;margin-top:6px}
 
-  .status-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
-    position: relative;
-    overflow: hidden;
-  }
+/* STREAK ENGINE */
+.streak-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.streak-card{border:1px solid var(--border);padding:10px 8px;text-align:center;background:rgba(255,255,255,.02)}
+.streak-card.danger{border-color:rgba(255,58,92,.5);background:rgba(255,58,92,.05)}
+.streak-card.hot{border-color:rgba(255,170,0,.5);background:rgba(255,170,0,.05)}
+.sc-val{font-family:'Orbitron',monospace;font-size:18px;font-weight:900}
+.sc-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);margin-top:2px;letter-spacing:1px}
 
-  .status-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 3px;
-    border-radius: 0 0 8px 8px;
-  }
+/* SP */
+.sp-row{display:flex;justify-content:space-between;align-items:center;background:rgba(77,111,255,.08);border:1px solid var(--glow);padding:7px 12px;margin-bottom:10px}
+.sp-lbl{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent)}
+.sp-val{font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:var(--gold)}
 
-  .status-card.danger::after { background: var(--accent2); }
-  .status-card.warn::after { background: var(--gold); }
-  .status-card.ok::after { background: var(--green); }
-  .status-card.easy::after { background: var(--accent); }
+/* STATS */
+.stat-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.stic{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.stnm{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);width:64px;flex-shrink:0}
+.stbar{flex:1;height:5px;background:rgba(255,255,255,.03);border:1px solid var(--border);overflow:hidden}
+.stfill{height:100%;transition:width .8s ease}
+.stval{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--white);width:22px;text-align:right;flex-shrink:0}
+.stbtn{width:26px;height:26px;background:rgba(77,111,255,.1);border:1px solid var(--glow);color:var(--accent);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;border-radius:2px}
+.stbtn:active{background:var(--accent);color:var(--bg)}
+.stbtn:disabled{opacity:.2;cursor:not-allowed}
 
-  .status-card .exam-date {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
+/* QUESTS */
+.q-add{margin-bottom:10px}
+.q-row{display:flex;gap:6px;margin-bottom:6px}
+.qin{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--white);font-family:'Rajdhani',sans-serif;font-size:14px;padding:9px 11px;outline:none;min-width:0}
+.qin:focus{border-color:var(--accent)}
+.qin::placeholder{color:var(--dim);font-size:12px}
+select.qin{cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:11px;padding:9px 7px;flex:0 0 auto;width:auto}
+select.qin option{background:var(--bg2)}
 
-  .status-card .subj {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
+.repeat-row{display:flex;align-items:center;gap:10px;padding:8px 11px;border:1px solid var(--border);background:rgba(255,255,255,.02);margin-bottom:6px;cursor:pointer;user-select:none}
+.repeat-row.on{border-color:var(--accent2);background:rgba(123,79,255,.08)}
+.repeat-lbl{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);flex:1;letter-spacing:1px}
+.repeat-row.on .repeat-lbl{color:var(--accent2)}
+.toggle{width:34px;height:18px;border-radius:9px;background:var(--border);position:relative;transition:background .2s;flex-shrink:0}
+.toggle.on{background:var(--accent2)}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:white;transition:transform .2s}
+.toggle.on::after{transform:translateX(16px)}
 
-  .status-card .bar-wrap {
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-  }
+/* COUNTDOWN TIMER */
+.q-countdown{font-family:'Share Tech Mono',monospace;font-size:10px;padding:2px 6px;border:1px solid;border-radius:2px}
+.cd-urgent{color:var(--red);border-color:var(--red);animation:grindPulse 1s infinite}
+.cd-soon{color:var(--orange);border-color:var(--orange)}
+.cd-ok{color:var(--dim);border-color:var(--dim)}
 
-  .status-card .bar {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.8s ease;
-  }
+.btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:white;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:1px;padding:9px 13px;cursor:pointer;white-space:nowrap}
+.btn:active{opacity:.8;transform:scale(.97)}
+.btn-sm{padding:6px 11px;font-size:9px}
+.btn-red{background:linear-gradient(135deg,#ff3a5c,#cc0033)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#000}
+.btn-disabled{opacity:.3;cursor:not-allowed;pointer-events:none}
 
-  .danger .bar { background: var(--accent2); }
-  .warn .bar { background: var(--gold); }
-  .ok .bar { background: var(--green); }
-  .easy .bar { background: var(--accent); }
+.q-filter{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.fb{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;padding:4px 10px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all .2s}
+.fb.active{background:rgba(77,111,255,.15);border-color:var(--accent);color:var(--accent)}
+.cat-filter{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.cpill{font-family:'Share Tech Mono',monospace;font-size:9px;padding:3px 8px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer}
+.cpill.active{border-color:var(--accent2);color:var(--accent2);background:rgba(123,79,255,.1)}
 
-  .status-card .pct {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
+/* QUEST ITEM */
+.qi{display:flex;align-items:flex-start;gap:8px;padding:11px 12px;border:1px solid var(--border);background:rgba(255,255,255,.02);margin-bottom:7px;animation:qslide .3s ease}
+@keyframes qslide{from{transform:translateX(-10px);opacity:0}to{transform:translateX(0);opacity:1}}
+.qi.done{opacity:.32}.qi.done .qname{text-decoration:line-through}
+.qi.overdue{border-color:rgba(255,58,92,.6);background:rgba(255,58,92,.05)}
+.qi.repeating{border-left:3px solid var(--accent2)}
+.qi.penalty-quest{border-color:rgba(255,58,92,.5);border-left:3px solid var(--red)}
+.qcheck{width:24px;height:24px;border:1px solid var(--glow);background:transparent;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--green);transition:all .2s;border-radius:2px;margin-top:1px}
+.qcheck:active{background:rgba(0,255,136,.15)}
+.qi-body{flex:1;min-width:0}
+.qi-top{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap}
+.qdiff{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 6px;border:1px solid;flex-shrink:0}
+.diff-E{color:#888;border-color:#888}.diff-D{color:#00d4ff;border-color:#00d4ff}
+.diff-C{color:#00ff88;border-color:#00ff88}.diff-B{color:#ffd700;border-color:#ffd700}
+.diff-A{color:#ff7b00;border-color:#ff7b00}.diff-S{color:#ff3a5c;border-color:#ff3a5c;text-shadow:0 0 6px #ff3a5c}
+.qcat{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 5px;border:1px solid var(--border);color:var(--dim)}
+.qrepeat-badge{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 5px;border:1px solid var(--accent2);color:var(--accent2)}
+.qpenalty-badge{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 5px;border:1px solid var(--red);color:var(--red)}
+.qname{font-size:14px;font-weight:500;color:var(--white);word-break:break-word}
+.qi-meta{display:flex;align-items:center;gap:7px;margin-top:4px;flex-wrap:wrap}
+.qxp{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold)}
+.qdeadline{font-family:'Share Tech Mono',monospace;font-size:10px}
+.qdeadline.overdue{color:var(--red)}.qdeadline.soon{color:var(--orange)}.qdeadline.ok{color:var(--dim)}
+.qdel{background:none;border:none;color:var(--dim);cursor:pointer;font-size:19px;padding:0 2px;line-height:1;flex-shrink:0}
+.qdel:active{color:var(--red)}
 
-  /* Daily Routine Block */
-  .routine-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px;
-    margin-bottom: 28px;
-  }
+/* UNLOCKS */
+.unlock-banner{border:1px solid var(--gold2);padding:10px 13px;margin-bottom:10px;background:rgba(255,170,0,.07);display:flex;align-items:center;gap:10px;animation:unlockAnim .5s ease}
+@keyframes unlockAnim{from{transform:translateY(-5px);opacity:0}to{transform:translateY(0);opacity:1}}
+.unlock-icon{font-size:24px;flex-shrink:0}
+.unlock-text{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:1px}
 
-  .routine-box h3 {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 14px;
-    color: var(--accent);
-  }
+/* ACHIEVEMENTS */
+.ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.ach-card{border:1px solid var(--border);padding:12px 9px;text-align:center;background:rgba(255,255,255,.02);transition:all .3s;position:relative;overflow:hidden}
+.ach-card.earned{border-color:var(--gold2);background:rgba(255,170,0,.07);box-shadow:0 0 12px rgba(255,170,0,.15)}
+.ach-card.earned::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.ach-ic{font-size:26px;display:block;margin-bottom:5px;filter:grayscale(1) opacity(.2);transition:filter .4s}
+.ach-card.earned .ach-ic{filter:none}
+.ach-nm{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);display:block;letter-spacing:1px}
+.ach-card.earned .ach-nm{color:var(--gold)}
+.ach-desc{font-size:10px;color:var(--dim);margin-top:3px;font-family:'Rajdhani',sans-serif}
+.ach-prog{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);margin-top:3px;display:block}
 
-  .slot {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
+/* ANALYTICS */
+.chart-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.chart-day{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);width:28px;flex-shrink:0}
+.chart-bar-wrap{flex:1;height:18px;background:rgba(255,255,255,.03);border:1px solid var(--border);overflow:hidden;position:relative}
+.chart-bar-fill{height:100%;transition:width 1s ease;position:relative}
+.chart-bar-fill::after{content:attr(data-val);position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,255,255,.8)}
+.chart-score{font-family:'Share Tech Mono',monospace;font-size:10px;width:32px;text-align:right;flex-shrink:0}
 
-  .slot-time {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    min-width: 90px;
-    padding-top: 2px;
-  }
+/* REPORT */
+.rep-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);margin-bottom:6px;background:rgba(255,255,255,.02)}
+.rep-lbl{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:1px}
+.rep-val{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--white)}
+.weak-area{border:1px solid rgba(255,58,92,.3);padding:10px 12px;margin-bottom:7px;background:rgba(255,58,92,.04)}
+.weak-title{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red);letter-spacing:2px;margin-bottom:4px}
+.weak-msg{font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--text)}
 
-  .slot-content {
-    flex: 1;
-  }
+/* SETTINGS */
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border:1px solid var(--border);background:rgba(255,255,255,.02);margin-bottom:7px}
+.set-lbl{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:1px}
+.set-sub{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);margin-top:2px}
 
-  .slot-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-  }
+/* LOG */
+.log-entry{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);padding:6px 10px;border-left:2px solid var(--border);margin-bottom:5px;background:rgba(255,255,255,.01);line-height:1.6}
+.lt{color:var(--accent);margin-right:6px}.lxp{color:var(--gold)}.llv{color:var(--accent2);font-weight:bold}.lred{color:var(--red)}.lgrn{color:var(--green)}.lwar{color:var(--orange)}
 
-  .slot-note {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
+/* TOAST */
+.toast{display:none;position:fixed;top:calc(56px + var(--safe-top));left:50%;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--accent);padding:8px 16px;font-family:'Orbitron',monospace;font-size:10px;color:var(--white);letter-spacing:2px;z-index:500;text-align:center;box-shadow:0 0 20px rgba(77,111,255,.4);white-space:nowrap;max-width:90vw;animation:tin .3s ease}
+@keyframes tin{from{transform:translateX(-50%) translateY(-10px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
+.toast.red{border-color:var(--red);box-shadow:0 0 20px rgba(255,58,92,.4)}
+.toast.gold{border-color:var(--gold);box-shadow:0 0 20px rgba(255,215,0,.3)}
+.toast.green{border-color:var(--green);box-shadow:0 0 20px rgba(0,255,136,.3)}
 
-  .slot-pill {
-    display: inline-block;
-    font-size: 10px;
-    padding: 1px 7px;
-    border-radius: 20px;
-    font-family: var(--mono);
-    margin-top: 2px;
-  }
+/* LEVEL UP */
+.lvlup{display:none;position:fixed;inset:0;background:rgba(4,6,15,.93);z-index:300;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
+.lvlup.show{display:flex}
+.lu-txt{font-family:'Orbitron',monospace;font-size:30px;font-weight:900;color:var(--white);letter-spacing:6px;text-shadow:0 0 40px rgba(77,111,255,1);animation:lpulse .5s ease infinite alternate;margin-bottom:8px}
+.lu-num{font-family:'Orbitron',monospace;font-size:64px;font-weight:900;color:var(--accent);text-shadow:0 0 40px var(--accent);line-height:1;margin-bottom:12px;animation:lpulse .5s ease infinite alternate}
+.lu-sub{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:3px;margin-bottom:6px}
+.lu-unlock{font-family:'Orbitron',monospace;font-size:12px;color:var(--gold2);letter-spacing:2px;margin-bottom:6px}
+.lu-rank{font-family:'Orbitron',monospace;font-size:13px;letter-spacing:2px;margin-bottom:20px}
+.lu-ok{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);letter-spacing:2px;border:1px solid var(--border);padding:10px 22px;background:transparent;cursor:pointer}
+@keyframes lpulse{from{transform:scale(.97)}to{transform:scale(1.03)}}
 
-  .pill-study { background: rgba(124,106,255,0.15); color: var(--accent); }
-  .pill-run { background: rgba(74,255,154,0.12); color: var(--green); }
-  .pill-break { background: rgba(255,106,106,0.1); color: var(--accent2); }
-  .pill-school { background: rgba(255,201,74,0.1); color: var(--gold); }
+/* PUNISHMENT SCREEN */
+.punish-overlay{display:none;position:fixed;inset:0;background:#000;z-index:400;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px}
+.punish-overlay.show{display:flex;animation:punishIn .4s ease}
+@keyframes punishIn{from{opacity:0}to{opacity:1}}
+.punish-title{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:var(--red);letter-spacing:4px;text-shadow:0 0 30px var(--red);animation:lpulse .4s ease infinite alternate;margin-bottom:12px}
+.punish-sub{font-family:'Share Tech Mono',monospace;font-size:13px;color:#888;letter-spacing:2px;margin-bottom:8px;line-height:2}
+.punish-xp{font-family:'Orbitron',monospace;font-size:36px;font-weight:900;color:var(--red);margin-bottom:8px}
+.punish-streak{font-family:'Share Tech Mono',monospace;font-size:12px;color:#666;margin-bottom:24px}
+.punish-ok{font-family:'Share Tech Mono',monospace;font-size:11px;color:#888;letter-spacing:2px;border:1px solid #333;padding:10px 22px;background:transparent;cursor:pointer}
 
-  /* Week plan */
-  .week-block {
-    margin-bottom: 28px;
-  }
+/* SYSTEM LOCK */
+.lock-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:350;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px}
+.lock-overlay.show{display:flex}
+.lock-icon{font-size:60px;margin-bottom:16px;animation:lpulse 2s ease-in-out infinite}
+.lock-title{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--red);letter-spacing:4px;margin-bottom:10px}
+.lock-msg{font-family:'Share Tech Mono',monospace;font-size:11px;color:#888;letter-spacing:1px;line-height:2;margin-bottom:20px}
+.lock-countdown{font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:var(--orange);margin-bottom:20px}
+.lock-ok{font-family:'Share Tech Mono',monospace;font-size:10px;color:#555;letter-spacing:2px;border:1px solid #333;padding:8px 20px;background:transparent;cursor:pointer}
 
-  .week-header {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px 8px 0 0;
-    padding: 10px 16px;
-    font-size: 12px;
-    font-weight: 600;
-    font-family: var(--mono);
-    color: var(--gold);
-    letter-spacing: 1px;
-  }
+/* PSYCH WARNING */
+.psych-overlay{display:none;position:fixed;inset:0;background:rgba(255,0,0,.05);z-index:250;pointer-events:none;border:3px solid rgba(255,58,92,.3);animation:psychBlink .5s ease infinite alternate}
+.psych-overlay.show{display:block}
+@keyframes psychBlink{from{border-color:rgba(255,58,92,.1)}to{border-color:rgba(255,58,92,.5)}}
+.psych-msg{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:rgba(255,58,92,.8);letter-spacing:3px;text-align:center;pointer-events:none;text-shadow:0 0 20px rgba(255,58,92,.5)}
 
-  .day-row {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: none;
-    padding: 12px 16px;
-    display: grid;
-    grid-template-columns: 90px 1fr 1fr;
-    gap: 8px;
-    align-items: start;
-  }
+/* IDLE ALERT */
+.idle-alert{display:none;position:fixed;bottom:calc(76px + var(--safe-bot) + 8px);left:12px;right:12px;background:rgba(255,58,92,.15);border:1px solid var(--red);padding:10px 14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--red);letter-spacing:1px;z-index:100;animation:tin .3s ease}
+.idle-alert.show{display:block}
 
-  .day-row:last-child {
-    border-radius: 0 0 8px 8px;
-  }
+/* PERM BANNER */
+.perm-banner{background:rgba(77,111,255,.1);border:1px solid var(--glow);padding:10px 13px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.perm-txt{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--accent)}
+.perm-btn{font-family:'Share Tech Mono',monospace;font-size:10px;padding:5px 11px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
+.perm-btn:active{background:var(--accent);color:var(--bg)}
 
-  .day-row.holiday {
-    opacity: 0.5;
-  }
+.sys-msg{font-family:'Share Tech Mono',monospace;font-size:11px;border:1px solid var(--border);padding:9px 12px;margin-bottom:9px;background:rgba(255,255,255,.02);line-height:1.7}
+.sys-prefix{color:var(--accent);margin-right:6px}
 
-  .day-row.exam-day {
-    border-left: 3px solid var(--accent2);
-    background: rgba(255,106,106,0.04);
-  }
+.sum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.sum-card{border:1px solid var(--border);padding:9px 5px;text-align:center;background:rgba(255,255,255,.02)}
+.sum-val{font-family:'Orbitron',monospace;font-size:17px;font-weight:900}
+.sum-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);margin-top:2px;letter-spacing:1px}
 
-  .day-name {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-  }
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(4,6,15,.88);z-index:450;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--panel2);border:1px solid var(--glow);padding:18px;width:100%;max-width:380px}
+.modal-title{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--white);margin-bottom:14px}
+.modal-msg{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text);line-height:1.8;margin-bottom:14px}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.modal textarea{width:100%;height:110px;background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:10px;padding:9px;outline:none;resize:none;line-height:1.5;margin-bottom:9px}
 
-  .day-date {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text);
-    margin-top: 1px;
-  }
+.particle{position:fixed;width:3px;height:3px;border-radius:50%;pointer-events:none;z-index:299;animation:pf 1.5s ease-out forwards}
+@keyframes pf{from{opacity:1;transform:translate(0,0) scale(1)}to{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
 
-  .day-session {
-    font-size: 12px;
-    color: var(--text);
-  }
-
-  .day-session .session-label {
-    font-size: 10px;
-    font-family: var(--mono);
-    color: var(--muted);
-    display: block;
-    margin-bottom: 2px;
-  }
-
-  .tag {
-    display: inline-block;
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-family: var(--mono);
-    background: rgba(124,106,255,0.15);
-    color: var(--accent);
-    margin-right: 3px;
-    margin-top: 2px;
-  }
-
-  .tag.red { background: rgba(255,106,106,0.15); color: var(--accent2); }
-  .tag.gold { background: rgba(255,201,74,0.12); color: var(--gold); }
-  .tag.green { background: rgba(74,255,154,0.12); color: var(--green); }
-
-  /* Physics note */
-  .callout {
-    background: rgba(255,201,74,0.07);
-    border: 1px solid rgba(255,201,74,0.25);
-    border-radius: 8px;
-    padding: 14px 16px;
-    margin-bottom: 24px;
-    font-size: 12px;
-    line-height: 1.6;
-    color: var(--text);
-  }
-
-  .callout strong { color: var(--gold); }
-
-  .footer {
-    text-align: center;
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 40px;
-  }
-
-  /* Tab nav */
-  .tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-  }
-
-  .tab-btn {
-    font-family: var(--mono);
-    font-size: 11px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .tab-btn.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  hr.divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 20px 0;
-  }
-
-  /* COMMAND CENTER */
-  .command-center { margin-bottom: 28px; }
-  .cc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:12px; }
-  .cc-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:15px; }
-  .cc-label { font:10px var(--mono); color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; }
-  .cc-value { font-size:22px; font-weight:700; margin-top:5px; }
-  .cc-sub { font-size:11px; color:var(--muted); margin-top:3px; }
-  .mission { border-left:3px solid var(--gold); }
-  .mission h3 { font-size:14px; margin-bottom:6px; }
-  .mission p { color:var(--muted); font-size:12px; line-height:1.5; }
-  .progress-wrap { height:7px; background:var(--border); border-radius:5px; overflow:hidden; margin-top:10px; }
-  #overall-progress { height:100%; width:0; background:var(--green); transition:width .4s ease; }
-  .task-controls { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
-  .task-input { flex:1; min-width:180px; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; outline:none; }
-  .task-select, .task-btn { background:var(--surface2); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:9px 11px; font:12px var(--font); cursor:pointer; }
-  .task-btn:hover, .task-select:hover { border-color:var(--accent); }
-  .task-list { display:grid; gap:7px; margin-bottom:28px; }
-  .task { display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 12px; }
-  .task.done { opacity:.55; }
-  .task.done .task-text { text-decoration:line-through; }
-  .task input { width:17px; height:17px; accent-color:var(--accent); }
-  .task-text { flex:1; font-size:12px; }
-  .task-subject { font:9px var(--mono); color:var(--muted); }
-  .delete-task { border:0; background:transparent; color:var(--muted); cursor:pointer; font-size:16px; }
-  .mission-actions { display:flex; gap:8px; margin-top:10px; }
-  .small-btn { border:1px solid var(--border); background:var(--surface2); color:var(--text); border-radius:7px; padding:7px 9px; cursor:pointer; font-size:11px; }
-  .streak-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--green); margin-right:5px; }
-  .install-note { font-size:11px; color:var(--muted); line-height:1.5; background:var(--surface); border:1px dashed var(--border); padding:12px; border-radius:8px; margin-top:12px; }
-  .reset-link { color:var(--muted); cursor:pointer; text-decoration:underline; font-size:10px; float:right; }
-  @media(max-width:520px){ .cc-grid{grid-template-columns:repeat(2,1fr)} .cc-value{font-size:18px} }
-
+.empty{text-align:center;padding:40px 20px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:2px;line-height:2}
+#importFile{display:none}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="eyebrow">2ND TERM EXAM — WINTER ARC</div>
-  <h1>The <span>War Plan</span></h1>
-  <div class="sub">10 Sep → 2 Oct · 23 days · Exam starts 3 Oct</div>
+<div class="toast" id="toast"></div>
+<div class="psych-overlay" id="psychOverlay"><div class="psych-msg" id="psychMsg"></div></div>
+<div class="idle-alert" id="idleAlert">⚠ WHY ARE YOU IDLE? COMPLETE YOUR QUESTS.</div>
+
+<!-- LEVEL UP -->
+<div class="lvlup" id="lvlup">
+  <div class="lu-txt">LEVEL UP</div>
+  <div class="lu-num" id="lu-num">2</div>
+  <div class="lu-sub" id="lu-sub"></div>
+  <div class="lu-unlock" id="lu-unlock"></div>
+  <div class="lu-rank" id="lu-rank"></div>
+  <button class="lu-ok" onclick="dismissLU()">[ CONTINUE ]</button>
 </div>
 
-<div class="countdown">
-  <div>
-    <div class="label">Days to first exam</div>
-    <div class="val" id="countdown-val">calculating...</div>
-  </div>
-  <div style="margin-left:auto; text-align:right">
-    <div class="label">First exam</div>
-    <div class="val">3 Oct — Moral Science</div>
-  </div>
+<!-- PUNISHMENT SCREEN -->
+<div class="punish-overlay" id="punishOverlay">
+  <div class="punish-title">YOU FAILED</div>
+  <div class="punish-sub" id="punishSub"></div>
+  <div class="punish-xp" id="punishXp"></div>
+  <div class="punish-streak" id="punishStreak"></div>
+  <button class="punish-ok" onclick="dismissPunish()">[ ACKNOWLEDGE FAILURE ]</button>
 </div>
 
-<!-- COMMAND CENTER -->
-<div class="command-center">
-  <div class="section-title">COMMAND CENTER</div>
-  <div class="cc-grid">
-    <div class="cc-card"><div class="cc-label">Overall progress</div><div class="cc-value" id="overall-percent">0%</div><div class="progress-wrap"><div id="overall-progress"></div></div></div>
-    <div class="cc-card"><div class="cc-label">Tasks completed</div><div class="cc-value" id="task-count">0/0</div><div class="cc-sub">Saved on this device</div></div>
-    <div class="cc-card"><div class="cc-label">Study streak</div><div class="cc-value"><span class="streak-dot"></span><span id="streak-count">0</span> days</div><div class="cc-sub">Complete at least one task daily</div></div>
-    <div class="cc-card"><div class="cc-label">Next exam</div><div class="cc-value" id="next-exam-name">Moral Science</div><div class="cc-sub" id="next-exam-count">calculating...</div></div>
-  </div>
-  <div class="cc-card mission">
-    <h3>Today's Mission</h3>
-    <p id="mission-text">Loading your highest-priority task...</p>
-    <div class="mission-actions"><button class="small-btn" onclick="completeMission()">✓ Complete mission</button><button class="small-btn" onclick="pickMission()">↻ New mission</button></div>
-  </div>
-  <div class="section-title" style="margin-top:20px">TASK TRACKER</div>
-  <div class="task-controls">
-    <input class="task-input" id="new-task" placeholder="Add a task, e.g. Revise factorization" maxlength="100">
-    <select class="task-select" id="task-subject"><option>Maths</option><option>Physics</option><option>Computer</option><option>Chemistry</option><option>Biology</option><option>History/Civics</option><option>Geography</option><option>Hindi</option><option>Language</option><option>Literature</option><option>Moral Science</option><option>General</option></select>
-    <button class="task-btn" onclick="addTask()">+ Add</button>
-  </div>
-  <div class="task-list" id="task-list"></div>
-  <div class="install-note"><b>Local mode:</b> everything above is stored in this browser's localStorage. No account, backend, or live website is required. The page also works without internet after the file is saved.</div>
+<!-- SYSTEM LOCK -->
+<div class="lock-overlay" id="lockOverlay">
+  <div class="lock-icon">🔒</div>
+  <div class="lock-title">SYSTEM LOCKED</div>
+  <div class="lock-msg" id="lockMsg">You have failed 2 consecutive days.<br>Features are restricted.<br>Complete today's quests to unlock.</div>
+  <div class="lock-countdown" id="lockCountdown"></div>
+  <button class="lock-ok" onclick="tryUnlock()">[ ATTEMPT UNLOCK ]</button>
 </div>
 
-<!-- TABS -->
-<div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('status', this)">Readiness</button>
-  <button class="tab-btn" onclick="switchTab('routine', this)">Daily Routine</button>
-  <button class="tab-btn" onclick="switchTab('week1', this)">Week 1</button>
-  <button class="tab-btn" onclick="switchTab('week2', this)">Week 2</button>
-  <button class="tab-btn" onclick="switchTab('week3', this)">Week 3</button>
-  <button class="tab-btn" onclick="switchTab('exam', this)">Exam Week</button>
-  <button class="tab-btn" onclick="switchTab('notes', this)">Subject Notes</button>
-</div>
-
-<!-- READINESS TAB -->
-<div class="tab-panel active" id="tab-status">
-  <div class="section-title">SUBJECT READINESS</div>
-  <div class="status-grid">
-    <div class="status-card warn">
-      <div class="exam-date">3 OCT</div>
-      <div class="subj">Moral Science</div>
-      <div class="bar-wrap"><div class="bar" style="width:30%"></div></div>
-      <div class="pct">30% — notes done, low retention</div>
-    </div>
-    <div class="status-card warn">
-      <div class="exam-date">5 OCT</div>
-      <div class="subj">Maths</div>
-      <div class="bar-wrap"><div class="bar" style="width:65%"></div></div>
-      <div class="pct">65% — gaps in Factorization, Discount, Venn Ops</div>
-    </div>
-    <div class="status-card warn">
-      <div class="exam-date">6 OCT</div>
-      <div class="subj">Physics</div>
-      <div class="bar-wrap"><div class="bar" style="width:40%"></div></div>
-      <div class="pct">40% — numericals weak, 2 chapters done</div>
-    </div>
-    <div class="status-card easy">
-      <div class="exam-date">7 OCT</div>
-      <div class="subj">Computer</div>
-      <div class="bar-wrap"><div class="bar" style="width:80%"></div></div>
-      <div class="pct">80% — just book definitions needed</div>
-    </div>
-    <div class="status-card danger">
-      <div class="exam-date">8 OCT</div>
-      <div class="subj">Chemistry</div>
-      <div class="bar-wrap"><div class="bar" style="width:25%"></div></div>
-      <div class="pct">25% — 3 chapters untouched</div>
-    </div>
-    <div class="status-card easy">
-      <div class="exam-date">9 OCT</div>
-      <div class="subj">Language</div>
-      <div class="bar-wrap"><div class="bar" style="width:85%"></div></div>
-      <div class="pct">85% — just definitions + vocab</div>
-    </div>
-    <div class="status-card danger">
-      <div class="exam-date">10 OCT</div>
-      <div class="subj">Biology</div>
-      <div class="bar-wrap"><div class="bar" style="width:0%"></div></div>
-      <div class="pct">0% — completely undone</div>
-    </div>
-    <div class="status-card danger">
-      <div class="exam-date">12 OCT</div>
-      <div class="subj">History/Civics</div>
-      <div class="bar-wrap"><div class="bar" style="width:10%"></div></div>
-      <div class="pct">10% — notes done, not understood</div>
-    </div>
-    <div class="status-card danger">
-      <div class="exam-date">13 OCT</div>
-      <div class="subj">Geography</div>
-      <div class="bar-wrap"><div class="bar" style="width:0%"></div></div>
-      <div class="pct">0% — fully undone</div>
-    </div>
-    <div class="status-card danger">
-      <div class="exam-date">14 OCT</div>
-      <div class="subj">Hindi</div>
-      <div class="bar-wrap"><div class="bar" style="width:15%"></div></div>
-      <div class="pct">15% — notes done only</div>
-    </div>
-    <div class="status-card warn">
-      <div class="exam-date">15 OCT</div>
-      <div class="subj">Literature</div>
-      <div class="bar-wrap"><div class="bar" style="width:35%"></div></div>
-      <div class="pct">35% — notes done, chapters unread</div>
+<!-- CONFIRM MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">CONFIRM</div>
+    <div class="modal-msg" id="modalMsg"></div>
+    <div class="modal-btns">
+      <button class="btn btn-outline btn-sm" onclick="modalResolve(false)">CANCEL</button>
+      <button class="btn btn-red btn-sm" id="modalOkBtn" onclick="modalResolve(true)">CONFIRM</button>
     </div>
   </div>
 </div>
 
-<!-- ROUTINE TAB -->
-<div class="tab-panel" id="tab-routine">
-  <div class="section-title">YOUR DAILY SCHEDULE (EXAM PREP MODE)</div>
-  <div class="routine-box">
-    <h3>Morning Block</h3>
-    <div class="slot">
-      <div class="slot-time">4:00 – 4:10</div>
-      <div class="slot-content">
-        <div class="slot-label">Wake up + cold shower</div>
-        <span class="slot-pill pill-break">fixed</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">4:10 – 4:50</div>
-      <div class="slot-content">
-        <div class="slot-label">Running <span style="color:var(--muted); font-size:11px">(only 20 Sep, else study)</span></div>
-        <div class="slot-note">On non-run days → 40 min focused study block (hardest subject of the day)</div>
-        <span class="slot-pill pill-run">run / study</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">4:50 – 5:00</div>
-      <div class="slot-content">
-        <div class="slot-label">Change + settle</div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">5:00 – 5:30</div>
-      <div class="slot-content">
-        <div class="slot-label">Study Block 1 — Light / Fast subject</div>
-        <div class="slot-note">Definitions, vocabulary, quick reading. Not heavy maths or science numericals.</div>
-        <span class="slot-pill pill-study">study</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">5:30 – 6:00</div>
-      <div class="slot-content">
-        <div class="slot-label">Get ready for school</div>
-        <span class="slot-pill pill-school">fixed</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="routine-box">
-    <h3>Afternoon Block</h3>
-    <div class="slot">
-      <div class="slot-time">2:00 – 2:30</div>
-      <div class="slot-content">
-        <div class="slot-label">Home + lunch</div>
-        <span class="slot-pill pill-break">fixed</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">2:30 – 4:00</div>
-      <div class="slot-content">
-        <div class="slot-label">Study Block 2 — Core subject (90 min)</div>
-        <div class="slot-note">This is your heaviest slot. Maths numericals, Chemistry chapters, Bio — whatever needs most effort that day.</div>
-        <span class="slot-pill pill-study">study</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">4:00 – 4:45</div>
-      <div class="slot-content">
-        <div class="slot-label">Rest / snack / tuition prep</div>
-        <span class="slot-pill pill-break">fixed</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="routine-box">
-    <h3>Evening Block</h3>
-    <div class="slot">
-      <div class="slot-time">6:30 – 7:00</div>
-      <div class="slot-content">
-        <div class="slot-label">Rest after tuition</div>
-        <span class="slot-pill pill-break">fixed</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">7:00 – 8:00</div>
-      <div class="slot-content">
-        <div class="slot-label">Study Block 3 — Secondary subject (60 min)</div>
-        <div class="slot-note">Weaker subjects or next day's exam topic. History/Civics, Geography, Hindi fit well here.</div>
-        <span class="slot-pill pill-study">study</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">8:00 – 8:30</div>
-      <div class="slot-content">
-        <div class="slot-label">Dinner</div>
-        <span class="slot-pill pill-break">fixed</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">8:30 – 9:15</div>
-      <div class="slot-content">
-        <div class="slot-label">Study Block 4 — Light revision (45 min)</div>
-        <div class="slot-note">Re-read notes, flashcard-style recall, go over what you studied in the morning. Nothing new.</div>
-        <span class="slot-pill pill-study">revision</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">9:15 – 9:30</div>
-      <div class="slot-content">
-        <div class="slot-label">Wind down — no screen</div>
-        <span class="slot-pill pill-break">fixed</span>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">9:30 PM</div>
-      <div class="slot-content">
-        <div class="slot-label">Lights out</div>
-        <span class="slot-pill pill-break">fixed</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="callout">
-    <strong>⚡ Physics Numericals Fix:</strong> Every time you do a numerical, write the unit conversion at the very top of your working — before anything else. E.g. "km → m: ×1000". Make it a ritual. After 5 days of doing this, it'll be automatic.
-  </div>
-</div>
-
-<!-- WEEK 1 TAB: Sep 10–16 -->
-<div class="tab-panel" id="tab-week1">
-  <div class="section-title">WEEK 1 — SEP 10–16 · FOUNDATION WEEK</div>
-  <div class="week-block">
-    <div class="week-header">WEEK 1 · SEP 10–16 · FOUNDATION</div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">WED</div>
-        <div class="day-date">Sep 10</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING (4:10–5:30)</span>
-        <span class="tag">Bio</span> Transportation in Plants — read + notes
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag red">Chem</span> Hydrogen chapter full
-        <br><span class="tag">Hist</span> India 18th century — read through notes
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">THU</div>
-        <div class="day-date">Sep 11</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Bio</span> Endocrine System — read + notes
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag red">Chem</span> Water chapter full
-        <br><span class="tag">Hist</span> Traders to Rulers — read through notes
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">FRI</div>
-        <div class="day-date">Sep 12</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Bio</span> Reproduction in Plants
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag red">Chem</span> Chemical Reactions
-        <br><span class="tag">Hist</span> British Policies + Civics Union Executive — notes read
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">SAT</div>
-        <div class="day-date">Sep 13</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Maths</span> Factorization — full chapter practice
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Maths</span> Special Products + Discount
-        <br><span class="tag">Geo</span> Natural Disasters + India Human Resources — read
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">SUN</div>
-        <div class="day-date">Sep 14</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Physics</span> Light Energy — theory + 3 numericals
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Physics</span> Physical Quantity + Measurement — numericals
-        <br><span class="tag">Geo</span> India Geographical Features + Climate — read
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">MON</div>
-        <div class="day-date">Sep 15</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Lit</span> Read 2 Magic Carpet chapters
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag red">Bio</span> Revise all 3 Bio chapters done this week
-        <br><span class="tag">Hindi</span> Start revision from notes — grammar terms
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">TUE</div>
-        <div class="day-date">Sep 16</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">MSc</span> Unit 4 — Peer Pressure full revision
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Maths</span> Venn Diagrams + Set Operations
-        <br><span class="tag">Hist</span> Civics — Judiciary notes + understanding
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- WEEK 2 TAB: Sep 17–23 -->
-<div class="tab-panel" id="tab-week2">
-  <div class="section-title">WEEK 2 — SEP 17–23 · DEEP DIVE WEEK</div>
-  <div class="week-block">
-    <div class="week-header">WEEK 2 · SEP 17–23 · DEEP DIVE</div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">WED</div>
-        <div class="day-date">Sep 17</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">MSc</span> Unit 5 — Positive Emotions revision
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag red">Chem</span> Full revision — all 4 chapters
-        <br><span class="tag">Geo</span> Geographical Features + Climate revision
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">THU</div>
-        <div class="day-date">Sep 18</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Physics</span> Energy chapter — numericals only
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Physics</span> Heat Transfer — numericals + theory
-        <br><span class="tag">Hist</span> Great Uprising 1857 — understand fully
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">FRI</div>
-        <div class="day-date">Sep 19</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Lit</span> Little Women — read all exam chapters + notes
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Maths</span> Full mock — solve 10 mixed questions
-        <br><span class="tag">Hindi</span> Hindi II — poem + story revision
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">SAT</div>
-        <div class="day-date">Sep 20 🏃</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING (RUN DAY)</span>
-        <span class="tag green">Run</span> 4:10–4:50 — your last run
-        <br><span class="tag">Lang</span> 5:00–5:30 — definitions + vocab list
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag red">Bio</span> Start Circulatory System
-        <br><span class="tag">Geo</span> Disasters + Human Resources full revision
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">SUN</div>
-        <div class="day-date">Sep 21</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag red">Bio</span> Reproduction in Humans
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag red">Bio</span> Ecosystem
-        <br><span class="tag">Hist</span> Socio-Religious Reforms + Freedom Struggle
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">MON</div>
-        <div class="day-date">Sep 22</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Comp</span> Book definitions — all chapters
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Physics</span> Light Energy ray diagrams (project + exam)
-        <br><span class="tag">Hindi</span> Hindi I — grammar revision
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">TUE</div>
-        <div class="day-date">Sep 23</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">MSc</span> School Diary rules — full memorization
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Maths</span> Percentage + P&L + Discount — revision
-        <br><span class="tag">Geo</span> All chapters revision pass 1
-      </div>
+<!-- IMPORT MODAL -->
+<div class="modal-bg" id="importModal">
+  <div class="modal">
+    <div class="modal-title">◈ RESTORE DATA</div>
+    <div class="modal-msg">Paste your backup JSON or pick a file. Existing data will be replaced.</div>
+    <textarea id="importTA" placeholder='{"name":"PLAYER","level":1,...}'></textarea>
+    <div class="modal-btns">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('importModal').classList.remove('show')">CANCEL</button>
+      <button class="btn btn-sm" onclick="document.getElementById('importFile').click()">📁 FILE</button>
+      <button class="btn btn-gold btn-sm" onclick="doImport()">RESTORE</button>
     </div>
   </div>
 </div>
+<input type="file" id="importFile" accept=".json" onchange="importFromFile(event)">
 
-<!-- WEEK 3 TAB: Sep 24–30 -->
-<div class="tab-panel" id="tab-week3">
-  <div class="section-title">WEEK 3 — SEP 24–30 · REVISION WEEK</div>
-  <div class="week-block">
-    <div class="week-header">WEEK 3 · SEP 24–30 · REVISION + MOCK</div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">WED</div>
-        <div class="day-date">Sep 24</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag red">Bio</span> Full Bio revision pass 1
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Chem</span> Chemistry revision pass 2
-        <br><span class="tag">Hist</span> Full History revision pass 1
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">THU</div>
-        <div class="day-date">Sep 25</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Maths</span> Sets + Venn — mock questions
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Maths</span> Factorization + Special Products mock
-        <br><span class="tag">Lit</span> Magic Carpet + Little Women notes revision
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">FRI</div>
-        <div class="day-date">Sep 26</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Physics</span> Full Physics revision — theory + 5 numericals
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Geo</span> Full Geography revision pass 2
-        <br><span class="tag">Hindi</span> Full Hindi I + II revision
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">SAT</div>
-        <div class="day-date">Sep 27</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Comp</span> Computer — definitions second pass
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Lang</span> Language — definitions + vocabulary final
-        <br><span class="tag">MSc</span> Moral Science — full revision pass 2
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">SUN</div>
-        <div class="day-date">Sep 28</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag red">Bio</span> Bio revision pass 2 — weak areas
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Hist</span> History/Civics revision pass 2
-        <br><span class="tag">Chem</span> Chemistry — 5 mock questions per chapter
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">MON</div>
-        <div class="day-date">Sep 29</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">Maths</span> Full Maths mock — all chapters
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag">Physics</span> Physics — final numericals drill
-        <br><span class="tag">Lit</span> Literature — poem analysis + character notes
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div>
-        <div class="day-name">TUE</div>
-        <div class="day-date">Sep 30</div>
-      </div>
-      <div class="day-session">
-        <span class="session-label">MORNING</span>
-        <span class="tag">MSc</span> Final Moral Science revision — exam tomorrow
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTERNOON + EVENING</span>
-        <span class="tag gold">ALL</span> Light revision only. Review difficult points.
-        <br>Sleep early tonight. Exam tomorrow.
-      </div>
+<div class="app">
+  <div class="topbar">
+    <div class="tb-title">THE <span>SYSTEM</span></div>
+    <div class="tb-right">
+      <div id="scoreBadge" class="score-badge score-S" style="display:none">100%</div>
+      <div class="tb-mode focus" id="modeBtn" onclick="cycleMode()">FOCUS</div>
+      <div class="tb-lv" id="tbLv">LVL 1</div>
     </div>
   </div>
-</div>
 
-<!-- EXAM WEEK TAB -->
-<div class="tab-panel" id="tab-exam">
-  <div class="section-title">EXAM WEEK — OCT 1–15</div>
-  <div class="week-block">
-    <div class="week-header">EXAM WEEK · OCT 1–15</div>
+  <div class="content" id="mainContent">
 
-    <div class="day-row">
-      <div><div class="day-name">WED</div><div class="day-date">Oct 1</div></div>
-      <div class="day-session">
-        <span class="session-label">NO EXAM — BUFFER</span>
-        Final MSc + Maths revision. Early sleep by 9 PM.
+    <!-- STATUS PAGE -->
+    <div class="page active" id="pg-status">
+      <div id="permBanner" class="perm-banner" style="display:none">
+        <span class="perm-txt">⚡ ENABLE NOTIFICATIONS</span>
+        <button class="perm-btn" onclick="reqNotifPerm()">ALLOW</button>
       </div>
-      <div class="day-session">
-        <span class="session-label">EVENING</span>
-        Light revision only. No new topics.
+
+      <!-- DECISION ENGINE PANEL -->
+      <div class="decision-panel" id="decisionPanel">
+        <div class="de-header">
+          <div class="de-title" id="deTitle">◈ DAILY EVALUATION</div>
+          <div class="de-score" id="deScore">—</div>
+        </div>
+        <div class="de-bar-wrap"><div class="de-bar" id="deBar" style="width:0%"></div></div>
+        <div class="de-msg" id="deMsg">Add quests to begin evaluation.</div>
+        <div class="de-verdict" id="deVerdict"></div>
+      </div>
+
+      <!-- UNLOCK BANNERS -->
+      <div id="unlockBanners"></div>
+
+      <div class="card">
+        <div class="player-header">
+          <div class="lhex">
+            <svg viewBox="0 0 100 100">
+              <polygon points="50,4 93,27 93,73 50,96 7,73 7,27" fill="none" stroke="#1a2a5e" stroke-width="2"/>
+              <polygon points="50,10 87,30 87,70 50,90 13,70 13,30" fill="rgba(10,17,40,.9)" stroke="#2a4aff" stroke-width="1.5"/>
+              <polygon points="50,16 81,33 81,67 50,84 19,67 19,33" fill="rgba(77,111,255,.08)" stroke="#4d6fff" stroke-width=".5"/>
+            </svg>
+            <div class="lnum" id="lvlNum">1</div>
+          </div>
+          <div class="pinfo">
+            <div class="pname" id="pnameD" onclick="editName()">PLAYER</div>
+            <input class="pname-in" id="pnameIn" style="display:none" onblur="saveName()" onkeydown="if(event.key==='Enter')saveName()">
+            <div class="prank" id="prank">[ E-RANK ]</div>
+          </div>
+        </div>
+        <div class="xp-lbl"><span>EXPERIENCE</span><span id="xpLbl">0 / 100</span></div>
+        <div class="xpbar-wrap"><div class="xpbar-fill" id="xpFill" style="width:0%"></div></div>
+      </div>
+
+      <!-- STREAK ENGINE -->
+      <div class="stitle">◈ STREAK ENGINE</div>
+      <div class="streak-row">
+        <div class="streak-card" id="scDaily">
+          <div class="sc-val" id="scDailyVal" style="color:var(--gold)">0</div>
+          <div class="sc-lbl">🔥 DAILY</div>
+        </div>
+        <div class="streak-card" id="scPerfect">
+          <div class="sc-val" id="scPerfectVal" style="color:var(--cyan)">0</div>
+          <div class="sc-lbl">⭐ PERFECT</div>
+        </div>
+        <div class="streak-card" id="scFail">
+          <div class="sc-val" id="scFailVal" style="color:var(--red)">0</div>
+          <div class="sc-lbl">💀 FAIL STK</div>
+        </div>
+      </div>
+
+      <div class="sp-row">
+        <span class="sp-lbl">STAT POINTS</span>
+        <span class="sp-val" id="spVal">0</span>
+      </div>
+
+      <div id="sysMsg"></div>
+      <div class="stitle">◈ ATTRIBUTES</div>
+      <div id="statsContainer"></div>
+
+      <div class="stitle" style="margin-top:12px">◈ TODAY</div>
+      <div class="sum-grid">
+        <div class="sum-card"><div class="sum-val" style="color:var(--gold)" id="sumXp">0</div><div class="sum-lbl">XP</div></div>
+        <div class="sum-card"><div class="sum-val" style="color:var(--cyan)" id="sumDone">0</div><div class="sum-lbl">CLEARED</div></div>
+        <div class="sum-card"><div class="sum-val" style="color:var(--red)" id="sumOver">0</div><div class="sum-lbl">OVERDUE</div></div>
       </div>
     </div>
 
-    <div class="day-row">
-      <div><div class="day-name">THU</div><div class="day-date">Oct 2</div></div>
-      <div class="day-session">
-        <span class="session-label">NO EXAM — PREP</span>
-        Morning: MSc last read. Afternoon: Maths — solve 5 questions from each chapter.
+    <!-- QUESTS PAGE -->
+    <div class="page" id="pg-quests">
+      <div id="hardcoreWarning" style="display:none;border:1px solid var(--orange);padding:9px 12px;margin-bottom:9px;background:rgba(255,123,0,.07);font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--orange);letter-spacing:1px">
+        ⚡ HARDCORE MODE — All quests must be completed. No skipping. No mercy.
       </div>
-      <div class="day-session">
-        <span class="session-label">TONIGHT</span>
-        Sleep by 9 PM sharp. Exam tomorrow 7 AM.
+      <div class="card q-add">
+        <div class="q-row">
+          <input class="qin" id="qname" placeholder="Quest name..." onkeydown="if(event.key==='Enter')addQuest()">
+          <select class="qin" id="qdiff">
+            <option value="E">E</option><option value="D">D</option>
+            <option value="C" selected>C</option><option value="B">B</option>
+            <option value="A">A</option><option value="S">S</option>
+          </select>
+        </div>
+        <div class="q-row">
+          <select class="qin" id="qcat">
+            <option value="STRENGTH">⚔️ STRENGTH</option>
+            <option value="INTELLIGENCE">🧠 INTELLIGENCE</option>
+            <option value="DISCIPLINE">🧊 DISCIPLINE</option>
+            <option value="FOCUS">🎯 FOCUS</option>
+            <option value="CREATIVITY">🎨 CREATIVITY</option>
+            <option value="SOCIAL">🤝 SOCIAL</option>
+          </select>
+          <input class="qin" id="qdeadlineIn" type="datetime-local" style="flex:1;min-width:0;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text)">
+        </div>
+        <div class="repeat-row" id="repeatRow" onclick="toggleRepeat()">
+          <span style="font-size:15px">🔁</span>
+          <span class="repeat-lbl">REPEAT DAILY (reschedule same time next day)</span>
+          <div class="toggle" id="repeatToggle"></div>
+        </div>
+        <div class="q-row">
+          <button class="btn" style="flex:1" onclick="addQuest()">+ ADD QUEST</button>
+        </div>
       </div>
+      <div class="cat-filter">
+        <button class="cpill active" onclick="filterCat('ALL',this)">ALL</button>
+        <button class="cpill" onclick="filterCat('STRENGTH',this)">⚔️</button>
+        <button class="cpill" onclick="filterCat('INTELLIGENCE',this)">🧠</button>
+        <button class="cpill" onclick="filterCat('DISCIPLINE',this)">🧊</button>
+        <button class="cpill" onclick="filterCat('FOCUS',this)">🎯</button>
+        <button class="cpill" onclick="filterCat('CREATIVITY',this)">🎨</button>
+        <button class="cpill" onclick="filterCat('SOCIAL',this)">🤝</button>
+      </div>
+      <div class="q-filter">
+        <button class="fb active" onclick="filterQ('all',this)">ALL</button>
+        <button class="fb" onclick="filterQ('active',this)">ACTIVE</button>
+        <button class="fb" onclick="filterQ('repeat',this)">🔁</button>
+        <button class="fb" onclick="filterQ('penalty',this)">⚠ PENALTY</button>
+        <button class="fb" onclick="filterQ('done',this)">DONE</button>
+      </div>
+      <div id="questList"></div>
     </div>
 
-    <div class="day-row exam-day">
-      <div><div class="day-name">FRI</div><div class="day-date">Oct 3</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">Moral Science</span> 7:00–9:40
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: Start Maths full revision. Focus on weak chapters.
-      </div>
+    <!-- ACHIEVEMENTS PAGE -->
+    <div class="page" id="pg-achieve">
+      <div class="stitle">◈ TITLES & ACHIEVEMENTS</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);margin-bottom:10px" id="achProgress"></div>
+      <div class="ach-grid" id="achGrid"></div>
     </div>
 
-    <div class="day-row">
-      <div><div class="day-name">SAT</div><div class="day-date">Oct 4</div></div>
-      <div class="day-session">
-        <span class="session-label">HOLIDAY — PREP DAY</span>
-        Full day Maths revision. Morning: numericals. Afternoon: theory. Evening: mock test yourself.
-      </div>
-      <div class="day-session">
-        <span class="session-label">TONIGHT</span>
-        Sleep 9 PM. Maths exam tomorrow.
-      </div>
+    <!-- ANALYTICS PAGE -->
+    <div class="page" id="pg-analytics">
+      <div class="stitle">◈ PERFORMANCE ANALYTICS</div>
+      <div id="analyticsContent"></div>
     </div>
 
-    <div class="day-row exam-day">
-      <div><div class="day-name">SUN</div><div class="day-date">Oct 5</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">Maths</span> 7:00–10:45
+    <!-- SETTINGS PAGE -->
+    <div class="page" id="pg-settings">
+      <div class="stitle">◈ MODES</div>
+      <div class="set-row">
+        <div><div class="set-lbl">💀 HARDCORE MODE</div><div class="set-sub">NO SKIPPING. FAIL = HEAVY PENALTY + STREAK RESET</div></div>
+        <div class="toggle" id="hardcoreToggle" onclick="toggleHardcore()" style="cursor:pointer"></div>
       </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: Physics — ray diagrams, all formulas, 3 numericals.
-      </div>
+      <div class="stitle">◈ DATA</div>
+      <div class="set-row"><div><div class="set-lbl">📤 EXPORT BACKUP</div><div class="set-sub">DOWNLOAD AS JSON</div></div><button class="btn btn-sm" onclick="exportBackup()">EXPORT</button></div>
+      <div class="set-row"><div><div class="set-lbl">📥 IMPORT / RESTORE</div><div class="set-sub">RESTORE FROM FILE</div></div><button class="btn btn-sm" onclick="document.getElementById('importModal').classList.add('show')">IMPORT</button></div>
+      <div class="set-row"><div><div class="set-lbl">📋 COPY TO CLIPBOARD</div><div class="set-sub">COPY BACKUP JSON</div></div><button class="btn btn-sm" onclick="copyBackup()">COPY</button></div>
+      <div class="set-row" style="border-color:rgba(255,58,92,.3)"><div><div class="set-lbl" style="color:var(--red)">🗑 RESET ALL DATA</div><div class="set-sub">WIPE EVERYTHING. CANNOT BE UNDONE.</div></div><button class="btn btn-red btn-sm" onclick="confirmReset()">RESET</button></div>
+      <div class="stitle" style="margin-top:14px">◈ NOTIFICATIONS</div>
+      <div class="set-row"><div><div class="set-lbl">🔔 PERMISSION</div><div class="set-sub" id="notifStatus">CHECKING...</div></div><button class="btn btn-sm" id="notifBtn" onclick="reqNotifPerm()">ENABLE</button></div>
+      <div class="stitle" style="margin-top:14px">◈ INFO</div>
+      <div class="set-row"><div><div class="set-lbl">VERSION</div></div><div style="font-family:'Orbitron',monospace;font-size:12px;color:var(--accent)">v6.0</div></div>
     </div>
 
-    <div class="day-row exam-day">
-      <div><div class="day-name">MON</div><div class="day-date">Oct 6</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">Physics</span>
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: Computer definitions — read through twice.
-      </div>
-    </div>
-
-    <div class="day-row exam-day">
-      <div><div class="day-name">TUE</div><div class="day-date">Oct 7</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">Computer</span>
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: Chemistry — all 4 chapters, key reactions + definitions.
-      </div>
-    </div>
-
-    <div class="day-row exam-day">
-      <div><div class="day-name">WED</div><div class="day-date">Oct 8</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">Chemistry</span>
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: Language definitions + vocabulary list final read.
-      </div>
-    </div>
-
-    <div class="day-row exam-day">
-      <div><div class="day-name">THU</div><div class="day-date">Oct 9</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">Language</span>
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: Biology — Circulatory, Reproduction, Ecosystem.
-      </div>
-    </div>
-
-    <div class="day-row exam-day">
-      <div><div class="day-name">FRI</div><div class="day-date">Oct 10</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">Biology</span>
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: History/Civics — all 3 History chapters + 2 Civics.
-      </div>
-    </div>
-
-    <div class="day-row">
-      <div><div class="day-name">SAT</div><div class="day-date">Oct 11</div></div>
-      <div class="day-session">
-        <span class="session-label">HOLIDAY</span>
-        Full day History/Civics. Read, understand, revise.
-      </div>
-      <div class="day-session"></div>
-    </div>
-
-    <div class="day-row exam-day">
-      <div><div class="day-name">SUN</div><div class="day-date">Oct 12</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">History/Civics</span>
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: Geography — Asia, Climate, Urbanisation.
-      </div>
-    </div>
-
-    <div class="day-row exam-day">
-      <div><div class="day-name">MON</div><div class="day-date">Oct 13</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">Geography</span>
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: Hindi — poems + stories final read.
-      </div>
-    </div>
-
-    <div class="day-row exam-day">
-      <div><div class="day-name">TUE</div><div class="day-date">Oct 14</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ EXAM DAY</span>
-        <span class="tag red">Hindi</span>
-      </div>
-      <div class="day-session">
-        <span class="session-label">AFTER EXAM</span>
-        Evening: Literature — all story + poem summaries, character notes.
-      </div>
-    </div>
-
-    <div class="day-row exam-day">
-      <div><div class="day-name">WED</div><div class="day-date">Oct 15</div></div>
-      <div class="day-session">
-        <span class="session-label">⚡ FINAL EXAM</span>
-        <span class="tag red">Literature</span>
-      </div>
-      <div class="day-session">
-        <span class="session-label">DONE.</span>
-        <span style="color:var(--green)">Winter Arc complete. 🏆</span>
-      </div>
+    <!-- LOG PAGE -->
+    <div class="page" id="pg-log">
+      <div class="stitle">◈ SYSTEM LOG</div>
+      <div id="logList"></div>
     </div>
 
   </div>
-</div>
 
-<!-- SUBJECT NOTES TAB -->
-<div class="tab-panel" id="tab-notes">
-  <div class="section-title">SUBJECT-SPECIFIC STRATEGY</div>
-
-  <div class="callout">
-    <strong>Moral Science (3 Oct)</strong><br>
-    Two units — Peer Pressure (U4) and Positive Emotions (U5) + School Diary rules. Treat this as pure memorization. Make 1-page summary per unit. Revise 3 times before exam day.
+  <div class="bnav">
+    <button class="nb active" onclick="goPage('status',this)" id="nb-status"><span class="nb-ic">◈</span>STATUS</button>
+    <button class="nb" onclick="goPage('quests',this)" id="nb-quests"><span class="nb-ic">⚔</span>QUESTS</button>
+    <button class="nb" onclick="goPage('achieve',this)" id="nb-achieve"><span class="nb-ic">🏆</span>TITLES</button>
+    <button class="nb" onclick="goPage('analytics',this)" id="nb-analytics"><span class="nb-ic">📊</span>STATS</button>
+    <button class="nb" onclick="goPage('settings',this)" id="nb-settings"><span class="nb-ic">⚙️</span>SETUP</button>
   </div>
-
-  <div class="callout">
-    <strong>Maths (5 Oct)</strong><br>
-    Biggest risk: Factorization + Special Products gaps + Discount. Do these first. Venn Diagrams: get from class or ask teacher this week. Rational Numbers + Sets + Squares/Cubes = already done, just revise. Do at least 5 numericals per weak chapter.
-  </div>
-
-  <div class="callout">
-    <strong>Physics (6 Oct) — Numericals Fix</strong><br>
-    Every numerical: write unit conversions at the top FIRST, always. km→m, g→kg, etc. before touching the formula. Do this without fail for 5 days and it becomes automatic. Light Energy ray diagrams are also in the project — double benefit.
-  </div>
-
-  <div class="callout">
-    <strong>Computer (7 Oct)</strong><br>
-    Strong subject. Only risk: book definitions. Write them down once per chapter — writing encodes better than reading. One session should be enough.
-  </div>
-
-  <div class="callout">
-    <strong>Chemistry (8 Oct)</strong><br>
-    3 chapters completely undone. Hydrogen, Water, Chemical Reactions — prioritize in Week 1. Physical + Chemical Changes already done. Chemical Reactions: focus on word equations and types (combination, decomposition, etc.).
-  </div>
-
-  <div class="callout">
-    <strong>Language (9 Oct)</strong><br>
-    Easy. Make a single page: all definitions + vocabulary list. Read it twice before exam. Don't over-prepare here — spend that time on Bio or History.
-  </div>
-
-  <div class="callout">
-    <strong>Biology (10 Oct) — HIGHEST PRIORITY</strong><br>
-    Fully undone. 3 chapters for 2nd term: Transportation in Plants, Endocrine System, Reproduction in Plants. Start from Day 1. Read chapter → make short notes → recall without looking. One chapter per day in Week 1.
-  </div>
-
-  <div class="callout">
-    <strong>History/Civics (12 Oct)</strong><br>
-    Notes done but not understood. Don't just re-read — understand the flow. 1857 Uprising: causes → events → result. Socio-Religious Reforms: which reformer did what. Freedom Struggle: key events timeline. Civics: Legislature structure + UN. Make a one-page timeline.
-  </div>
-
-  <div class="callout">
-    <strong>Geography (13 Oct)</strong><br>
-    Fully undone. 4 chapters: Disasters, India Human Resources, Geographical Features, Climate. These are largely factual — read once, note key facts, revise. Maps if needed. Not conceptually hard — just needs reading time.
-  </div>
-
-  <div class="callout">
-    <strong>Hindi (14 Oct)</strong><br>
-    Notes done. Hindi I = grammar (sandhi, samas, etc.) — revise definitions and examples. Hindi II = poems + stories — read each one, understand the theme, remember author names. Don't ignore this one late.
-  </div>
-
-  <div class="callout">
-    <strong>Literature (15 Oct)</strong><br>
-    Notes done, chapters unread. For each Magic Carpet story: theme, main character, 2 key events. For Little Women chapters: character names, what happens, any quotes your teacher highlighted. Poems: figure of speech examples, central idea.
-  </div>
-</div>
-
-<div class="footer">
-  WINTER ARC · 2ND TERM WAR PLAN · SEP–OCT 2026
 </div>
 
 <script>
-const EXAMS = [
-  ['2026-10-03T07:00:00','Moral Science'],['2026-10-05T07:00:00','Maths'],['2026-10-06T07:00:00','Physics'],
-  ['2026-10-07T07:00:00','Computer'],['2026-10-08T07:00:00','Chemistry'],['2026-10-09T07:00:00','Language'],
-  ['2026-10-10T07:00:00','Biology'],['2026-10-12T07:00:00','History/Civics'],['2026-10-13T07:00:00','Geography'],
-  ['2026-10-14T07:00:00','Hindi'],['2026-10-15T07:00:00','Literature']
+// ═══════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════
+const RANKS   = ['E','D','C','B','A','S','SS','SSS','MONARCH'];
+const RCOLORS = ['#888','#00d4ff','#00ff88','#ffd700','#ff7b00','#ff3a5c','#ff3a5c','#ff3a5c','#ffd700'];
+
+// V4 XP VALUES per spec: E=5, D=10, C=20, B=35, A=50, S=80
+const XP_DIFF  = {E:5, D:10, C:20, B:35, A:50, S:80};
+const PEN_DIFF = {E:8, D:15, C:25, B:40, A:60, S:100};
+const SP_DIFF  = {E:1, D:1,  C:1,  B:2,  A:2,  S:3};
+
+// XP formula: 100 * level^1.5
+const XPneeded = l => Math.floor(100 * Math.pow(l, 1.5));
+
+// LEVEL UNLOCKS
+const LEVEL_UNLOCKS = {
+  5:  { name:'HUNTER THEME', desc:'New visual theme unlocked', type:'theme', value:'theme-hard' },
+  10: { name:'HARD MODE QUESTS', desc:'S-rank quests now available without restriction', type:'feature', value:'hard_quests' },
+  15: { name:'ELITE MODE', desc:'Elite mode activated — adaptive difficulty engaged', type:'feature', value:'elite_mode' },
+  20: { name:'ELITE THEME', desc:'Elite visual theme unlocked', type:'theme', value:'theme-elite' },
+  30: { name:'HARDCORE MODE', desc:'Hardcore mode toggle unlocked in settings', type:'feature', value:'hardcore_unlock' },
+};
+
+const CATS_STAT = {STRENGTH:'str',INTELLIGENCE:'int',DISCIPLINE:'per',FOCUS:'per',CREATIVITY:'int',SOCIAL:'agi'};
+const CAT_ICONS = {STRENGTH:'⚔️',INTELLIGENCE:'🧠',DISCIPLINE:'🧊',FOCUS:'🎯',CREATIVITY:'🎨',SOCIAL:'🤝'};
+
+const STATS_DEF = [
+  {key:'str',name:'STRENGTH', icon:'⚔️',color:'#ff4a4a'},
+  {key:'agi',name:'AGILITY',  icon:'💨',color:'#00d4ff'},
+  {key:'vit',name:'VITALITY', icon:'❤️', color:'#ff3a5c'},
+  {key:'int',name:'INTELLECT',icon:'🧠',color:'#7b4fff'},
+  {key:'per',name:'SENSE',    icon:'👁️',color:'#ffd700'},
 ];
-const BASE_READINESS = {'Moral Science':30,'Maths':65,'Physics':40,'Computer':80,'Chemistry':25,'Language':85,'Biology':0,'History/Civics':10,'Geography':0,'Hindi':15,'Literature':35};
-const DEFAULT_TASKS = [
-  ['Moral Science','Review U4 + U5 summary'],['Maths','Do 5 factorization numericals'],['Physics','Practice unit conversions + 5 numericals'],
-  ['Computer','Write book definitions once'],['Chemistry','Study Hydrogen chapter'],['Biology','Start Transportation in Plants'],
-  ['History/Civics','Build 1857 causes → events → result timeline'],['Geography','Read Disasters chapter + key facts'],['Hindi','Revise sandhi and samas'],['Literature','Read one Magic Carpet story and note theme'],['Language','Make definitions + vocabulary page']
+
+const MODES = ['focus','grind','recovery','hardcore'];
+const MODE_XP = {focus:1, grind:1.5, recovery:0.8, hardcore:2.0};
+
+// SCORE THRESHOLDS
+const SCORE_BANDS = [
+  { min:90, grade:'S', color:'var(--green)',  mode:null,       verdict:'PERFECT EXECUTION', reward:true },
+  { min:70, grade:'A', color:'var(--gold)',   mode:null,       verdict:'STABLE PERFORMANCE', reward:false },
+  { min:50, grade:'B', color:'var(--orange)', mode:'grind',    verdict:'WARNING — GRIND MODE FORCED', reward:false },
+  { min:0,  grade:'F', color:'var(--red)',    mode:'grind',    verdict:'FAILURE — PENALTY MODE', reward:false },
 ];
-let state = JSON.parse(localStorage.getItem('warPlanState') || 'null') || {tasks:DEFAULT_TASKS.map((x,i)=>({id:'d'+i,text:x[1],subject:x[0],done:false,default:true})),days:{},mission:null};
-function save(){localStorage.setItem('warPlanState',JSON.stringify(state));}
-function esc(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
-function renderTasks(){
-  const el=document.getElementById('task-list');
-  el.innerHTML=state.tasks.length?state.tasks.map(t=>`<div class="task ${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${t.id}')"><span class="task-text">${esc(t.text)}</span><span class="task-subject">${esc(t.subject)}</span><button class="delete-task" onclick="deleteTask('${t.id}')" aria-label="Delete task">×</button></div>`).join(''):'<div class="cc-sub">No tasks yet. Add your first mission above.</div>';
-  updateDashboard();
+
+// PSYCHOLOGICAL MESSAGES
+const PSYCH_MSGS = [
+  'WHY ARE YOU IDLE?',
+  'THE WEAK REST. THE STRONG RISE.',
+  'YOU ARE FALLING BEHIND.',
+  'EVERY SECOND WASTED IS A SECOND LOST.',
+  'YOUR FUTURE SELF IS WATCHING.',
+  'STOP. COMPLETE YOUR QUESTS.',
+  'DISCIPLINE DROPPING.',
+];
+
+const SYS_MSGS = {
+  focus:    ['Focus engaged. Weakness is not an option.','Execute without hesitation.','Efficiency optimal. Proceed.'],
+  grind:    ['GRIND PROTOCOL ACTIVE. NO REST.','PUSH BEYOND YOUR LIMITS.','Delay detected. Rectify immediately.'],
+  recovery: ['Recovery mode. Sustainable growth.','Lighter load. Efficiency restoring.','Rebuild. Return stronger.'],
+  hardcore: ['HARDCORE MODE. NO MERCY.','FAIL AND YOU LOSE EVERYTHING.','MAXIMUM OUTPUT. ZERO EXCUSES.'],
+};
+
+// ── ACHIEVEMENTS (30+) ──────────────────────────────────────────
+const ACHIEVES = [
+  {id:'first',    icon:'⚔️',name:'FIRST BLOOD',    desc:'Clear 1 quest',             prog:s=>[s.totalDone,1],          cond:s=>s.totalDone>=1},
+  {id:'ten',      icon:'🗡️',name:'VETERAN',         desc:'Clear 10 quests',           prog:s=>[s.totalDone,10],         cond:s=>s.totalDone>=10},
+  {id:'fifty',    icon:'👑',name:'LEGEND',           desc:'Clear 50 quests',           prog:s=>[s.totalDone,50],         cond:s=>s.totalDone>=50},
+  {id:'hundred',  icon:'💀',name:'ASCENDED',         desc:'Clear 100 quests',          prog:s=>[s.totalDone,100],        cond:s=>s.totalDone>=100},
+  {id:'fivehun',  icon:'🌌',name:'TRANSCENDENT',     desc:'Clear 500 quests',          prog:s=>[s.totalDone,500],        cond:s=>s.totalDone>=500},
+  {id:'lvl5',     icon:'⬆️',name:'RISING',           desc:'Reach level 5',             prog:s=>[s.level,5],              cond:s=>s.level>=5},
+  {id:'lvl10',    icon:'🔥',name:'AWAKENED',          desc:'Reach level 10',            prog:s=>[s.level,10],             cond:s=>s.level>=10},
+  {id:'lvl20',    icon:'⚡',name:'HUNTER',            desc:'Reach level 20',            prog:s=>[s.level,20],             cond:s=>s.level>=20},
+  {id:'lvl40',    icon:'💎',name:'S-RANK',            desc:'Reach level 40',            prog:s=>[s.level,40],             cond:s=>s.level>=40},
+  {id:'lvl100',   icon:'👹',name:'SHADOW MONARCH',    desc:'Reach level 100',           prog:s=>[s.level,100],            cond:s=>s.level>=100},
+  {id:'streak3',  icon:'🌟',name:'DISCIPLINED',       desc:'3-day streak',              prog:s=>[s.streak,3],             cond:s=>s.streak>=3},
+  {id:'streak7',  icon:'🔮',name:'IRON WILL',         desc:'7-day streak',              prog:s=>[s.streak,7],             cond:s=>s.streak>=7},
+  {id:'streak14', icon:'🧊',name:'UNBREAKABLE',       desc:'14-day streak',             prog:s=>[s.streak,14],            cond:s=>s.streak>=14},
+  {id:'streak30', icon:'🏆',name:'MONARCH WILL',      desc:'30-day streak',             prog:s=>[s.streak,30],            cond:s=>s.streak>=30},
+  {id:'perfect3', icon:'✨',name:'PERFECT WEEK',      desc:'3 perfect days',            prog:s=>[s.perfectStreak,3],      cond:s=>s.perfectStreak>=3},
+  {id:'nofall',   icon:'🛡️',name:'CLEAN RECORD',      desc:'10 done, no penalties',     prog:s=>[s.totalPenalties===0&&s.totalDone>=10?1:0,1], cond:s=>s.totalPenalties===0&&s.totalDone>=10},
+  {id:'str20',    icon:'💪',name:'IRON FIST',         desc:'STR reaches 20',            prog:s=>[s.stats.str,20],         cond:s=>s.stats.str>=20},
+  {id:'int20',    icon:'📖',name:'SCHOLAR',           desc:'INT reaches 20',            prog:s=>[s.stats.int,20],         cond:s=>s.stats.int>=20},
+  {id:'allstat10',icon:'🌠',name:'BALANCED',          desc:'All stats ≥ 10',            prog:s=>[Math.min(...Object.values(s.stats)),10], cond:s=>Object.values(s.stats).every(v=>v>=10)},
+  {id:'srank1',   icon:'🔴',name:'S-RANK HUNTER',     desc:'Complete an S-rank quest',  prog:s=>[s.sRankDone||0,1],       cond:s=>(s.sRankDone||0)>=1},
+  {id:'srank10',  icon:'💥',name:'RAID BOSS',         desc:'10 S-rank completions',     prog:s=>[s.sRankDone||0,10],      cond:s=>(s.sRankDone||0)>=10},
+  {id:'rep50',    icon:'♾️',name:'MACHINE',           desc:'50 daily quest completions',prog:s=>[s.totalRepeatDone||0,50],cond:s=>(s.totalRepeatDone||0)>=50},
+  {id:'xp1000',   icon:'⭐',name:'XP GRINDER',        desc:'1,000 lifetime XP',         prog:s=>[s.lifetimeXp||0,1000],   cond:s=>(s.lifetimeXp||0)>=1000},
+  {id:'xp10k',    icon:'💫',name:'XP LEGEND',         desc:'10,000 lifetime XP',        prog:s=>[s.lifetimeXp||0,10000],  cond:s=>(s.lifetimeXp||0)>=10000},
+  {id:'grind5',   icon:'😤',name:'GRINDER',           desc:'5 quests in grind mode',    prog:s=>[s.grindDone||0,5],       cond:s=>(s.grindDone||0)>=5},
+  {id:'hardcore1',icon:'💀',name:'HARDCORE SURVIVOR', desc:'Complete a day in hardcore', prog:s=>[s.hardcoreDays||0,1],   cond:s=>(s.hardcoreDays||0)>=1},
+  {id:'score100', icon:'🎯',name:'PERFECT DAY',       desc:'Score 100% in a day',       prog:s=>[s.perfectDays||0,1],     cond:s=>(s.perfectDays||0)>=1},
+  {id:'noconsec', icon:'🚫',name:'RELENTLESS',        desc:'0 fail streak ever',        prog:s=>[s.maxFailStreak||0===0&&s.totalDone>=5?1:0,1], cond:s=>(s.maxFailStreak||0)===0&&s.totalDone>=5},
+  {id:'catbal',   icon:'⚖️',name:'TOTAL WARRIOR',    desc:'5+ in all categories',      prog:s=>[Math.min(...Object.values(s.catDone||{})),5], cond:s=>Object.values(s.catDone||{}).length>=6&&Object.values(s.catDone||{}).every(v=>v>=5)},
+  {id:'adaptive', icon:'🔄',name:'ADAPTIVE MIND',    desc:'Complete an auto-generated quest', prog:s=>[s.adaptiveDone||0,1], cond:s=>(s.adaptiveDone||0)>=1},
+];
+
+// ADAPTIVE QUEST POOL per category
+const ADAPTIVE_POOL = {
+  STRENGTH:    ['10 pushups','15 squats','30s plank','5 pull-ups','20 lunges','Wall sit 1 min','10 burpees','20 crunches'],
+  INTELLIGENCE:['Read 10 pages','Solve 5 math problems','Learn 5 new words','Watch educational video','Write a summary of what you learned','Solve a logic puzzle','Study for 20 min'],
+  DISCIPLINE:  ['Cold shower','Wake up on time','No social media for 2h','Clean your workspace','Sleep by 11pm','No junk food today','Complete tasks in order'],
+  FOCUS:       ['10 min deep focus session','Meditate 5 min','Work without phone for 30 min','Write your 3 priorities','Complete 1 task fully before switching','Pomodoro session'],
+  CREATIVITY:  ['Sketch something','Write 5 sentences creatively','Brainstorm 10 ideas','Learn a new skill for 15 min','Solve a problem a new way'],
+  SOCIAL:      ['Text someone you haven\'t spoken to','Help someone today','Share something you learned','Have a real conversation (no phone)','Express gratitude to someone'],
+};
+
+// ═══════════════════════════════════════════════════
+// STATE + MIGRATION
+// ═══════════════════════════════════════════════════
+const DB_KEY  = 'system_v4';
+const OLD_KEYS= ['system_v3','sl_v2','sl_system'];
+
+function defaultState(){
+  return {
+    name:'PLAYER', level:1, xp:0, sp:0, mode:'focus',
+    stats:{str:1,agi:1,vit:1,int:1,per:1},
+    quests:[], achievements:[], log:[],
+    totalDone:0, totalPenalties:0, totalRepeatDone:0,
+    sRankDone:0, grindDone:0, hardcoreDays:0, adaptiveDone:0,
+    catDone:{STRENGTH:0,INTELLIGENCE:0,DISCIPLINE:0,FOCUS:0,CREATIVITY:0,SOCIAL:0},
+    lifetimeXp:0,
+    todayXp:0, todayDone:0, todayTotal:0, todayPenalties:0,
+    lastDay:'', streak:0, perfectStreak:0, failStreak:0, maxFailStreak:0,
+    perfectDays:0, perfectDaysTotal:0,
+    notifGranted:false, weekStats:{},
+    unlocks:[], hardcore:false, isLocked:false, lockDays:0,
+    lastScore:0, lastIdleCheck:Date.now(),
+    _version:4
+  };
 }
-function addTask(){const input=document.getElementById('new-task'),text=input.value.trim();if(!text)return;state.tasks.push({id:'t'+Date.now(),text,subject:document.getElementById('task-subject').value,done:false});input.value='';save();renderTasks();pickMission();}
-function toggleTask(id){const t=state.tasks.find(x=>x.id===id);if(!t)return;t.done=!t.done;if(t.done)state.days[new Date().toISOString().slice(0,10)]=true;save();renderTasks();}
-function deleteTask(id){state.tasks=state.tasks.filter(x=>x.id!==id);save();renderTasks();}
-function calculateReadiness(subject){const base=BASE_READINESS[subject]||0;const tasks=state.tasks.filter(t=>t.subject===subject);if(!tasks.length)return base;const completed=tasks.filter(t=>t.done).length;return Math.min(100,Math.round(base+(100-base)*(completed/tasks.length)*0.5));}
-function updateDashboard(){
-  const total=state.tasks.length,done=state.tasks.filter(t=>t.done).length,p=total?Math.round(done/total*100):0;
-  document.getElementById('task-count').textContent=`${done}/${total}`;document.getElementById('overall-percent').textContent=p+'%';document.getElementById('overall-progress').style.width=p+'%';
-  document.getElementById('streak-count').textContent=streak();updateReadinessCards();updateNextExam();
+
+function migrate(old){
+  const def = defaultState();
+  const m = Object.assign({}, def, old);
+  m.stats   = Object.assign({...def.stats},   old.stats||{});
+  m.catDone = Object.assign({...def.catDone}, old.catDone||{});
+  if(!m.weekStats)  m.weekStats={};
+  if(!m.unlocks)    m.unlocks=[];
+  if(m.lifetimeXp===undefined) m.lifetimeXp=0;
+  if(m.totalRepeatDone===undefined) m.totalRepeatDone=0;
+  if(m.failStreak===undefined) m.failStreak=0;
+  if(m.perfectStreak===undefined) m.perfectStreak=0;
+  if(m.hardcoreDays===undefined) m.hardcoreDays=0;
+  if(m.adaptiveDone===undefined) m.adaptiveDone=0;
+  if(m.hardcore===undefined) m.hardcore=false;
+  if(m.isLocked===undefined) m.isLocked=false;
+  if(m.lockDays===undefined) m.lockDays=0;
+  if(m.perfectDays===undefined) m.perfectDays=0;
+  // Migrate quests
+  if(m.quests) m.quests = m.quests.map(q=>({
+    repeat:false, penalized:false, cat:'DISCIPLINE', isPenaltyQuest:false, isAdaptive:false, ...q
+  }));
+  m._version=4;
+  return m;
 }
-function updateReadinessCards(){document.querySelectorAll('.status-card').forEach(card=>{const name=card.querySelector('.subj')?.textContent.trim();if(!BASE_READINESS.hasOwnProperty(name))return;const pct=calculateReadiness(name);const bar=card.querySelector('.bar');const txt=card.querySelector('.pct');bar.style.width=pct+'%';txt.textContent=pct+'% — live readiness';card.classList.remove('danger','warn','ok','easy');card.classList.add(pct<30?'danger':pct<60?'warn':pct<80?'ok':'easy');});}
-function streak(){let n=0,d=new Date();while(true){const key=d.toISOString().slice(0,10);if(!state.days[key])break;n++;d.setDate(d.getDate()-1);}return n;}
-function updateNextExam(){const now=new Date();const next=EXAMS.find(e=>new Date(e[0])>now)||EXAMS[EXAMS.length-1];const diff=new Date(next[0])-now;const days=Math.max(0,Math.floor(diff/86400000));const hours=Math.max(0,Math.floor(diff%86400000/3600000));document.getElementById('next-exam-name').textContent=next[1];document.getElementById('next-exam-count').textContent=days+'d '+hours+'h remaining';}
-function pickMission(){const open=state.tasks.filter(t=>!t.done);if(!open.length){document.getElementById('mission-text').textContent='All current tasks are complete. Add a new task to keep the campaign moving.';state.mission=null;return;}const ranked=[...open].sort((a,b)=>(BASE_READINESS[a.subject]||50)-(BASE_READINESS[b.subject]||50));state.mission=ranked[Math.floor(Math.random()*Math.min(3,ranked.length))].id;const t=state.tasks.find(x=>x.id===state.mission);document.getElementById('mission-text').textContent=`${t.subject}: ${t.text}`;save();}
-function completeMission(){if(!state.mission){pickMission();return;}const t=state.tasks.find(x=>x.id===state.mission);if(t){t.done=true;state.days[new Date().toISOString().slice(0,10)]=true;save();renderTasks();pickMission();}}
-function switchTab(id,btn){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');if(btn)btn.classList.add('active');}
-function updateCountdown(){const exam=new Date('2026-10-03T07:00:00'),now=new Date(),diff=exam-now;const val=document.getElementById('countdown-val');if(diff<=0){val.textContent='EXAM MODE';return;}const days=Math.floor(diff/86400000),hours=Math.floor(diff%86400000/3600000);val.textContent=`${days}d ${hours}h`;updateNextExam();}
-function handleKey(e){if(e.key==='Enter' && document.activeElement.id==='new-task')addTask();}
-document.addEventListener('keydown',handleKey);updateCountdown();setInterval(updateCountdown,60000);renderTasks();if(!state.mission)pickMission();else {const t=state.tasks.find(x=>x.id===state.mission);if(t)document.getElementById('mission-text').textContent=`${t.subject}: ${t.text}`;else pickMission();}
+
+function save(s){ try{localStorage.setItem(DB_KEY,JSON.stringify(s));}catch(e){} }
+function load(){
+  try{ const d=localStorage.getItem(DB_KEY); if(d) return migrate(JSON.parse(d)); }catch{}
+  for(const k of OLD_KEYS){
+    try{ const d=localStorage.getItem(k); if(d){ const m=migrate(JSON.parse(d)); save(m); return m; } }catch{}
+  }
+  return null;
+}
+
+var S = load() || defaultState();
+let qFilter='all', catFilter='ALL', repeatOn=false;
+
+// ── DAILY RESET + DECISION ENGINE ───────────────────────────────
+const today = new Date().toDateString();
+if(S.lastDay !== today){
+  runDailyEvaluation(true); // evaluate yesterday before reset
+  rescheduleRepeating();
+  // Streak logic
+  if(S.lastDay){
+    const diff=(new Date(today)-new Date(S.lastDay))/86400000;
+    if(diff>1.5){ S.streak=0; S.perfectStreak=0; } // missed a day entirely
+  }
+  // Save week stats
+  if(S.lastDay){
+    const yk=new Date(S.lastDay).toISOString().split('T')[0];
+    S.weekStats[yk]={done:S.todayDone,total:S.todayTotal,xp:S.todayXp,score:S.lastScore};
+    const keys=Object.keys(S.weekStats).sort();
+    if(keys.length>30) keys.slice(0,keys.length-30).forEach(k=>delete S.weekStats[k]);
+  }
+  S.todayXp=0; S.todayDone=0; S.todayTotal=0; S.todayPenalties=0;
+  S.lastDay=today;
+  save(S);
+}
+
+// ═══════════════════════════════════════════════════
+// DECISION ENGINE
+// ═══════════════════════════════════════════════════
+function computeScore(){
+  const active = S.quests.filter(q=>!q.done&&!q.isPenaltyQuest);
+  const total  = active.length + S.todayDone;
+  if(total===0) return -1; // no quests
+  return Math.round((S.todayDone / total) * 100);
+}
+
+function getScoreBand(score){
+  return SCORE_BANDS.find(b=>score>=b.min) || SCORE_BANDS[SCORE_BANDS.length-1];
+}
+
+function runDailyEvaluation(silent=false){
+  const score = computeScore();
+  if(score < 0) return; // nothing to evaluate
+  S.lastScore = score;
+  const band = getScoreBand(score);
+
+  if(score >= 90){
+    // PERFECT / GREAT
+    S.streak++;
+    S.perfectStreak++;
+    S.perfectDays++;
+    if(score===100) S.perfectDaysTotal=(S.perfectDaysTotal||0)+1;
+    if(S.hardcore) S.hardcoreDays++;
+    S.failStreak=0;
+    S.isLocked=false; S.lockDays=0;
+    if(!silent){
+      // Bonus XP for perfect day
+      const bonus=Math.floor(20*getModeXPMult());
+      S.xp+=bonus; S.lifetimeXp+=bonus;
+      checkLevelUp(bonus);
+      addLog(`<span class="lgrn">EVALUATION: ${score}% — PERFECT. +${bonus} BONUS XP</span>`);
+      sendNotif('✅ DAILY EVALUATION','Perfect performance! +'+bonus+' bonus XP.');
+    }
+  } else if(score >= 70){
+    // STABLE
+    S.streak++;
+    S.perfectStreak=0;
+    S.failStreak=0;
+    if(!silent) addLog(`<span class="lgrn">EVALUATION: ${score}% — STABLE.</span>`);
+  } else if(score >= 50){
+    // WARNING — force grind
+    S.perfectStreak=0;
+    S.failStreak++;
+    if(!silent){
+      S.mode='grind';
+      addLog(`<span class="lwar">EVALUATION: ${score}% — WARNING. GRIND MODE FORCED.</span>`);
+      sendNotif('⚠ WARNING','Score: '+score+'%. Grind mode activated. Step it up.',true);
+    }
+  } else {
+    // FAILURE — punishment
+    S.perfectStreak=0;
+    S.failStreak++;
+    S.maxFailStreak=Math.max(S.maxFailStreak||0, S.failStreak);
+    S.streak=0; // streak broken
+    if(!silent){
+      const pen = computePenalty(score);
+      S.xp = Math.max(0, S.xp - pen.xp);
+      STATS_DEF.forEach(st=>{ if(Math.random()<0.3) S.stats[st.key]=Math.max(1,S.stats[st.key]-1); });
+      S.mode='grind';
+      S.totalPenalties++;
+      addLog(`<span class="lred">EVALUATION: ${score}% — FAILURE. Streak reset. −${pen.xp} XP. Stat decrease.</span>`);
+      triggerPunishScreen(score, pen);
+      // Generate penalty quests for next day
+      generatePenaltyQuests();
+    }
+    // SYSTEM LOCK after 2 consecutive bad days
+    if(S.failStreak>=2 && !silent){
+      S.isLocked=true;
+      S.lockDays=S.failStreak;
+      addLog('<span class="lred">SYSTEM LOCK ACTIVATED — 2 consecutive failures.</span>');
+    }
+  }
+  checkAchieves();
+  save(S);
+}
+
+function computePenalty(score){
+  const severity = score < 25 ? 3 : score < 50 ? 2 : 1;
+  const baseXP   = S.level * 10 * severity;
+  return { xp: baseXP, severity };
+}
+
+function generatePenaltyQuests(){
+  // Remove old unsatisfied penalty quests
+  S.quests = S.quests.filter(q=>!q.isPenaltyQuest||q.done);
+  // Add penalty quests: missed quest types get doubled
+  const missed = S.quests.filter(q=>!q.done&&q.deadline&&q.deadline<Date.now());
+  const penaltySet = new Set();
+  missed.forEach(q=>{
+    const key=q.cat+'_'+q.diff;
+    if(!penaltySet.has(key)){
+      penaltySet.add(key);
+      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1); tomorrow.setHours(23,0,0,0);
+      S.quests.unshift({
+        id:'pen_'+Date.now()+'_'+Math.random(), name:`[PENALTY] ${q.name}`,
+        diff:q.diff, cat:q.cat, deadline:tomorrow.getTime(),
+        done:false, penalized:false, repeat:false, isPenaltyQuest:true, createdAt:Date.now()
+      });
+    }
+  });
+  if(penaltySet.size>0) addLog(`<span class="lred">${penaltySet.size} PENALTY QUEST(S) generated for tomorrow.</span>`);
+}
+
+// ═══════════════════════════════════════════════════
+// ADAPTIVE QUEST GENERATION
+// ═══════════════════════════════════════════════════
+function generateAdaptiveQuest(){
+  // Determine weakest category
+  const cats = Object.keys(ADAPTIVE_POOL);
+  const weakCat = cats.reduce((a,b)=>(S.catDone[a]||0)<(S.catDone[b]||0)?a:b);
+  const pool = ADAPTIVE_POOL[weakCat];
+  const name = pool[Math.floor(Math.random()*pool.length)];
+  // Adaptive difficulty: if score was high, bump up; if low, keep easy
+  const lastScore = S.lastScore||50;
+  let diff;
+  if(lastScore>=90)      diff='B';
+  else if(lastScore>=70) diff='C';
+  else if(lastScore>=50) diff='D';
+  else                   diff='E';
+  const tomorrow = new Date(); tomorrow.setHours(23,59,0,0);
+  S.quests.unshift({
+    id:'adp_'+Date.now(), name:`[ADAPTIVE] ${name}`,
+    diff, cat:weakCat, deadline:tomorrow.getTime(),
+    done:false, penalized:false, repeat:false, isPenaltyQuest:false, isAdaptive:true, createdAt:Date.now()
+  });
+  addLog(`<span class="lgrn">ADAPTIVE quest generated: "${name}" [${diff}] — ${CAT_ICONS[weakCat]} ${weakCat}</span>`);
+  save(S); render();
+  showToast(`ADAPTIVE QUEST — ${weakCat}`,'green');
+}
+
+// ═══════════════════════════════════════════════════
+// REPEATING QUESTS
+// ═══════════════════════════════════════════════════
+function rescheduleRepeating(){
+  const now=Date.now();
+  S.quests.forEach(q=>{
+    if(!q.repeat) return;
+    if(q.done){ q.done=false; q.penalized=false; if(q.deadline) q.deadline+=86400000; }
+    else if(q.deadline&&q.deadline<now){ q.penalized=false; while(q.deadline<now) q.deadline+=86400000; }
+  });
+}
+
+function toggleRepeat(){
+  repeatOn=!repeatOn;
+  document.getElementById('repeatRow').classList.toggle('on',repeatOn);
+  document.getElementById('repeatToggle').classList.toggle('on',repeatOn);
+}
+
+// ═══════════════════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════════════════
+function reqNotifPerm(){
+  if(!('Notification' in window)){ showToast('NOT SUPPORTED','red'); return; }
+  Notification.requestPermission().then(p=>{
+    S.notifGranted=(p==='granted'); save(S);
+    document.getElementById('permBanner').style.display='none';
+    updateNotifStatus();
+    if(S.notifGranted){ showToast('NOTIFICATIONS ENABLED','green'); sendNotif('⚡ THE SYSTEM','Online. Watching.',false); }
+    else showToast('NOTIFICATIONS BLOCKED','red');
+  });
+}
+
+function updateNotifStatus(){
+  const el=document.getElementById('notifStatus'), btn=document.getElementById('notifBtn');
+  if(!('Notification' in window)){ el.textContent='NOT SUPPORTED'; return; }
+  const p=Notification.permission;
+  if(p==='granted'){ el.textContent='✓ GRANTED'; el.style.color='var(--green)'; btn.textContent='TEST'; btn.onclick=()=>sendNotif('⚡ THE SYSTEM','Test. You are being watched.'); }
+  else if(p==='denied'){ el.textContent='✗ DENIED — ENABLE IN BROWSER'; el.style.color='var(--red)'; btn.disabled=true; }
+  else { el.textContent='NOT GRANTED'; btn.textContent='ENABLE'; btn.onclick=reqNotifPerm; }
+}
+
+function sendNotif(title,body,urgent=false,tag='system'){
+  if(!('Notification' in window)||Notification.permission!=='granted') return;
+  try{
+    const n=new Notification(title,{body,icon:'icons/icon-192.png',badge:'icons/icon-192.png',vibrate:urgent?[200,100,200,100,400]:[100,50,100],requireInteraction:urgent,tag});
+    n.onclick=()=>{window.focus();n.close()};
+  }catch{}
+}
+
+if('Notification' in window && Notification.permission==='default') setTimeout(()=>{document.getElementById('permBanner').style.display='flex';},1500);
+else if('Notification' in window && Notification.permission==='granted') S.notifGranted=true;
+
+// ── Overdue checker loop ──
+let _upcomingNotified=new Set();
+setInterval(()=>{
+  applyOverduePenalties(false);
+  checkUpcomingReminders();
+  checkIdleState();
+  updateCountdowns();
+  render(); save(S);
+},60000);
+
+function checkUpcomingReminders(){
+  const now=Date.now(),ten=600000;
+  S.quests.forEach(q=>{
+    if(q.done||!q.deadline||_upcomingNotified.has(q.id)) return;
+    const diff=q.deadline-now;
+    if(diff>0&&diff<=ten){
+      _upcomingNotified.add(q.id);
+      sendNotif('⏰ QUEST DUE SOON',`"${q.name}" — ${Math.ceil(diff/60000)} min left`,false,'upcoming');
+    }
+  });
+}
+
+// ── Idle Detection ──
+let _lastInteraction = Date.now();
+document.addEventListener('touchstart',()=>_lastInteraction=Date.now(),{passive:true});
+document.addEventListener('click',()=>_lastInteraction=Date.now(),{passive:true});
+
+function checkIdleState(){
+  const idle=(Date.now()-_lastInteraction)/60000; // minutes idle
+  const hasActive=S.quests.some(q=>!q.done&&!q.isPenaltyQuest);
+  if(idle>=30&&hasActive){
+    const el=document.getElementById('idleAlert');
+    const msg=PSYCH_MSGS[Math.floor(Math.random()*PSYCH_MSGS.length)];
+    el.textContent='⚠ '+msg;
+    el.classList.add('show');
+    sendNotif('⚠ IDLE DETECTED',msg,false,'idle');
+    setTimeout(()=>el.classList.remove('show'),8000);
+  }
+}
+
+// Random psych warfare (every 45-90 min when app is open)
+function schedulePsychWarfare(){
+  const delay=(45+Math.random()*45)*60000;
+  setTimeout(()=>{
+    const hasActive=S.quests.some(q=>!q.done);
+    if(hasActive){
+      const msg=PSYCH_MSGS[Math.floor(Math.random()*PSYCH_MSGS.length)];
+      const overlay=document.getElementById('psychOverlay');
+      document.getElementById('psychMsg').textContent=msg;
+      overlay.classList.add('show');
+      setTimeout(()=>overlay.classList.remove('show'),3000);
+    }
+    schedulePsychWarfare();
+  },delay);
+}
+schedulePsychWarfare();
+
+// Overdue countdown timer display
+function updateCountdowns(){
+  document.querySelectorAll('.q-countdown').forEach(el=>{
+    const deadline=parseInt(el.dataset.deadline);
+    if(!deadline) return;
+    const now=Date.now();
+    const diff=deadline-now;
+    if(diff<=0){ el.textContent='OVERDUE'; el.className='q-countdown cd-urgent'; return; }
+    const h=Math.floor(diff/3600000);
+    const m=Math.floor((diff%3600000)/60000);
+    el.textContent=h>0?`${h}h ${m}m`:`${m}m`;
+    el.className='q-countdown '+(diff<=600000?'cd-urgent':diff<=3600000?'cd-soon':'cd-ok');
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// OVERDUE PENALTIES
+// ═══════════════════════════════════════════════════
+function applyOverduePenalties(silent=false){
+  const now=Date.now(); let totalPen=0;
+  S.quests.forEach(q=>{
+    if(q.done||q.penalized||!q.deadline||q.deadline>now) return;
+    const pen=Math.floor(PEN_DIFF[q.diff]*getModeXPMult());
+    S.xp=Math.max(0,S.xp-pen); totalPen+=pen;
+    S.totalPenalties++; S.todayPenalties++;
+    q.penalized=true;
+    if(!silent) addLog(`<span class="lred">PENALTY: "${q.name}" overdue — −${pen} XP</span>`);
+  });
+  if(totalPen>0&&!silent){
+    showToast(`⚠ −${totalPen} XP PENALTY`,'red');
+    sendNotif('⚠ QUEST OVERDUE',`Lost ${totalPen} XP. Discipline failing.`,true,'overdue');
+    showPenaltyAlert();
+  }
+}
+
+function showPenaltyAlert(){
+  // handled inline in decision engine
+}
+
+// ═══════════════════════════════════════════════════
+// HARDCORE MODE
+// ═══════════════════════════════════════════════════
+function toggleHardcore(){
+  if(!S.unlocks.includes('hardcore_unlock')){ showToast('REACH LEVEL 30 TO UNLOCK','red'); return; }
+  S.hardcore=!S.hardcore;
+  document.getElementById('hardcoreToggle').classList.toggle('on',S.hardcore);
+  if(S.hardcore){ S.mode='hardcore'; showToast('HARDCORE MODE ACTIVATED — NO MERCY','red'); addLog('<span class="lred">HARDCORE MODE: ON. Fail = full streak reset + heavy XP loss.</span>'); }
+  else { S.mode='focus'; showToast('HARDCORE MODE DEACTIVATED'); }
+  save(S); render();
+}
+
+// ═══════════════════════════════════════════════════
+// SYSTEM LOCK
+// ═══════════════════════════════════════════════════
+function checkSystemLock(){
+  if(!S.isLocked) return;
+  // Show lock for analytics + settings only — quests still accessible to recover
+  ['nb-analytics'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.add('locked-nav');
+  });
+  document.getElementById('lockOverlay').classList.add('show');
+  document.getElementById('lockMsg').textContent=`You have failed ${S.lockDays} consecutive days.\nFeatures are restricted.\nComplete today's quests to unlock.`;
+}
+
+function tryUnlock(){
+  const completedToday = S.todayDone > 0;
+  if(completedToday){
+    S.isLocked=false; S.lockDays=0;
+    document.getElementById('lockOverlay').classList.remove('show');
+    document.querySelectorAll('.locked-nav').forEach(el=>el.classList.remove('locked-nav'));
+    showToast('SYSTEM UNLOCKED','green');
+    addLog('<span class="lgrn">System lock lifted. Keep the momentum.</span>');
+    save(S);
+  } else {
+    showToast('COMPLETE AT LEAST 1 QUEST FIRST','red');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// LEVEL UNLOCKS
+// ═══════════════════════════════════════════════════
+function checkLevelUnlocks(prevLevel){
+  const unlockBanners=[];
+  for(let lvl=prevLevel+1; lvl<=S.level; lvl++){
+    const unlock=LEVEL_UNLOCKS[lvl];
+    if(!unlock) continue;
+    if(!S.unlocks.includes(unlock.value)){
+      S.unlocks.push(unlock.value);
+      unlockBanners.push(unlock);
+      if(unlock.type==='theme') document.body.className=unlock.value;
+      addLog(`<span class="lxp">UNLOCK: ${unlock.name} — ${unlock.desc}</span>`);
+      sendNotif('🔓 UNLOCKED',unlock.name+': '+unlock.desc);
+    }
+  }
+  return unlockBanners;
+}
+
+function renderUnlockBanners(unlocks){
+  const el=document.getElementById('unlockBanners'); el.innerHTML='';
+  unlocks.forEach(u=>{
+    const d=document.createElement('div'); d.className='unlock-banner';
+    d.innerHTML=`<div class="unlock-icon">🔓</div><div class="unlock-text">UNLOCK: ${u.name.toUpperCase()}<br>${u.desc}</div>`;
+    el.appendChild(d);
+    setTimeout(()=>d.style.opacity='0',5000);
+    setTimeout(()=>d.remove(),5500);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════
+function render(){
+  const ri=Math.min(Math.floor((S.level-1)/5),RANKS.length-1);
+  document.getElementById('tbLv').textContent=`LVL ${S.level}`;
+  const mb=document.getElementById('modeBtn');
+  mb.textContent=(S.mode==='hardcore'?'☠ HARDCORE':S.mode).toUpperCase();
+  mb.className=`tb-mode ${S.hardcore?'hardcore':S.mode}`;
+  document.getElementById('lvlNum').textContent=S.level;
+  const need=XPneeded(S.level);
+  document.getElementById('xpFill').style.width=Math.min((S.xp/need)*100,100)+'%';
+  document.getElementById('xpLbl').textContent=`${S.xp} / ${need}`;
+  document.getElementById('prank').textContent=`[ ${RANKS[ri]}-RANK ]`;
+  document.getElementById('prank').style.cssText=`color:${RCOLORS[ri]};text-shadow:0 0 8px ${RCOLORS[ri]}`;
+  document.getElementById('pnameD').textContent=S.name||'PLAYER';
+  document.getElementById('spVal').textContent=S.sp;
+
+  // Apply saved theme
+  const themeUnlock = S.unlocks.find(u=>u.startsWith('theme-'));
+  if(themeUnlock) document.body.className=themeUnlock;
+
+  // Decision engine panel
+  renderDecisionPanel();
+
+  // Streak engine
+  document.getElementById('scDailyVal').textContent=S.streak;
+  document.getElementById('scPerfectVal').textContent=S.perfectStreak;
+  document.getElementById('scFailVal').textContent=S.failStreak;
+  document.getElementById('scDaily').className='streak-card'+(S.streak>=3?' hot':'');
+  document.getElementById('scFail').className='streak-card'+(S.failStreak>=1?' danger':'');
+
+  // Sys msg
+  const msgs=SYS_MSGS[S.hardcore?'hardcore':S.mode]||SYS_MSGS.focus;
+  document.getElementById('sysMsg').innerHTML=`<div class="sys-msg"><span class="sys-prefix">[SYSTEM]</span>${msgs[Math.floor(Date.now()/10000)%msgs.length]}</div>`;
+
+  renderStats();
+  const overdue=S.quests.filter(q=>!q.done&&q.deadline&&q.deadline<Date.now()).length;
+  document.getElementById('sumXp').textContent=S.todayXp;
+  document.getElementById('sumDone').textContent=S.todayDone;
+  document.getElementById('sumOver').textContent=overdue;
+
+  renderQuests(); renderAchieves(); renderAnalytics();
+  renderLog(); updateNotifStatus();
+  checkSystemLock();
+
+  // Hardcore warning
+  document.getElementById('hardcoreWarning').style.display=S.hardcore?'block':'none';
+  document.getElementById('hardcoreToggle').classList.toggle('on',S.hardcore);
+}
+
+function renderDecisionPanel(){
+  const score=computeScore();
+  const panel=document.getElementById('decisionPanel');
+  const el_score=document.getElementById('deScore');
+  const el_bar=document.getElementById('deBar');
+  const el_msg=document.getElementById('deMsg');
+  const el_verdict=document.getElementById('deVerdict');
+  const el_badge=document.getElementById('scoreBadge');
+
+  if(score<0){
+    panel.className='decision-panel';
+    el_score.textContent='—'; el_bar.style.width='0%';
+    el_msg.textContent='Add quests to activate daily evaluation.';
+    el_verdict.textContent=''; el_badge.style.display='none'; return;
+  }
+
+  const band=getScoreBand(score);
+  panel.className='decision-panel '+(score>=70?'score-good':score>=50?'score-warn':'score-bad');
+  el_score.textContent=score+'%';
+  el_score.style.color=band.color;
+  el_bar.style.width=score+'%';
+  el_bar.style.background=band.color;
+  el_badge.style.display='block';
+  el_badge.textContent=score+'%';
+  el_badge.className=`score-badge score-${band.grade}`;
+
+  const total=S.quests.filter(q=>!q.isPenaltyQuest).length;
+  const active=S.quests.filter(q=>!q.done&&!q.isPenaltyQuest).length;
+  const mult=getModeXPMult()*(1+getStreakBonus());
+
+  if(score>=90)      el_msg.textContent=`${S.todayDone} / ${S.todayDone+active} quests done. XP multiplier: ${mult.toFixed(1)}× — Performing at peak.`;
+  else if(score>=70) el_msg.textContent=`${S.todayDone} / ${S.todayDone+active} quests done. Stable. Complete remaining to avoid grind mode.`;
+  else if(score>=50) el_msg.textContent=`${S.todayDone} / ${S.todayDone+active} quests done. WARNING. Score below 70. GRIND MODE forced if day ends here.`;
+  else               el_msg.textContent=`${S.todayDone} / ${S.todayDone+active} quests done. CRITICAL. Day ends like this = STREAK RESET + STAT LOSS + PENALTY QUESTS.`;
+
+  el_verdict.textContent=band.verdict;
+  el_verdict.style.color=band.color;
+}
+
+function renderStats(){
+  const c=document.getElementById('statsContainer'); c.innerHTML='';
+  STATS_DEF.forEach(s=>{
+    const v=S.stats[s.key]; const pct=Math.min((v/100)*100,100);
+    const row=document.createElement('div'); row.className='stat-row';
+    row.innerHTML=`
+      <span class="stic">${s.icon}</span><span class="stnm">${s.name}</span>
+      <div class="stbar"><div class="stfill" style="width:${pct}%;background:${s.color};box-shadow:0 0 5px ${s.color}80"></div></div>
+      <span class="stval">${v}</span>
+      <button class="stbtn" onclick="addStat('${s.key}')" ${S.sp<=0?'disabled':''}>${S.sp>0?'+':'—'}</button>
+    `;
+    c.appendChild(row);
+  });
+}
+
+function renderQuests(){
+  const list=document.getElementById('questList');
+  const now=Date.now();
+  let qs=[...S.quests];
+  if(catFilter!=='ALL') qs=qs.filter(q=>q.cat===catFilter);
+  if(qFilter==='active')  qs=qs.filter(q=>!q.done);
+  if(qFilter==='repeat')  qs=qs.filter(q=>q.repeat);
+  if(qFilter==='penalty') qs=qs.filter(q=>q.isPenaltyQuest||q.isAdaptive);
+  if(qFilter==='done')    qs=qs.filter(q=>q.done);
+
+  if(!qs.length){ list.innerHTML=`<div class="empty">NO QUESTS FOUND</div>`; return; }
+
+  // Add adaptive quest button at top if elite mode
+  let html='';
+  if(S.unlocks.includes('elite_mode')&&qFilter==='all'){
+    html=`<div style="margin-bottom:8px"><button class="btn" style="width:100%;font-size:9px" onclick="generateAdaptiveQuest()">⚡ GENERATE ADAPTIVE QUEST</button></div>`;
+  }
+  list.innerHTML=html;
+
+  qs.forEach(q=>{
+    const isOver=!q.done&&q.deadline&&q.deadline<now;
+    const isSoon=!q.done&&q.deadline&&(q.deadline-now)<=600000&&q.deadline>now;
+    const xpActual=Math.floor(XP_DIFF[q.diff]*getModeXPMult()*(1+getStreakBonus()));
+    let dlHtml='';
+    if(q.deadline&&!q.done){
+      const dl=new Date(q.deadline);
+      const dlStr=dl.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+      const cls=isOver?'overdue':isSoon?'soon':'ok';
+      const pfx=isOver?'⚠ ':isSoon?'⏰ ':'📅 ';
+      dlHtml=`<span class="qdeadline ${cls}">${pfx}${dlStr}</span>`;
+      if(!isOver) dlHtml+=`<span class="q-countdown" data-deadline="${q.deadline}"></span>`;
+    }
+    const item=document.createElement('div');
+    item.className='qi'+(q.done?' done':'')+(isOver?' overdue':'')+(q.repeat?' repeating':'')+(q.isPenaltyQuest?' penalty-quest':'');
+    item.innerHTML=`
+      <div class="qcheck" onclick="completeQ('${q.id}')">${q.done?'✓':''}</div>
+      <div class="qi-body">
+        <div class="qi-top">
+          <span class="qdiff diff-${q.diff}">${q.diff}</span>
+          <span class="qcat">${CAT_ICONS[q.cat]||''} ${q.cat}</span>
+          ${q.repeat?'<span class="qrepeat-badge">🔁</span>':''}
+          ${q.isPenaltyQuest?'<span class="qpenalty-badge">⚠ PENALTY</span>':''}
+          ${q.isAdaptive?'<span class="qrepeat-badge" style="color:var(--cyan);border-color:var(--cyan)">⚡ AUTO</span>':''}
+        </div>
+        <div class="qname">${esc(q.name)}</div>
+        <div class="qi-meta">
+          <span class="qxp">+${xpActual} XP</span>
+          ${dlHtml}
+        </div>
+      </div>
+      <button class="qdel" onclick="delQ('${q.id}')" ${S.hardcore&&!q.done?'style="display:none"':''}>×</button>
+    `;
+    list.appendChild(item);
+  });
+  updateCountdowns();
+}
+
+function renderAchieves(){
+  const g=document.getElementById('achGrid'); g.innerHTML='';
+  const earned=S.achievements.length;
+  document.getElementById('achProgress').textContent=`${earned} / ${ACHIEVES.length} UNLOCKED`;
+  ACHIEVES.forEach(a=>{
+    const isEarned=S.achievements.includes(a.id);
+    const [cur,max]=a.prog(S);
+    const pct=Math.min(Math.floor((cur/max)*100),100);
+    const c=document.createElement('div'); c.className='ach-card'+(isEarned?' earned':'');
+    c.innerHTML=`<span class="ach-ic">${a.icon}</span><span class="ach-nm">${a.name}</span><span class="ach-desc">${a.desc}</span>${!isEarned?`<span class="ach-prog">${Math.min(cur,max)}/${max} — ${pct}%</span>`:''}`;
+    g.appendChild(c);
+  });
+}
+
+function renderAnalytics(){
+  const el=document.getElementById('analyticsContent');
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const keys=Object.keys(S.weekStats).sort().slice(-7);
+
+  // Weekly chart
+  let chartHtml='<div class="stitle">◈ 7-DAY COMPLETION</div>';
+  if(keys.length===0){ chartHtml+='<div class="empty">NO DATA YET — COMPLETE QUESTS TO BUILD HISTORY</div>'; }
+  else {
+    keys.forEach(k=>{
+      const d=S.weekStats[k];
+      const score=d.total>0?Math.round((d.done/d.total)*100):(d.score||0);
+      const color=score>=90?'var(--green)':score>=70?'var(--gold)':score>=50?'var(--orange)':'var(--red)';
+      const dayLabel=new Date(k).toLocaleDateString('en',{weekday:'short'});
+      chartHtml+=`
+        <div class="chart-bar-row">
+          <span class="chart-day">${dayLabel}</span>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-fill" style="width:${score}%;background:${color}" data-val="${score}%"></div>
+          </div>
+          <span class="chart-score" style="color:${color}">${score}%</span>
+        </div>`;
+    });
+  }
+
+  // Stats summary
+  const allScores=keys.map(k=>{const d=S.weekStats[k];return d.total>0?Math.round((d.done/d.total)*100):(d.score||0);});
+  const avg=allScores.length?Math.round(allScores.reduce((a,b)=>a+b,0)/allScores.length):0;
+  const best=allScores.length?Math.max(...allScores):0;
+  const worst=allScores.length?Math.min(...allScores):0;
+
+  // Category breakdown
+  let catHtml='<div class="stitle" style="margin-top:14px">◈ CATEGORY BREAKDOWN</div>';
+  const totalDone=Object.values(S.catDone||{}).reduce((a,b)=>a+b,0)||1;
+  Object.entries(S.catDone||{}).sort((a,b)=>b[1]-a[1]).forEach(([cat,count])=>{
+    const pct=Math.round((count/totalDone)*100);
+    catHtml+=`
+      <div class="chart-bar-row">
+        <span class="chart-day">${CAT_ICONS[cat]}</span>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar-fill" style="width:${pct}%;background:var(--accent)" data-val="${count}"></div>
+        </div>
+        <span class="chart-score" style="color:var(--accent)">${count}</span>
+      </div>`;
+  });
+
+  el.innerHTML=chartHtml+`
+    <div class="stitle" style="margin-top:14px">◈ PERFORMANCE SUMMARY</div>
+    <div class="rep-row"><span class="rep-lbl">7-DAY AVG SCORE</span><span class="rep-val" style="color:${avg>=70?'var(--green)':'var(--orange)'}">${avg}%</span></div>
+    <div class="rep-row"><span class="rep-lbl">BEST DAY</span><span class="rep-val" style="color:var(--green)">${best}%</span></div>
+    <div class="rep-row"><span class="rep-lbl">WORST DAY</span><span class="rep-val" style="color:var(--red)">${worst}%</span></div>
+    <div class="rep-row"><span class="rep-lbl">LIFETIME XP</span><span class="rep-val" style="color:var(--gold)">${S.lifetimeXp||0}</span></div>
+    <div class="rep-row"><span class="rep-lbl">PERFECT DAYS</span><span class="rep-val" style="color:var(--cyan)">${S.perfectDaysTotal||0}</span></div>
+    <div class="rep-row"><span class="rep-lbl">TOTAL PENALTIES</span><span class="rep-val" style="color:var(--red)">${S.totalPenalties}</span></div>
+    <div class="rep-row"><span class="rep-lbl">MAX FAIL STREAK</span><span class="rep-val" style="color:var(--red)">${S.maxFailStreak||0}</span></div>
+  `+catHtml;
+}
+
+function renderLog(){
+  const l=document.getElementById('logList'); l.innerHTML='';
+  if(!S.log.length){ l.innerHTML=`<div class="empty">NO LOG ENTRIES</div>`; return; }
+  S.log.forEach(e=>{ const d=document.createElement('div'); d.className='log-entry'; d.innerHTML=`<span class="lt">[${e.t}]</span>${e.m}`; l.appendChild(d); });
+}
+
+// ═══════════════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════════════
+function addQuest(){
+  const name=document.getElementById('qname').value.trim();
+  if(!name){ showToast('ENTER A QUEST NAME','red'); return; }
+  const diff=document.getElementById('qdiff').value;
+  const cat=document.getElementById('qcat').value;
+  const dlVal=document.getElementById('qdeadlineIn').value;
+  const deadline=dlVal?new Date(dlVal).getTime():null;
+  if(repeatOn&&!deadline){ showToast('SET A TIME FOR DAILY QUEST','red'); return; }
+  S.quests.unshift({
+    id:Date.now().toString(), name, diff, cat, deadline,
+    done:false, penalized:false, repeat:repeatOn, isPenaltyQuest:false, isAdaptive:false, createdAt:Date.now()
+  });
+  S.todayTotal++;
+  document.getElementById('qname').value='';
+  document.getElementById('qdeadlineIn').value='';
+  repeatOn=false;
+  document.getElementById('repeatRow').classList.remove('on');
+  document.getElementById('repeatToggle').classList.remove('on');
+  addLog(`Quest: "${name}" [${diff}] ${CAT_ICONS[cat]} ${cat}${deadline?' ⏰':''}`);
+  save(S); render();
+}
+
+function completeQ(id){
+  const q=S.quests.find(q=>q.id===id); if(!q||q.done) return;
+  q.done=true;
+  const mult=getModeXPMult()*(1+getStreakBonus());
+  const xp=Math.floor(XP_DIFF[q.diff]*mult);
+  const sp=SP_DIFF[q.diff];
+  S.xp+=xp; S.sp+=sp;
+  S.totalDone++; S.todayDone++; S.todayXp+=xp; S.lifetimeXp=(S.lifetimeXp||0)+xp;
+  const sk=CATS_STAT[q.cat]; if(sk) S.stats[sk]++;
+  if(!S.catDone) S.catDone={};
+  S.catDone[q.cat]=(S.catDone[q.cat]||0)+1;
+  if(q.repeat) S.totalRepeatDone=(S.totalRepeatDone||0)+1;
+  if(q.diff==='S') S.sRankDone=(S.sRankDone||0)+1;
+  if(S.mode==='grind') S.grindDone=(S.grindDone||0)+1;
+  if(q.isAdaptive) S.adaptiveDone=(S.adaptiveDone||0)+1;
+  const eff=Math.round((mult-1)*100);
+  addLog(`Cleared: "${q.name}" | <span class="lxp">+${xp} XP</span>${eff>0?` (+${eff}%)`:''} | +${sp} SP`);
+  const prevLevel=S.level; checkLevelUp(xp);
+  const unlocks=checkLevelUnlocks(prevLevel);
+  checkAchieves(); save(S);
+  if(S.level>prevLevel) triggerLU(unlocks);
+  else showToast(`+${xp} XP${eff>0?` (+${eff}%)`:''}`,'gold');
+  render();
+  if(unlocks.length) renderUnlockBanners(unlocks);
+}
+
+function checkLevelUp(xpAdded){
+  while(S.xp>=XPneeded(S.level)){
+    S.xp-=XPneeded(S.level); S.level++; S.sp+=5;
+    STATS_DEF.forEach(s=>S.stats[s.key]++);
+    addLog(`<span class="llv">▲ LEVEL ${S.level}</span> | All stats +1 | +5 SP`);
+  }
+}
+
+function delQ(id){
+  if(S.hardcore){ const q=S.quests.find(q=>q.id===id); if(q&&!q.done){ showToast('HARDCORE: NO DELETING ACTIVE QUESTS','red'); return; } }
+  S.quests=S.quests.filter(q=>q.id!==id);
+  save(S); render();
+}
+
+function addStat(key){
+  if(S.sp<=0) return;
+  S.stats[key]++; S.sp--;
+  addLog(`Stat: ${STATS_DEF.find(s=>s.key===key).name} → ${S.stats[key]}`);
+  checkAchieves(); save(S); render();
+}
+
+function cycleMode(){
+  if(S.hardcore){ showToast('HARDCORE LOCKED — DISABLE IN SETTINGS','red'); return; }
+  const available=MODES.filter(m=>m!=='hardcore');
+  const i=available.indexOf(S.mode);
+  S.mode=available[(i+1)%available.length];
+  addLog(`Mode → ${S.mode.toUpperCase()}`);
+  showToast(S.mode.toUpperCase()+' MODE');
+  save(S); render();
+}
+
+// ── PUNISHMENT SCREEN ──
+function triggerPunishScreen(score, pen){
+  const o=document.getElementById('punishOverlay');
+  document.getElementById('punishSub').innerHTML=`Score: ${score}%<br>Streak broken. Stats degraded.<br>Penalty quests generated.`;
+  document.getElementById('punishXp').textContent=`−${pen.xp} XP`;
+  document.getElementById('punishStreak').textContent=`STREAK RESET TO 0 | FAIL STREAK: ${S.failStreak}`;
+  o.classList.add('show');
+}
+function dismissPunish(){ document.getElementById('punishOverlay').classList.remove('show'); }
+
+// ── LEVEL UP ──
+function triggerLU(unlocks=[]){
+  const ri=Math.min(Math.floor((S.level-1)/5),RANKS.length-1);
+  document.getElementById('lu-num').textContent=S.level;
+  document.getElementById('lu-sub').textContent='ALL STATS +1 | +5 STAT POINTS';
+  document.getElementById('lu-unlock').textContent=unlocks.length?'🔓 '+unlocks.map(u=>u.name).join(' + '):'';
+  document.getElementById('lu-rank').textContent='';
+  document.getElementById('lvlup').classList.add('show');
+  spawnParticles();
+  sendNotif('▲ LEVEL UP!',`Level ${S.level} reached.`);
+}
+function dismissLU(){ document.getElementById('lvlup').classList.remove('show'); document.querySelectorAll('.particle').forEach(p=>p.remove()); }
+function spawnParticles(){
+  const cx=window.innerWidth/2, cy=window.innerHeight/2;
+  for(let i=0;i<50;i++){
+    const p=document.createElement('div'); p.className='particle';
+    const a=Math.random()*Math.PI*2, d=80+Math.random()*260;
+    p.style.left=cx+'px'; p.style.top=cy+'px';
+    p.style.setProperty('--tx',Math.cos(a)*d+'px'); p.style.setProperty('--ty',Math.sin(a)*d+'px');
+    p.style.background=Math.random()>.5?'#4d6fff':'#7b4fff';
+    p.style.animationDelay=Math.random()*.5+'s';
+    document.body.appendChild(p); setTimeout(()=>p.remove(),2200);
+  }
+}
+
+// ── ACHIEVEMENTS ──
+function checkAchieves(){
+  ACHIEVES.forEach(a=>{
+    if(!S.achievements.includes(a.id)&&a.cond(S)){
+      S.achievements.push(a.id);
+      showToast(`🏆 ${a.name}`,'gold');
+      addLog(`<span class="lxp">Achievement: ${a.name}</span>`);
+      sendNotif('🏆 ACHIEVEMENT',a.name+' — '+a.desc);
+    }
+  });
+}
+
+// ── BACKUP / RESTORE ──
+function exportBackup(){
+  const json=JSON.stringify(S,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`system-backup-${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast('BACKUP EXPORTED','green');
+}
+
+async function copyBackup(){
+  try{ await navigator.clipboard.writeText(JSON.stringify(S,null,2)); showToast('COPIED','green'); }
+  catch(e){ const ta=document.createElement('textarea'); ta.value=JSON.stringify(S,null,2); document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('COPIED','green'); }
+}
+
+function importFromFile(e){
+  const file=e.target.files[0]; if(!file) return;
+  const r=new FileReader(); r.onload=ev=>{ document.getElementById('importTA').value=ev.target.result; }; r.readAsText(file); e.target.value='';
+}
+
+function doImport(){
+  const raw=document.getElementById('importTA').value.trim(); if(!raw){ showToast('NO DATA','red'); return; }
+  try{
+    const p=JSON.parse(raw);
+    if(typeof p.level!=='number'||typeof p.name!=='string') throw new Error();
+    S=migrate(p); save(S);
+    document.getElementById('importModal').classList.remove('show');
+    document.getElementById('importTA').value='';
+    showToast('DATA RESTORED','green');
+    addLog('<span class="lgrn">Data restored.</span>'); render();
+  }catch(e){ showToast('INVALID BACKUP','red'); }
+}
+
+let _modalRes=null;
+function showModal(title,msg,okLbl='CONFIRM',okCls='btn-red'){
+  return new Promise(res=>{
+    _modalRes=res;
+    document.getElementById('modalTitle').textContent=title;
+    document.getElementById('modalMsg').textContent=msg;
+    document.getElementById('modalOkBtn').textContent=okLbl;
+    document.getElementById('modalOkBtn').className=`btn btn-sm ${okCls}`;
+    document.getElementById('modalBg').classList.add('show');
+  });
+}
+function modalResolve(val){ document.getElementById('modalBg').classList.remove('show'); if(_modalRes){_modalRes(val);_modalRes=null;} }
+
+async function confirmReset(){
+  const ok=await showModal('⚠ RESET ALL DATA','Wipe all progress permanently?','WIPE','btn-red');
+  if(!ok) return;
+  [DB_KEY,...OLD_KEYS].forEach(k=>localStorage.removeItem(k));
+  S=defaultState(); save(S); showToast('WIPED','red'); addLog('System reset.'); render();
+}
+
+// ── HELPERS ──
+function getModeXPMult(){ return MODE_XP[S.hardcore?'hardcore':S.mode]||1; }
+function getStreakBonus(){ return Math.min(S.streak*0.02,0.5); }
+
+function showToast(msg,type=''){
+  const t=document.getElementById('toast'); t.innerHTML=msg; t.className='toast'+(type?' '+type:''); t.style.display='block'; clearTimeout(t._t); t._t=setTimeout(()=>t.style.display='none',2800);
+}
+
+function addLog(msg){
+  const now=new Date(); const tm=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  S.log.unshift({t:tm,m:msg}); S.log=S.log.slice(0,200);
+}
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function editName(){ const d=document.getElementById('pnameD'),i=document.getElementById('pnameIn'); i.value=S.name; d.style.display='none'; i.style.display='block'; i.focus(); }
+function saveName(){ const i=document.getElementById('pnameIn'),d=document.getElementById('pnameD'); S.name=i.value.trim()||'PLAYER'; d.style.display='block'; i.style.display='none'; save(S); render(); }
+function filterQ(f,btn){ qFilter=f; document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderQuests(); }
+function filterCat(c,btn){ catFilter=c; document.querySelectorAll('.cpill').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderQuests(); }
+
+function goPage(name,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pg-'+name).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('mainContent').scrollTop=0;
+}
+
+// ── INIT ──
+if(!S.log.length) addLog('System v6 online. Adaptive execution layer initialized.');
+else addLog('System v6 loaded. Migration complete.');
+render();
+
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
+
+<!-- SYSTEM v5 EXECUTION ENGINE -->
+<script src="system-v6.js"></script>
+
 </body>
 </html>
