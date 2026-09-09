@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="mobile-web-app-capable" content="yes">
+<title>2nd Term War Plan</title>
+<style>
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c28;
+    --border: #2a2a3a;
+    --accent: #7c6aff;
+    --accent2: #ff6a6a;
+    --gold: #ffc94a;
+    --green: #4aff9a;
+    --text: #e8e8f0;
+    --muted: #7a7a9a;
+    --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .header h1 {
+    font-size: clamp(24px, 6vw, 42px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+  }
+
+  .header h1 span {
+    color: var(--accent);
+  }
+
+  .header .sub {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .countdown {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  .countdown .label { color: var(--muted); }
+  .countdown .val { color: var(--accent2); font-weight: 700; font-size: 16px; }
+
+  /* Subject readiness */
+  .section-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .status-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .status-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .status-card.danger::after { background: var(--accent2); }
+  .status-card.warn::after { background: var(--gold); }
+  .status-card.ok::after { background: var(--green); }
+  .status-card.easy::after { background: var(--accent); }
+
+  .status-card .exam-date {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .status-card .subj {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .status-card .bar-wrap {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .status-card .bar {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.8s ease;
+  }
+
+  .danger .bar { background: var(--accent2); }
+  .warn .bar { background: var(--gold); }
+  .ok .bar { background: var(--green); }
+  .easy .bar { background: var(--accent); }
+
+  .status-card .pct {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Daily Routine Block */
+  .routine-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 28px;
+  }
+
+  .routine-box h3 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    color: var(--accent);
+  }
+
+  .slot {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .slot-time {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    min-width: 90px;
+    padding-top: 2px;
+  }
+
+  .slot-content {
+    flex: 1;
+  }
+
+  .slot-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .slot-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .slot-pill {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 7px;
+    border-radius: 20px;
+    font-family: var(--mono);
+    margin-top: 2px;
+  }
+
+  .pill-study { background: rgba(124,106,255,0.15); color: var(--accent); }
+  .pill-run { background: rgba(74,255,154,0.12); color: var(--green); }
+  .pill-break { background: rgba(255,106,106,0.1); color: var(--accent2); }
+  .pill-school { background: rgba(255,201,74,0.1); color: var(--gold); }
+
+  /* Week plan */
+  .week-block {
+    margin-bottom: 28px;
+  }
+
+  .week-header {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px 8px 0 0;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--mono);
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  .day-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 12px 16px;
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr;
+    gap: 8px;
+    align-items: start;
+  }
+
+  .day-row:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+
+  .day-row.holiday {
+    opacity: 0.5;
+  }
+
+  .day-row.exam-day {
+    border-left: 3px solid var(--accent2);
+    background: rgba(255,106,106,0.04);
+  }
+
+  .day-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .day-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 1px;
+  }
+
+  .day-session {
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .day-session .session-label {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--muted);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: var(--mono);
+    background: rgba(124,106,255,0.15);
+    color: var(--accent);
+    margin-right: 3px;
+    margin-top: 2px;
+  }
+
+  .tag.red { background: rgba(255,106,106,0.15); color: var(--accent2); }
+  .tag.gold { background: rgba(255,201,74,0.12); color: var(--gold); }
+  .tag.green { background: rgba(74,255,154,0.12); color: var(--green); }
+
+  /* Physics note */
+  .callout {
+    background: rgba(255,201,74,0.07);
+    border: 1px solid rgba(255,201,74,0.25);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .callout strong { color: var(--gold); }
+
+  .footer {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+
+  /* Tab nav */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+
+  /* COMMAND CENTER */
+  .command-center { margin-bottom: 28px; }
+  .cc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:12px; }
+  .cc-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:15px; }
+  .cc-label { font:10px var(--mono); color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; }
+  .cc-value { font-size:22px; font-weight:700; margin-top:5px; }
+  .cc-sub { font-size:11px; color:var(--muted); margin-top:3px; }
+  .mission { border-left:3px solid var(--gold); }
+  .mission h3 { font-size:14px; margin-bottom:6px; }
+  .mission p { color:var(--muted); font-size:12px; line-height:1.5; }
+  .progress-wrap { height:7px; background:var(--border); border-radius:5px; overflow:hidden; margin-top:10px; }
+  #overall-progress { height:100%; width:0; background:var(--green); transition:width .4s ease; }
+  .task-controls { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+  .task-input { flex:1; min-width:180px; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px; outline:none; }
+  .task-select, .task-btn { background:var(--surface2); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:9px 11px; font:12px var(--font); cursor:pointer; }
+  .task-btn:hover, .task-select:hover { border-color:var(--accent); }
+  .task-list { display:grid; gap:7px; margin-bottom:28px; }
+  .task { display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 12px; }
+  .task.done { opacity:.55; }
+  .task.done .task-text { text-decoration:line-through; }
+  .task input { width:17px; height:17px; accent-color:var(--accent); }
+  .task-text { flex:1; font-size:12px; }
+  .task-subject { font:9px var(--mono); color:var(--muted); }
+  .delete-task { border:0; background:transparent; color:var(--muted); cursor:pointer; font-size:16px; }
+  .mission-actions { display:flex; gap:8px; margin-top:10px; }
+  .small-btn { border:1px solid var(--border); background:var(--surface2); color:var(--text); border-radius:7px; padding:7px 9px; cursor:pointer; font-size:11px; }
+  .streak-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--green); margin-right:5px; }
+  .install-note { font-size:11px; color:var(--muted); line-height:1.5; background:var(--surface); border:1px dashed var(--border); padding:12px; border-radius:8px; margin-top:12px; }
+  .reset-link { color:var(--muted); cursor:pointer; text-decoration:underline; font-size:10px; float:right; }
+  @media(max-width:520px){ .cc-grid{grid-template-columns:repeat(2,1fr)} .cc-value{font-size:18px} }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">2ND TERM EXAM — WINTER ARC</div>
+  <h1>The <span>War Plan</span></h1>
+  <div class="sub">10 Sep → 2 Oct · 23 days · Exam starts 3 Oct</div>
+</div>
+
+<div class="countdown">
+  <div>
+    <div class="label">Days to first exam</div>
+    <div class="val" id="countdown-val">calculating...</div>
+  </div>
+  <div style="margin-left:auto; text-align:right">
+    <div class="label">First exam</div>
+    <div class="val">3 Oct — Moral Science</div>
+  </div>
+</div>
+
+<!-- COMMAND CENTER -->
+<div class="command-center">
+  <div class="section-title">COMMAND CENTER</div>
+  <div class="cc-grid">
+    <div class="cc-card"><div class="cc-label">Overall progress</div><div class="cc-value" id="overall-percent">0%</div><div class="progress-wrap"><div id="overall-progress"></div></div></div>
+    <div class="cc-card"><div class="cc-label">Tasks completed</div><div class="cc-value" id="task-count">0/0</div><div class="cc-sub">Saved on this device</div></div>
+    <div class="cc-card"><div class="cc-label">Study streak</div><div class="cc-value"><span class="streak-dot"></span><span id="streak-count">0</span> days</div><div class="cc-sub">Complete at least one task daily</div></div>
+    <div class="cc-card"><div class="cc-label">Next exam</div><div class="cc-value" id="next-exam-name">Moral Science</div><div class="cc-sub" id="next-exam-count">calculating...</div></div>
+  </div>
+  <div class="cc-card mission">
+    <h3>Today's Mission</h3>
+    <p id="mission-text">Loading your highest-priority task...</p>
+    <div class="mission-actions"><button class="small-btn" onclick="completeMission()">✓ Complete mission</button><button class="small-btn" onclick="pickMission()">↻ New mission</button></div>
+  </div>
+  <div class="section-title" style="margin-top:20px">TASK TRACKER</div>
+  <div class="task-controls">
+    <input class="task-input" id="new-task" placeholder="Add a task, e.g. Revise factorization" maxlength="100">
+    <select class="task-select" id="task-subject"><option>Maths</option><option>Physics</option><option>Computer</option><option>Chemistry</option><option>Biology</option><option>History/Civics</option><option>Geography</option><option>Hindi</option><option>Language</option><option>Literature</option><option>Moral Science</option><option>General</option></select>
+    <button class="task-btn" onclick="addTask()">+ Add</button>
+  </div>
+  <div class="task-list" id="task-list"></div>
+  <div class="install-note"><b>Local mode:</b> everything above is stored in this browser's localStorage. No account, backend, or live website is required. The page also works without internet after the file is saved.</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('status', this)">Readiness</button>
+  <button class="tab-btn" onclick="switchTab('routine', this)">Daily Routine</button>
+  <button class="tab-btn" onclick="switchTab('week1', this)">Week 1</button>
+  <button class="tab-btn" onclick="switchTab('week2', this)">Week 2</button>
+  <button class="tab-btn" onclick="switchTab('week3', this)">Week 3</button>
+  <button class="tab-btn" onclick="switchTab('exam', this)">Exam Week</button>
+  <button class="tab-btn" onclick="switchTab('notes', this)">Subject Notes</button>
+</div>
+
+<!-- READINESS TAB -->
+<div class="tab-panel active" id="tab-status">
+  <div class="section-title">SUBJECT READINESS</div>
+  <div class="status-grid">
+    <div class="status-card warn">
+      <div class="exam-date">3 OCT</div>
+      <div class="subj">Moral Science</div>
+      <div class="bar-wrap"><div class="bar" style="width:30%"></div></div>
+      <div class="pct">30% — notes done, low retention</div>
+    </div>
+    <div class="status-card warn">
+      <div class="exam-date">5 OCT</div>
+      <div class="subj">Maths</div>
+      <div class="bar-wrap"><div class="bar" style="width:65%"></div></div>
+      <div class="pct">65% — gaps in Factorization, Discount, Venn Ops</div>
+    </div>
+    <div class="status-card warn">
+      <div class="exam-date">6 OCT</div>
+      <div class="subj">Physics</div>
+      <div class="bar-wrap"><div class="bar" style="width:40%"></div></div>
+      <div class="pct">40% — numericals weak, 2 chapters done</div>
+    </div>
+    <div class="status-card easy">
+      <div class="exam-date">7 OCT</div>
+      <div class="subj">Computer</div>
+      <div class="bar-wrap"><div class="bar" style="width:80%"></div></div>
+      <div class="pct">80% — just book definitions needed</div>
+    </div>
+    <div class="status-card danger">
+      <div class="exam-date">8 OCT</div>
+      <div class="subj">Chemistry</div>
+      <div class="bar-wrap"><div class="bar" style="width:25%"></div></div>
+      <div class="pct">25% — 3 chapters untouched</div>
+    </div>
+    <div class="status-card easy">
+      <div class="exam-date">9 OCT</div>
+      <div class="subj">Language</div>
+      <div class="bar-wrap"><div class="bar" style="width:85%"></div></div>
+      <div class="pct">85% — just definitions + vocab</div>
+    </div>
+    <div class="status-card danger">
+      <div class="exam-date">10 OCT</div>
+      <div class="subj">Biology</div>
+      <div class="bar-wrap"><div class="bar" style="width:0%"></div></div>
+      <div class="pct">0% — completely undone</div>
+    </div>
+    <div class="status-card danger">
+      <div class="exam-date">12 OCT</div>
+      <div class="subj">History/Civics</div>
+      <div class="bar-wrap"><div class="bar" style="width:10%"></div></div>
+      <div class="pct">10% — notes done, not understood</div>
+    </div>
+    <div class="status-card danger">
+      <div class="exam-date">13 OCT</div>
+      <div class="subj">Geography</div>
+      <div class="bar-wrap"><div class="bar" style="width:0%"></div></div>
+      <div class="pct">0% — fully undone</div>
+    </div>
+    <div class="status-card danger">
+      <div class="exam-date">14 OCT</div>
+      <div class="subj">Hindi</div>
+      <div class="bar-wrap"><div class="bar" style="width:15%"></div></div>
+      <div class="pct">15% — notes done only</div>
+    </div>
+    <div class="status-card warn">
+      <div class="exam-date">15 OCT</div>
+      <div class="subj">Literature</div>
+      <div class="bar-wrap"><div class="bar" style="width:35%"></div></div>
+      <div class="pct">35% — notes done, chapters unread</div>
+    </div>
+  </div>
+</div>
+
+<!-- ROUTINE TAB -->
+<div class="tab-panel" id="tab-routine">
+  <div class="section-title">YOUR DAILY SCHEDULE (EXAM PREP MODE)</div>
+  <div class="routine-box">
+    <h3>Morning Block</h3>
+    <div class="slot">
+      <div class="slot-time">4:00 – 4:10</div>
+      <div class="slot-content">
+        <div class="slot-label">Wake up + cold shower</div>
+        <span class="slot-pill pill-break">fixed</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">4:10 – 4:50</div>
+      <div class="slot-content">
+        <div class="slot-label">Running <span style="color:var(--muted); font-size:11px">(only 20 Sep, else study)</span></div>
+        <div class="slot-note">On non-run days → 40 min focused study block (hardest subject of the day)</div>
+        <span class="slot-pill pill-run">run / study</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">4:50 – 5:00</div>
+      <div class="slot-content">
+        <div class="slot-label">Change + settle</div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">5:00 – 5:30</div>
+      <div class="slot-content">
+        <div class="slot-label">Study Block 1 — Light / Fast subject</div>
+        <div class="slot-note">Definitions, vocabulary, quick reading. Not heavy maths or science numericals.</div>
+        <span class="slot-pill pill-study">study</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">5:30 – 6:00</div>
+      <div class="slot-content">
+        <div class="slot-label">Get ready for school</div>
+        <span class="slot-pill pill-school">fixed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="routine-box">
+    <h3>Afternoon Block</h3>
+    <div class="slot">
+      <div class="slot-time">2:00 – 2:30</div>
+      <div class="slot-content">
+        <div class="slot-label">Home + lunch</div>
+        <span class="slot-pill pill-break">fixed</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">2:30 – 4:00</div>
+      <div class="slot-content">
+        <div class="slot-label">Study Block 2 — Core subject (90 min)</div>
+        <div class="slot-note">This is your heaviest slot. Maths numericals, Chemistry chapters, Bio — whatever needs most effort that day.</div>
+        <span class="slot-pill pill-study">study</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">4:00 – 4:45</div>
+      <div class="slot-content">
+        <div class="slot-label">Rest / snack / tuition prep</div>
+        <span class="slot-pill pill-break">fixed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="routine-box">
+    <h3>Evening Block</h3>
+    <div class="slot">
+      <div class="slot-time">6:30 – 7:00</div>
+      <div class="slot-content">
+        <div class="slot-label">Rest after tuition</div>
+        <span class="slot-pill pill-break">fixed</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">7:00 – 8:00</div>
+      <div class="slot-content">
+        <div class="slot-label">Study Block 3 — Secondary subject (60 min)</div>
+        <div class="slot-note">Weaker subjects or next day's exam topic. History/Civics, Geography, Hindi fit well here.</div>
+        <span class="slot-pill pill-study">study</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">8:00 – 8:30</div>
+      <div class="slot-content">
+        <div class="slot-label">Dinner</div>
+        <span class="slot-pill pill-break">fixed</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">8:30 – 9:15</div>
+      <div class="slot-content">
+        <div class="slot-label">Study Block 4 — Light revision (45 min)</div>
+        <div class="slot-note">Re-read notes, flashcard-style recall, go over what you studied in the morning. Nothing new.</div>
+        <span class="slot-pill pill-study">revision</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">9:15 – 9:30</div>
+      <div class="slot-content">
+        <div class="slot-label">Wind down — no screen</div>
+        <span class="slot-pill pill-break">fixed</span>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">9:30 PM</div>
+      <div class="slot-content">
+        <div class="slot-label">Lights out</div>
+        <span class="slot-pill pill-break">fixed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>⚡ Physics Numericals Fix:</strong> Every time you do a numerical, write the unit conversion at the very top of your working — before anything else. E.g. "km → m: ×1000". Make it a ritual. After 5 days of doing this, it'll be automatic.
+  </div>
+</div>
+
+<!-- WEEK 1 TAB: Sep 10–16 -->
+<div class="tab-panel" id="tab-week1">
+  <div class="section-title">WEEK 1 — SEP 10–16 · FOUNDATION WEEK</div>
+  <div class="week-block">
+    <div class="week-header">WEEK 1 · SEP 10–16 · FOUNDATION</div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">WED</div>
+        <div class="day-date">Sep 10</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING (4:10–5:30)</span>
+        <span class="tag">Bio</span> Transportation in Plants — read + notes
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag red">Chem</span> Hydrogen chapter full
+        <br><span class="tag">Hist</span> India 18th century — read through notes
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">THU</div>
+        <div class="day-date">Sep 11</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Bio</span> Endocrine System — read + notes
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag red">Chem</span> Water chapter full
+        <br><span class="tag">Hist</span> Traders to Rulers — read through notes
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">FRI</div>
+        <div class="day-date">Sep 12</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Bio</span> Reproduction in Plants
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag red">Chem</span> Chemical Reactions
+        <br><span class="tag">Hist</span> British Policies + Civics Union Executive — notes read
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">SAT</div>
+        <div class="day-date">Sep 13</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Maths</span> Factorization — full chapter practice
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Maths</span> Special Products + Discount
+        <br><span class="tag">Geo</span> Natural Disasters + India Human Resources — read
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">SUN</div>
+        <div class="day-date">Sep 14</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Physics</span> Light Energy — theory + 3 numericals
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Physics</span> Physical Quantity + Measurement — numericals
+        <br><span class="tag">Geo</span> India Geographical Features + Climate — read
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">MON</div>
+        <div class="day-date">Sep 15</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Lit</span> Read 2 Magic Carpet chapters
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag red">Bio</span> Revise all 3 Bio chapters done this week
+        <br><span class="tag">Hindi</span> Start revision from notes — grammar terms
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">TUE</div>
+        <div class="day-date">Sep 16</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">MSc</span> Unit 4 — Peer Pressure full revision
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Maths</span> Venn Diagrams + Set Operations
+        <br><span class="tag">Hist</span> Civics — Judiciary notes + understanding
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- WEEK 2 TAB: Sep 17–23 -->
+<div class="tab-panel" id="tab-week2">
+  <div class="section-title">WEEK 2 — SEP 17–23 · DEEP DIVE WEEK</div>
+  <div class="week-block">
+    <div class="week-header">WEEK 2 · SEP 17–23 · DEEP DIVE</div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">WED</div>
+        <div class="day-date">Sep 17</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">MSc</span> Unit 5 — Positive Emotions revision
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag red">Chem</span> Full revision — all 4 chapters
+        <br><span class="tag">Geo</span> Geographical Features + Climate revision
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">THU</div>
+        <div class="day-date">Sep 18</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Physics</span> Energy chapter — numericals only
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Physics</span> Heat Transfer — numericals + theory
+        <br><span class="tag">Hist</span> Great Uprising 1857 — understand fully
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">FRI</div>
+        <div class="day-date">Sep 19</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Lit</span> Little Women — read all exam chapters + notes
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Maths</span> Full mock — solve 10 mixed questions
+        <br><span class="tag">Hindi</span> Hindi II — poem + story revision
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">SAT</div>
+        <div class="day-date">Sep 20 🏃</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING (RUN DAY)</span>
+        <span class="tag green">Run</span> 4:10–4:50 — your last run
+        <br><span class="tag">Lang</span> 5:00–5:30 — definitions + vocab list
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag red">Bio</span> Start Circulatory System
+        <br><span class="tag">Geo</span> Disasters + Human Resources full revision
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">SUN</div>
+        <div class="day-date">Sep 21</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag red">Bio</span> Reproduction in Humans
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag red">Bio</span> Ecosystem
+        <br><span class="tag">Hist</span> Socio-Religious Reforms + Freedom Struggle
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">MON</div>
+        <div class="day-date">Sep 22</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Comp</span> Book definitions — all chapters
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Physics</span> Light Energy ray diagrams (project + exam)
+        <br><span class="tag">Hindi</span> Hindi I — grammar revision
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">TUE</div>
+        <div class="day-date">Sep 23</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">MSc</span> School Diary rules — full memorization
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Maths</span> Percentage + P&L + Discount — revision
+        <br><span class="tag">Geo</span> All chapters revision pass 1
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 3 TAB: Sep 24–30 -->
+<div class="tab-panel" id="tab-week3">
+  <div class="section-title">WEEK 3 — SEP 24–30 · REVISION WEEK</div>
+  <div class="week-block">
+    <div class="week-header">WEEK 3 · SEP 24–30 · REVISION + MOCK</div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">WED</div>
+        <div class="day-date">Sep 24</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag red">Bio</span> Full Bio revision pass 1
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Chem</span> Chemistry revision pass 2
+        <br><span class="tag">Hist</span> Full History revision pass 1
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">THU</div>
+        <div class="day-date">Sep 25</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Maths</span> Sets + Venn — mock questions
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Maths</span> Factorization + Special Products mock
+        <br><span class="tag">Lit</span> Magic Carpet + Little Women notes revision
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">FRI</div>
+        <div class="day-date">Sep 26</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Physics</span> Full Physics revision — theory + 5 numericals
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Geo</span> Full Geography revision pass 2
+        <br><span class="tag">Hindi</span> Full Hindi I + II revision
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">SAT</div>
+        <div class="day-date">Sep 27</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Comp</span> Computer — definitions second pass
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Lang</span> Language — definitions + vocabulary final
+        <br><span class="tag">MSc</span> Moral Science — full revision pass 2
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">SUN</div>
+        <div class="day-date">Sep 28</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag red">Bio</span> Bio revision pass 2 — weak areas
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Hist</span> History/Civics revision pass 2
+        <br><span class="tag">Chem</span> Chemistry — 5 mock questions per chapter
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">MON</div>
+        <div class="day-date">Sep 29</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">Maths</span> Full Maths mock — all chapters
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag">Physics</span> Physics — final numericals drill
+        <br><span class="tag">Lit</span> Literature — poem analysis + character notes
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div>
+        <div class="day-name">TUE</div>
+        <div class="day-date">Sep 30</div>
+      </div>
+      <div class="day-session">
+        <span class="session-label">MORNING</span>
+        <span class="tag">MSc</span> Final Moral Science revision — exam tomorrow
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTERNOON + EVENING</span>
+        <span class="tag gold">ALL</span> Light revision only. Review difficult points.
+        <br>Sleep early tonight. Exam tomorrow.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXAM WEEK TAB -->
+<div class="tab-panel" id="tab-exam">
+  <div class="section-title">EXAM WEEK — OCT 1–15</div>
+  <div class="week-block">
+    <div class="week-header">EXAM WEEK · OCT 1–15</div>
+
+    <div class="day-row">
+      <div><div class="day-name">WED</div><div class="day-date">Oct 1</div></div>
+      <div class="day-session">
+        <span class="session-label">NO EXAM — BUFFER</span>
+        Final MSc + Maths revision. Early sleep by 9 PM.
+      </div>
+      <div class="day-session">
+        <span class="session-label">EVENING</span>
+        Light revision only. No new topics.
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div><div class="day-name">THU</div><div class="day-date">Oct 2</div></div>
+      <div class="day-session">
+        <span class="session-label">NO EXAM — PREP</span>
+        Morning: MSc last read. Afternoon: Maths — solve 5 questions from each chapter.
+      </div>
+      <div class="day-session">
+        <span class="session-label">TONIGHT</span>
+        Sleep by 9 PM sharp. Exam tomorrow 7 AM.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">FRI</div><div class="day-date">Oct 3</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">Moral Science</span> 7:00–9:40
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: Start Maths full revision. Focus on weak chapters.
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div><div class="day-name">SAT</div><div class="day-date">Oct 4</div></div>
+      <div class="day-session">
+        <span class="session-label">HOLIDAY — PREP DAY</span>
+        Full day Maths revision. Morning: numericals. Afternoon: theory. Evening: mock test yourself.
+      </div>
+      <div class="day-session">
+        <span class="session-label">TONIGHT</span>
+        Sleep 9 PM. Maths exam tomorrow.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">SUN</div><div class="day-date">Oct 5</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">Maths</span> 7:00–10:45
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: Physics — ray diagrams, all formulas, 3 numericals.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">MON</div><div class="day-date">Oct 6</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">Physics</span>
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: Computer definitions — read through twice.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">TUE</div><div class="day-date">Oct 7</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">Computer</span>
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: Chemistry — all 4 chapters, key reactions + definitions.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">WED</div><div class="day-date">Oct 8</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">Chemistry</span>
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: Language definitions + vocabulary list final read.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">THU</div><div class="day-date">Oct 9</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">Language</span>
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: Biology — Circulatory, Reproduction, Ecosystem.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">FRI</div><div class="day-date">Oct 10</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">Biology</span>
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: History/Civics — all 3 History chapters + 2 Civics.
+      </div>
+    </div>
+
+    <div class="day-row">
+      <div><div class="day-name">SAT</div><div class="day-date">Oct 11</div></div>
+      <div class="day-session">
+        <span class="session-label">HOLIDAY</span>
+        Full day History/Civics. Read, understand, revise.
+      </div>
+      <div class="day-session"></div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">SUN</div><div class="day-date">Oct 12</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">History/Civics</span>
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: Geography — Asia, Climate, Urbanisation.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">MON</div><div class="day-date">Oct 13</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">Geography</span>
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: Hindi — poems + stories final read.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">TUE</div><div class="day-date">Oct 14</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ EXAM DAY</span>
+        <span class="tag red">Hindi</span>
+      </div>
+      <div class="day-session">
+        <span class="session-label">AFTER EXAM</span>
+        Evening: Literature — all story + poem summaries, character notes.
+      </div>
+    </div>
+
+    <div class="day-row exam-day">
+      <div><div class="day-name">WED</div><div class="day-date">Oct 15</div></div>
+      <div class="day-session">
+        <span class="session-label">⚡ FINAL EXAM</span>
+        <span class="tag red">Literature</span>
+      </div>
+      <div class="day-session">
+        <span class="session-label">DONE.</span>
+        <span style="color:var(--green)">Winter Arc complete. 🏆</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SUBJECT NOTES TAB -->
+<div class="tab-panel" id="tab-notes">
+  <div class="section-title">SUBJECT-SPECIFIC STRATEGY</div>
+
+  <div class="callout">
+    <strong>Moral Science (3 Oct)</strong><br>
+    Two units — Peer Pressure (U4) and Positive Emotions (U5) + School Diary rules. Treat this as pure memorization. Make 1-page summary per unit. Revise 3 times before exam day.
+  </div>
+
+  <div class="callout">
+    <strong>Maths (5 Oct)</strong><br>
+    Biggest risk: Factorization + Special Products gaps + Discount. Do these first. Venn Diagrams: get from class or ask teacher this week. Rational Numbers + Sets + Squares/Cubes = already done, just revise. Do at least 5 numericals per weak chapter.
+  </div>
+
+  <div class="callout">
+    <strong>Physics (6 Oct) — Numericals Fix</strong><br>
+    Every numerical: write unit conversions at the top FIRST, always. km→m, g→kg, etc. before touching the formula. Do this without fail for 5 days and it becomes automatic. Light Energy ray diagrams are also in the project — double benefit.
+  </div>
+
+  <div class="callout">
+    <strong>Computer (7 Oct)</strong><br>
+    Strong subject. Only risk: book definitions. Write them down once per chapter — writing encodes better than reading. One session should be enough.
+  </div>
+
+  <div class="callout">
+    <strong>Chemistry (8 Oct)</strong><br>
+    3 chapters completely undone. Hydrogen, Water, Chemical Reactions — prioritize in Week 1. Physical + Chemical Changes already done. Chemical Reactions: focus on word equations and types (combination, decomposition, etc.).
+  </div>
+
+  <div class="callout">
+    <strong>Language (9 Oct)</strong><br>
+    Easy. Make a single page: all definitions + vocabulary list. Read it twice before exam. Don't over-prepare here — spend that time on Bio or History.
+  </div>
+
+  <div class="callout">
+    <strong>Biology (10 Oct) — HIGHEST PRIORITY</strong><br>
+    Fully undone. 3 chapters for 2nd term: Transportation in Plants, Endocrine System, Reproduction in Plants. Start from Day 1. Read chapter → make short notes → recall without looking. One chapter per day in Week 1.
+  </div>
+
+  <div class="callout">
+    <strong>History/Civics (12 Oct)</strong><br>
+    Notes done but not understood. Don't just re-read — understand the flow. 1857 Uprising: causes → events → result. Socio-Religious Reforms: which reformer did what. Freedom Struggle: key events timeline. Civics: Legislature structure + UN. Make a one-page timeline.
+  </div>
+
+  <div class="callout">
+    <strong>Geography (13 Oct)</strong><br>
+    Fully undone. 4 chapters: Disasters, India Human Resources, Geographical Features, Climate. These are largely factual — read once, note key facts, revise. Maps if needed. Not conceptually hard — just needs reading time.
+  </div>
+
+  <div class="callout">
+    <strong>Hindi (14 Oct)</strong><br>
+    Notes done. Hindi I = grammar (sandhi, samas, etc.) — revise definitions and examples. Hindi II = poems + stories — read each one, understand the theme, remember author names. Don't ignore this one late.
+  </div>
+
+  <div class="callout">
+    <strong>Literature (15 Oct)</strong><br>
+    Notes done, chapters unread. For each Magic Carpet story: theme, main character, 2 key events. For Little Women chapters: character names, what happens, any quotes your teacher highlighted. Poems: figure of speech examples, central idea.
+  </div>
+</div>
+
+<div class="footer">
+  WINTER ARC · 2ND TERM WAR PLAN · SEP–OCT 2026
+</div>
+
+<script>
+const EXAMS = [
+  ['2026-10-03T07:00:00','Moral Science'],['2026-10-05T07:00:00','Maths'],['2026-10-06T07:00:00','Physics'],
+  ['2026-10-07T07:00:00','Computer'],['2026-10-08T07:00:00','Chemistry'],['2026-10-09T07:00:00','Language'],
+  ['2026-10-10T07:00:00','Biology'],['2026-10-12T07:00:00','History/Civics'],['2026-10-13T07:00:00','Geography'],
+  ['2026-10-14T07:00:00','Hindi'],['2026-10-15T07:00:00','Literature']
+];
+const BASE_READINESS = {'Moral Science':30,'Maths':65,'Physics':40,'Computer':80,'Chemistry':25,'Language':85,'Biology':0,'History/Civics':10,'Geography':0,'Hindi':15,'Literature':35};
+const DEFAULT_TASKS = [
+  ['Moral Science','Review U4 + U5 summary'],['Maths','Do 5 factorization numericals'],['Physics','Practice unit conversions + 5 numericals'],
+  ['Computer','Write book definitions once'],['Chemistry','Study Hydrogen chapter'],['Biology','Start Transportation in Plants'],
+  ['History/Civics','Build 1857 causes → events → result timeline'],['Geography','Read Disasters chapter + key facts'],['Hindi','Revise sandhi and samas'],['Literature','Read one Magic Carpet story and note theme'],['Language','Make definitions + vocabulary page']
+];
+let state = JSON.parse(localStorage.getItem('warPlanState') || 'null') || {tasks:DEFAULT_TASKS.map((x,i)=>({id:'d'+i,text:x[1],subject:x[0],done:false,default:true})),days:{},mission:null};
+function save(){localStorage.setItem('warPlanState',JSON.stringify(state));}
+function esc(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function renderTasks(){
+  const el=document.getElementById('task-list');
+  el.innerHTML=state.tasks.length?state.tasks.map(t=>`<div class="task ${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${t.id}')"><span class="task-text">${esc(t.text)}</span><span class="task-subject">${esc(t.subject)}</span><button class="delete-task" onclick="deleteTask('${t.id}')" aria-label="Delete task">×</button></div>`).join(''):'<div class="cc-sub">No tasks yet. Add your first mission above.</div>';
+  updateDashboard();
+}
+function addTask(){const input=document.getElementById('new-task'),text=input.value.trim();if(!text)return;state.tasks.push({id:'t'+Date.now(),text,subject:document.getElementById('task-subject').value,done:false});input.value='';save();renderTasks();pickMission();}
+function toggleTask(id){const t=state.tasks.find(x=>x.id===id);if(!t)return;t.done=!t.done;if(t.done)state.days[new Date().toISOString().slice(0,10)]=true;save();renderTasks();}
+function deleteTask(id){state.tasks=state.tasks.filter(x=>x.id!==id);save();renderTasks();}
+function calculateReadiness(subject){const base=BASE_READINESS[subject]||0;const tasks=state.tasks.filter(t=>t.subject===subject);if(!tasks.length)return base;const completed=tasks.filter(t=>t.done).length;return Math.min(100,Math.round(base+(100-base)*(completed/tasks.length)*0.5));}
+function updateDashboard(){
+  const total=state.tasks.length,done=state.tasks.filter(t=>t.done).length,p=total?Math.round(done/total*100):0;
+  document.getElementById('task-count').textContent=`${done}/${total}`;document.getElementById('overall-percent').textContent=p+'%';document.getElementById('overall-progress').style.width=p+'%';
+  document.getElementById('streak-count').textContent=streak();updateReadinessCards();updateNextExam();
+}
+function updateReadinessCards(){document.querySelectorAll('.status-card').forEach(card=>{const name=card.querySelector('.subj')?.textContent.trim();if(!BASE_READINESS.hasOwnProperty(name))return;const pct=calculateReadiness(name);const bar=card.querySelector('.bar');const txt=card.querySelector('.pct');bar.style.width=pct+'%';txt.textContent=pct+'% — live readiness';card.classList.remove('danger','warn','ok','easy');card.classList.add(pct<30?'danger':pct<60?'warn':pct<80?'ok':'easy');});}
+function streak(){let n=0,d=new Date();while(true){const key=d.toISOString().slice(0,10);if(!state.days[key])break;n++;d.setDate(d.getDate()-1);}return n;}
+function updateNextExam(){const now=new Date();const next=EXAMS.find(e=>new Date(e[0])>now)||EXAMS[EXAMS.length-1];const diff=new Date(next[0])-now;const days=Math.max(0,Math.floor(diff/86400000));const hours=Math.max(0,Math.floor(diff%86400000/3600000));document.getElementById('next-exam-name').textContent=next[1];document.getElementById('next-exam-count').textContent=days+'d '+hours+'h remaining';}
+function pickMission(){const open=state.tasks.filter(t=>!t.done);if(!open.length){document.getElementById('mission-text').textContent='All current tasks are complete. Add a new task to keep the campaign moving.';state.mission=null;return;}const ranked=[...open].sort((a,b)=>(BASE_READINESS[a.subject]||50)-(BASE_READINESS[b.subject]||50));state.mission=ranked[Math.floor(Math.random()*Math.min(3,ranked.length))].id;const t=state.tasks.find(x=>x.id===state.mission);document.getElementById('mission-text').textContent=`${t.subject}: ${t.text}`;save();}
+function completeMission(){if(!state.mission){pickMission();return;}const t=state.tasks.find(x=>x.id===state.mission);if(t){t.done=true;state.days[new Date().toISOString().slice(0,10)]=true;save();renderTasks();pickMission();}}
+function switchTab(id,btn){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');if(btn)btn.classList.add('active');}
+function updateCountdown(){const exam=new Date('2026-10-03T07:00:00'),now=new Date(),diff=exam-now;const val=document.getElementById('countdown-val');if(diff<=0){val.textContent='EXAM MODE';return;}const days=Math.floor(diff/86400000),hours=Math.floor(diff%86400000/3600000);val.textContent=`${days}d ${hours}h`;updateNextExam();}
+function handleKey(e){if(e.key==='Enter' && document.activeElement.id==='new-task')addTask();}
+document.addEventListener('keydown',handleKey);updateCountdown();setInterval(updateCountdown,60000);renderTasks();if(!state.mission)pickMission();else {const t=state.tasks.find(x=>x.id===state.mission);if(t)document.getElementById('mission-text').textContent=`${t.subject}: ${t.text}`;else pickMission();}
+</script>
+</body>
+</html>
